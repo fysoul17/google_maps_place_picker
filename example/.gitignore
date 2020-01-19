@@ -38,3 +38,4 @@ lib/generated_plugin_registrant.dart
 
 # API Key related
 /lib/keys.dart
+/android/app/src/main/AndroidManifest.xml
