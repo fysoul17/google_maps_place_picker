@@ -102,6 +102,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  google_maps_webservice:
+    dependency: transitive
+    description:
+      name: google_maps_webservice
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.16"
   http:
     dependency: transitive
     description:

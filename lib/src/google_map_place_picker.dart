@@ -17,6 +17,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           GoogleMap(
+            myLocationButtonEnabled: false,
             initialCameraPosition: CameraPosition(target: initialTarget, zoom: 15),
             mapType: mapType,
             myLocationEnabled: true,
