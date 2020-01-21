@@ -12,7 +12,6 @@ class AutoCompleteSearch extends StatefulWidget {
   const AutoCompleteSearch({
     Key key,
     @required this.sessionToken,
-    @required this.apiKey,
     @required this.appBarKey,
     @required this.onPicked,
     this.searchBarDecoration,
@@ -20,12 +19,9 @@ class AutoCompleteSearch extends StatefulWidget {
     this.searchingText = "Searching...",
     this.height = 40,
     this.contentPadding = EdgeInsets.zero,
-    this.proxyBaseUrl,
-    this.httpClient,
     this.debounceMilliseconds = 750,
   }) : super(key: key);
 
-  final String apiKey;
   final String sessionToken;
   final GlobalKey appBarKey;
   final Decoration searchBarDecoration;
@@ -36,19 +32,6 @@ class AutoCompleteSearch extends StatefulWidget {
   final int debounceMilliseconds;
   final ValueChanged<Prediction> onPicked;
 
-  /// optional - sets 'proxy' value in google_maps_webservice
-  ///
-  /// In case of using a proxy the baseUrl can be set.
-  /// The apiKey is not required in case the proxy sets it.
-  /// (Not storing the apiKey in the app is good practice)
-  final String proxyBaseUrl;
-
-  /// optional - set 'client' value in google_maps_webservice
-  ///
-  /// In case of using a proxy url that requires authentication
-  /// or custom configuration
-  final BaseClient httpClient;
-
   @override
   _AutoCompleteSearchState createState() => _AutoCompleteSearchState();
 }
@@ -57,19 +40,12 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
   TextEditingController controller = TextEditingController();
   Timer debounceTimer;
   OverlayEntry overlayEntry;
-  GoogleMapsPlaces places;
   SearchProvider provider = SearchProvider();
 
   @override
   void initState() {
     super.initState();
     controller.addListener(_onSearchInputChange);
-
-    places = GoogleMapsPlaces(
-      apiKey: widget.apiKey,
-      baseUrl: widget.proxyBaseUrl,
-      httpClient: widget.httpClient,
-    );
   }
 
   @override
@@ -247,7 +223,7 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
     PlaceProvider provider = PlaceProvider.of(context, listen: false);
 
     if (searchTerm.isNotEmpty) {
-      final PlacesAutocompleteResponse response = await places.autocomplete(
+      final PlacesAutocompleteResponse response = await provider.places.autocomplete(
         searchTerm,
         sessionToken: widget.sessionToken,
         location: provider.currentPosition == null ? null : Location(provider.currentPosition.latitude, provider.currentPosition.longitude),

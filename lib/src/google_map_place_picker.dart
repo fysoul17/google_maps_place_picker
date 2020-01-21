@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_place_picker/providers/place_provider.dart';
 
 class GoogleMapPlacePicker extends StatelessWidget {
   const GoogleMapPlacePicker({
@@ -21,7 +22,9 @@ class GoogleMapPlacePicker extends StatelessWidget {
             initialCameraPosition: CameraPosition(target: initialTarget, zoom: 15),
             mapType: mapType,
             myLocationEnabled: true,
-            onMapCreated: (GoogleMapController controller) {},
+            onMapCreated: (GoogleMapController controller) {
+              PlaceProvider.of(context, listen: false).mapController = controller;
+            },
             onCameraIdle: () {},
             onCameraMoveStarted: () {},
             onCameraMove: (CameraPosition position) {},

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,6 +7,8 @@ import 'package:google_maps_place_picker/src/autocomplete_search.dart';
 import 'package:google_maps_place_picker/src/google_map_place_picker.dart';
 import 'package:google_maps_place_picker/utils/log.dart';
 import 'package:google_maps_place_picker/utils/uuid.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 class PlacePicker extends StatefulWidget {
@@ -23,6 +23,8 @@ class PlacePicker extends StatefulWidget {
     this.searchingText,
     this.height,
     this.contentPadding,
+    this.proxyBaseUrl,
+    this.httpClient,
   }) : super(key: key);
 
   final String apiKey;
@@ -38,6 +40,19 @@ class PlacePicker extends StatefulWidget {
   final double height;
   final EdgeInsetsGeometry contentPadding;
 
+  /// optional - sets 'proxy' value in google_maps_webservice
+  ///
+  /// In case of using a proxy the baseUrl can be set.
+  /// The apiKey is not required in case the proxy sets it.
+  /// (Not storing the apiKey in the app is good practice)
+  final String proxyBaseUrl;
+
+  /// optional - set 'client' value in google_maps_webservice
+  ///
+  /// In case of using a proxy url that requires authentication
+  /// or custom configuration
+  final BaseClient httpClient;
+
   @override
   _PlacePickerState createState() => _PlacePickerState();
 }
@@ -45,13 +60,15 @@ class PlacePicker extends StatefulWidget {
 class _PlacePickerState extends State<PlacePicker> {
   GlobalKey appBarKey = GlobalKey();
   String sessionToken = Uuid().generateV4();
-  Completer<GoogleMapController> mapController = Completer();
-  PlaceProvider provider = PlaceProvider();
+  PlaceProvider provider;
   bool isFetchingLocation = false;
+  GoogleMapsPlaces places;
 
   @override
   void initState() {
     super.initState();
+
+    provider = PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
 
     if (widget.useCurrentLocation) _getCurrentLocation();
   }
@@ -65,18 +82,10 @@ class _PlacePickerState extends State<PlacePicker> {
       debug("position = ${provider.currentPosition}");
     } on PlatformException catch (e) {
       provider.currentPosition = null;
-
-      debug("_initCurrentLocation#e = $e");
     }
 
     isFetchingLocation = false;
   }
-
-  // Future _moveToCurrentLocation() async {
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(
-  //     CameraPosition(target: LatLng(provider.currentPosition.latitude, provider.currentPosition.longitude), zoom: 16),
-  //   ));
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -95,30 +104,47 @@ class _PlacePickerState extends State<PlacePicker> {
                 elevation: 0,
                 backgroundColor: Colors.transparent,
                 titleSpacing: 0.0,
-                title: Row(
-                  children: <Widget>[
-                    IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back), padding: EdgeInsets.zero),
-                    Expanded(
-                      child: AutoCompleteSearch(
-                        sessionToken: sessionToken,
-                        apiKey: widget.apiKey,
-                        appBarKey: appBarKey,
-                        searchBarDecoration: widget.searchBarDecoration,
-                        hintText: widget.hintText,
-                        searchingText: widget.searchingText,
-                        height: widget.height,
-                        contentPadding: widget.contentPadding,
-                        onPicked: (prediction) {
-                          //_moveToCurrentLocation();
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 15),
-                  ],
-                ),
+                title: _buildSearchBar(),
               ),
-              body: widget.useCurrentLocation ? _buildMapWithLocation() : _buildMap());
+              body: widget.useCurrentLocation ? _buildMapWithLocation() : _buildDefaultMap());
         },
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Row(
+      children: <Widget>[
+        IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back), padding: EdgeInsets.zero),
+        Expanded(
+          child: AutoCompleteSearch(
+            sessionToken: sessionToken,
+            appBarKey: appBarKey,
+            searchBarDecoration: widget.searchBarDecoration,
+            hintText: widget.hintText,
+            searchingText: widget.searchingText,
+            height: widget.height,
+            contentPadding: widget.contentPadding,
+            onPicked: (prediction) {
+              _moveToCurrentLocation();
+            },
+          ),
+        ),
+        SizedBox(width: 15),
+      ],
+    );
+  }
+
+  _moveToCurrentLocation() async {
+    GoogleMapController controller = provider.mapController;
+    if (controller == null) return;
+
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(provider.currentPosition.latitude, provider.currentPosition.longitude),
+          zoom: 16,
+        ),
       ),
     );
   }
@@ -132,7 +158,7 @@ class _PlacePickerState extends State<PlacePicker> {
           if (isFetchingLocation) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            return _buildMap();
+            return _buildDefaultMap();
           }
         } else {
           return GoogleMapPlacePicker(initialTarget: LatLng(data.latitude, data.longitude));
@@ -141,7 +167,7 @@ class _PlacePickerState extends State<PlacePicker> {
     );
   }
 
-  Widget _buildMap() {
+  Widget _buildDefaultMap() {
     return GoogleMapPlacePicker(
       initialTarget: widget.initialPosition,
     );
