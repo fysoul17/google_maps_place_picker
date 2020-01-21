@@ -5,8 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/providers/place_provider.dart';
 import 'package:google_maps_place_picker/src/autocomplete_search.dart';
 import 'package:google_maps_place_picker/src/google_map_place_picker.dart';
-import 'package:google_maps_place_picker/utils/log.dart';
-import 'package:google_maps_place_picker/utils/uuid.dart';
+import 'package:google_maps_place_picker/src/utils/uuid.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +22,10 @@ class PlacePicker extends StatefulWidget {
     this.searchingText,
     this.height,
     this.contentPadding,
+    this.onAutoCompleteFailed,
     this.proxyBaseUrl,
     this.httpClient,
+    this.selectedPlaceWidgetBuilder,
   }) : super(key: key);
 
   final String apiKey;
@@ -39,6 +40,13 @@ class PlacePicker extends StatefulWidget {
   final String searchingText;
   final double height;
   final EdgeInsetsGeometry contentPadding;
+
+  final ValueChanged<String> onAutoCompleteFailed;
+
+  /// optional - builds selected place's UI
+  ///
+  /// It is provided by default if you leave it as a null.
+  final SelectedPlaceWidgetBuilder selectedPlaceWidgetBuilder;
 
   /// optional - sets 'proxy' value in google_maps_webservice
   ///
@@ -78,8 +86,6 @@ class _PlacePickerState extends State<PlacePicker> {
 
     try {
       provider.currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
-      debug("position = ${provider.currentPosition}");
     } on PlatformException catch (e) {
       provider.currentPosition = null;
     }
@@ -126,7 +132,12 @@ class _PlacePickerState extends State<PlacePicker> {
             height: widget.height,
             contentPadding: widget.contentPadding,
             onPicked: (prediction) {
-              _moveToCurrentLocation();
+              _pickPrediction(prediction);
+            },
+            onSearchFailed: (status) {
+              if (widget.onAutoCompleteFailed != null) {
+                widget.onAutoCompleteFailed(status);
+              }
             },
           ),
         ),
@@ -135,14 +146,30 @@ class _PlacePickerState extends State<PlacePicker> {
     );
   }
 
-  _moveToCurrentLocation() async {
+  _pickPrediction(Prediction prediction) async {
+    final PlacesDetailsResponse response = await provider.places.getDetailsByPlaceId(prediction.placeId, sessionToken: sessionToken);
+
+    if (response.errorMessage?.isNotEmpty == true || response.status == "REQUEST_DENIED") {
+      print("AutoCompleteSearch Error: " + response.errorMessage);
+      if (widget.onAutoCompleteFailed != null) {
+        widget.onAutoCompleteFailed(response.status);
+      }
+      return;
+    }
+
+    provider.selectedPlace = response.result;
+
+    _moveTo(provider.selectedPlace.geometry.location.lat, provider.selectedPlace.geometry.location.lng);
+  }
+
+  _moveTo(double latitude, double longitude) async {
     GoogleMapController controller = provider.mapController;
     if (controller == null) return;
 
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: LatLng(provider.currentPosition.latitude, provider.currentPosition.longitude),
+          target: LatLng(latitude, longitude),
           zoom: 16,
         ),
       ),
@@ -161,7 +188,10 @@ class _PlacePickerState extends State<PlacePicker> {
             return _buildDefaultMap();
           }
         } else {
-          return GoogleMapPlacePicker(initialTarget: LatLng(data.latitude, data.longitude));
+          return GoogleMapPlacePicker(
+            initialTarget: LatLng(data.latitude, data.longitude),
+            selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
+          );
         }
       },
     );
@@ -170,6 +200,7 @@ class _PlacePickerState extends State<PlacePicker> {
   Widget _buildDefaultMap() {
     return GoogleMapPlacePicker(
       initialTarget: widget.initialPosition,
+      selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
     );
   }
 }

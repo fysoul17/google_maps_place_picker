@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:google_maps_place_picker/providers/place_provider.dart';
 import 'package:google_maps_place_picker/providers/search_provider.dart';
-import 'package:google_maps_place_picker/src/prediction_tile.dart';
-import 'package:http/http.dart';
+import 'package:google_maps_place_picker/src/components/prediction_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_place_picker/src/components/rounded_frame.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +20,7 @@ class AutoCompleteSearch extends StatefulWidget {
     this.height = 40,
     this.contentPadding = EdgeInsets.zero,
     this.debounceMilliseconds = 750,
+    this.onSearchFailed,
   }) : super(key: key);
 
   final String sessionToken;
@@ -31,6 +32,7 @@ class AutoCompleteSearch extends StatefulWidget {
   final EdgeInsetsGeometry contentPadding;
   final int debounceMilliseconds;
   final ValueChanged<Prediction> onPicked;
+  final ValueChanged<String> onSearchFailed;
 
   @override
   _AutoCompleteSearchState createState() => _AutoCompleteSearchState();
@@ -61,10 +63,12 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
     print(">>> Build [AutocompleteSearch] Component");
     return ChangeNotifierProvider.value(
       value: provider,
-      child: Container(
+      child: RoundedFrame(
         height: widget.height,
-        padding: EdgeInsets.only(right: 10),
-        decoration: widget.searchBarDecoration ?? _createDefaultDecoration(),
+        padding: const EdgeInsets.only(right: 10),
+        color: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        elevation: 8.0,
         child: Row(
           children: <Widget>[
             SizedBox(width: 10),
@@ -75,13 +79,6 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
           ],
         ),
       ),
-    );
-  }
-
-  BoxDecoration _createDefaultDecoration() {
-    return BoxDecoration(
-      color: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
-      borderRadius: BorderRadius.circular(20),
     );
   }
 
@@ -105,15 +102,18 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
         selector: (_, provider) => provider.searchTerm,
         builder: (_, data, __) {
           if (data.length > 0) {
-            return GestureDetector(
-              child: Icon(
-                Icons.clear,
-                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+            return Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: GestureDetector(
+                child: Icon(
+                  Icons.clear,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                ),
+                onTap: () {
+                  provider.searchTerm = "";
+                  controller.clear();
+                },
               ),
-              onTap: () {
-                provider.searchTerm = "";
-                controller.clear();
-              },
             );
           } else {
             return SizedBox(width: 10);
@@ -184,7 +184,7 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
   Widget _buildSearchingOverlay() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       child: Row(
         children: <Widget>[
           SizedBox(
@@ -211,6 +211,9 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
             (p) => PredictionTile(
               prediction: p,
               onTap: (selectedPrediction) {
+                provider.searchTerm = "";
+                controller.clear();
+                FocusScope.of(context).unfocus();
                 widget.onPicked(selectedPrediction);
               },
             ),
@@ -231,6 +234,9 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
       if (response.errorMessage?.isNotEmpty == true || response.status == "REQUEST_DENIED") {
         print("AutoCompleteSearch Error: " + response.errorMessage);
+        if (widget.onSearchFailed != null) {
+          widget.onSearchFailed(response.status);
+        }
         return;
       }
 

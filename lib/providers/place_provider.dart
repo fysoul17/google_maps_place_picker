@@ -25,6 +25,13 @@ class PlaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  PlaceDetails _selectedPlaceDetails;
+  PlaceDetails get selectedPlace => _selectedPlaceDetails;
+  set selectedPlace(PlaceDetails details) {
+    _selectedPlaceDetails = details;
+    notifyListeners();
+  }
+
   GoogleMapController _mapController;
   GoogleMapController get mapController => _mapController;
   set mapController(GoogleMapController controller) {
