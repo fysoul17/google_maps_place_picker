@@ -14,9 +14,8 @@ dependencies:
   google_maps_flutter: ^0.5.21+15
   geolocator: ^5.2.0
   provider: ^4.0.1
-  http: ^0.12.0+3
-  stack_trace: ^1.9.3
   google_maps_webservice: ^0.0.16
+  tuple: ^1.0.3
 
 dev_dependencies:
   flutter_test:

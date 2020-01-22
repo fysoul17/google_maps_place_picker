@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
 
 // Your api key storage.
 import 'keys.dart';
@@ -15,7 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Google Map Place Picer Demo',
       theme: ThemeData(
-        buttonColor: Color(0xFF00bfa5),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.black,
+          textTheme: ButtonTextTheme.primary,
+        ),
       ),
       home: HomePage(),
       debugShowCheckedModeBanner: false,
@@ -33,7 +35,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PlaceDetails selectedPlace;
+  PickResult selectedPlace;
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +58,23 @@ class _HomePageState extends State<HomePage> {
                         apiKey: APIKeys.apiKey,
                         initialPosition: HomePage.kInitialPosition,
                         useCurrentLocation: true,
-                        // selectedPlaceWidgetBuilder: (_, placeDetails) {
-                        //   return FloatingCard(
-                        //     bottomPosition: MediaQuery.of(context).size.height * 0.05,
-                        //     leftPosition: MediaQuery.of(context).size.width * 0.05,
-                        //     width: MediaQuery.of(context).size.width * 0.9,
-                        //     borderRadius: BorderRadius.circular(12.0),
-                        //     child: Text(placeDetails.formattedAddress),
-                        //   );
+                        // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
+                        //   return isSearchBarFocused
+                        //       ? Container()
+                        //       : FloatingCard(
+                        //           bottomPosition: MediaQuery.of(context).size.height * 0.05,
+                        //           leftPosition: MediaQuery.of(context).size.width * 0.05,
+                        //           width: MediaQuery.of(context).size.width * 0.9,
+                        //           borderRadius: BorderRadius.circular(12.0),
+                        //           child: state == SearchingState.Searching ? Center(child: CircularProgressIndicator()) : Text(selectedPlace.address),
+                        //         );
+                        // },
+                        // pinBuilder: (context, state) {
+                        //   if (state == PinState.Idle) {
+                        //     return Icon(Icons.favorite_border);
+                        //   } else {
+                        //     return Icon(Icons.favorite);
+                        //   }
                         // },
                       ),
                     ),
@@ -71,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                   setState(() {});
                 },
               ),
-              selectedPlace == null ? Container() : Text(selectedPlace.formattedAddress ?? ""),
+              selectedPlace == null ? Container() : Text(selectedPlace.address ?? ""),
             ],
           ),
         ));

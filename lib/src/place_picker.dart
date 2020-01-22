@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_place_picker/providers/place_provider.dart';
 import 'package:google_maps_place_picker/src/autocomplete_search.dart';
+import 'package:google_maps_place_picker/src/controllers/autocomplete_search_controller.dart';
 import 'package:google_maps_place_picker/src/google_map_place_picker.dart';
 import 'package:google_maps_place_picker/src/utils/uuid.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+
+enum PinState { Preparing, Idle, Dragging }
+enum SearchingState { Idle, Searching }
 
 class PlacePicker extends StatefulWidget {
   PlacePicker({
@@ -20,12 +25,16 @@ class PlacePicker extends StatefulWidget {
     this.searchBarDecoration,
     this.hintText,
     this.searchingText,
-    this.height,
+    this.searchBarHeight,
     this.contentPadding,
     this.onAutoCompleteFailed,
+    this.onGecodingSearchFailed,
     this.proxyBaseUrl,
     this.httpClient,
     this.selectedPlaceWidgetBuilder,
+    this.pinBuilder,
+    this.autoCompleteDebounceInMilliseconds = 500,
+    this.cameraMoveDebounceInMilliseconds = 750,
   }) : super(key: key);
 
   final String apiKey;
@@ -34,19 +43,26 @@ class PlacePicker extends StatefulWidget {
   final bool useCurrentLocation;
   final LocationAccuracy desiredLocationAccuracy;
 
-  // Search Bar related
   final Decoration searchBarDecoration;
   final String hintText;
   final String searchingText;
-  final double height;
+  final double searchBarHeight;
   final EdgeInsetsGeometry contentPadding;
 
   final ValueChanged<String> onAutoCompleteFailed;
+  final ValueChanged<String> onGecodingSearchFailed;
+  final int autoCompleteDebounceInMilliseconds;
+  final int cameraMoveDebounceInMilliseconds;
 
   /// optional - builds selected place's UI
   ///
   /// It is provided by default if you leave it as a null.
   final SelectedPlaceWidgetBuilder selectedPlaceWidgetBuilder;
+
+  /// optional - builds customized pin widget which indicates current pointing position.
+  ///
+  /// It is provided by default if you leave it as a null.
+  final PinBuilder pinBuilder;
 
   /// optional - sets 'proxy' value in google_maps_webservice
   ///
@@ -67,18 +83,25 @@ class PlacePicker extends StatefulWidget {
 
 class _PlacePickerState extends State<PlacePicker> {
   GlobalKey appBarKey = GlobalKey();
-  String sessionToken = Uuid().generateV4();
   PlaceProvider provider;
   bool isFetchingLocation = false;
-  GoogleMapsPlaces places;
+  SearchBarController searchBarController = SearchBarController();
 
   @override
   void initState() {
     super.initState();
 
     provider = PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
+    provider.sessionToken = Uuid().generateV4();
 
     if (widget.useCurrentLocation) _getCurrentLocation();
+  }
+
+  @override
+  void dispose() {
+    searchBarController.dispose();
+
+    super.dispose();
   }
 
   _getCurrentLocation() async {
@@ -95,8 +118,6 @@ class _PlacePickerState extends State<PlacePicker> {
 
   @override
   Widget build(BuildContext context) {
-    print(">>> Build [PlacePicker] Page");
-
     return ChangeNotifierProvider.value(
       value: provider,
       child: Builder(
@@ -124,13 +145,15 @@ class _PlacePickerState extends State<PlacePicker> {
         IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back), padding: EdgeInsets.zero),
         Expanded(
           child: AutoCompleteSearch(
-            sessionToken: sessionToken,
+            searchBarController: searchBarController,
+            sessionToken: provider.sessionToken,
             appBarKey: appBarKey,
             searchBarDecoration: widget.searchBarDecoration,
             hintText: widget.hintText,
             searchingText: widget.searchingText,
-            height: widget.height,
+            height: widget.searchBarHeight,
             contentPadding: widget.contentPadding,
+            debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
             onPicked: (prediction) {
               _pickPrediction(prediction);
             },
@@ -147,7 +170,9 @@ class _PlacePickerState extends State<PlacePicker> {
   }
 
   _pickPrediction(Prediction prediction) async {
-    final PlacesDetailsResponse response = await provider.places.getDetailsByPlaceId(prediction.placeId, sessionToken: sessionToken);
+    provider.placeSearchingState = SearchingState.Searching;
+
+    final PlacesDetailsResponse response = await provider.places.getDetailsByPlaceId(prediction.placeId, sessionToken: provider.sessionToken);
 
     if (response.errorMessage?.isNotEmpty == true || response.status == "REQUEST_DENIED") {
       print("AutoCompleteSearch Error: " + response.errorMessage);
@@ -157,9 +182,11 @@ class _PlacePickerState extends State<PlacePicker> {
       return;
     }
 
-    provider.selectedPlace = response.result;
+    provider.selectedPlace = PickResult.fromPlaceDetailResult(response.result);
 
     _moveTo(provider.selectedPlace.geometry.location.lat, provider.selectedPlace.geometry.location.lng);
+
+    provider.placeSearchingState = SearchingState.Idle;
   }
 
   _moveTo(double latitude, double longitude) async {
@@ -191,6 +218,11 @@ class _PlacePickerState extends State<PlacePicker> {
           return GoogleMapPlacePicker(
             initialTarget: LatLng(data.latitude, data.longitude),
             selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
+            pinBuilder: widget.pinBuilder,
+            debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
+            onMoveStart: () {
+              searchBarController.reset();
+            },
           );
         }
       },
@@ -201,6 +233,12 @@ class _PlacePickerState extends State<PlacePicker> {
     return GoogleMapPlacePicker(
       initialTarget: widget.initialPosition,
       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
+      pinBuilder: widget.pinBuilder,
+      onSearchFailed: widget.onGecodingSearchFailed,
+      debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
+      onMoveStart: () {
+        searchBarController.reset();
+      },
     );
   }
 }

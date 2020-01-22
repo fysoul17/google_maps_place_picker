@@ -29,8 +29,6 @@ class FloatingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(">>> Build [Floating Card] Component");
-
     return Positioned(
       top: topPosition,
       left: leftPosition,

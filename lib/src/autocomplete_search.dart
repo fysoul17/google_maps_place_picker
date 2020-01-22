@@ -5,6 +5,7 @@ import 'package:google_maps_place_picker/providers/search_provider.dart';
 import 'package:google_maps_place_picker/src/components/prediction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/src/components/rounded_frame.dart';
+import 'package:google_maps_place_picker/src/controllers/autocomplete_search_controller.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +20,9 @@ class AutoCompleteSearch extends StatefulWidget {
     this.searchingText = "Searching...",
     this.height = 40,
     this.contentPadding = EdgeInsets.zero,
-    this.debounceMilliseconds = 750,
+    this.debounceMilliseconds,
     this.onSearchFailed,
+    this.searchBarController,
   }) : super(key: key);
 
   final String sessionToken;
@@ -33,14 +35,15 @@ class AutoCompleteSearch extends StatefulWidget {
   final int debounceMilliseconds;
   final ValueChanged<Prediction> onPicked;
   final ValueChanged<String> onSearchFailed;
+  final SearchBarController searchBarController;
 
   @override
-  _AutoCompleteSearchState createState() => _AutoCompleteSearchState();
+  AutoCompleteSearchState createState() => AutoCompleteSearchState();
 }
 
-class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
+class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   TextEditingController controller = TextEditingController();
-  Timer debounceTimer;
+  FocusNode focus = FocusNode();
   OverlayEntry overlayEntry;
   SearchProvider provider = SearchProvider();
 
@@ -48,6 +51,10 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
   void initState() {
     super.initState();
     controller.addListener(_onSearchInputChange);
+    focus.addListener(_onFocusChanged);
+
+    widget.searchBarController ?? SearchBarController();
+    widget.searchBarController.attach(this);
   }
 
   @override
@@ -55,12 +62,14 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
     controller.removeListener(_onSearchInputChange);
     controller.dispose();
 
+    focus.removeListener(_onFocusChanged);
+    focus.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(">>> Build [AutocompleteSearch] Component");
     return ChangeNotifierProvider.value(
       value: provider,
       child: RoundedFrame(
@@ -85,6 +94,7 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
   Widget _buildSearchTextField() {
     return TextField(
       controller: controller,
+      focusNode: focus,
       decoration: InputDecoration(
         hintText: widget.hintText,
         border: InputBorder.none,
@@ -110,8 +120,7 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
                   color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 ),
                 onTap: () {
-                  provider.searchTerm = "";
-                  controller.clear();
+                  clearText();
                 },
               ),
             );
@@ -122,24 +131,32 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
   }
 
   _onSearchInputChange() {
+    PlaceProvider provider = PlaceProvider.of(context, listen: false);
+
     if (controller.text.isEmpty) {
-      debounceTimer?.cancel();
+      provider.debounceTimer?.cancel();
       _searchPlace(controller.text);
       return;
     }
 
     if (controller.text.substring(controller.text.length - 1) == " ") {
-      debounceTimer?.cancel();
+      provider.debounceTimer?.cancel();
       return;
     }
 
-    if (debounceTimer?.isActive ?? false) {
-      debounceTimer.cancel();
+    if (provider.debounceTimer?.isActive ?? false) {
+      provider.debounceTimer.cancel();
     }
 
-    debounceTimer = Timer(Duration(milliseconds: widget.debounceMilliseconds), () {
+    provider.debounceTimer = Timer(Duration(milliseconds: widget.debounceMilliseconds), () {
       _searchPlace(controller.text);
     });
+  }
+
+  _onFocusChanged() {
+    PlaceProvider provider = PlaceProvider.of(context, listen: false);
+    provider.isSearchBarFocused = focus.hasFocus;
+    provider.debounceTimer?.cancel();
   }
 
   _searchPlace(String searchTerm) {
@@ -211,9 +228,7 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
             (p) => PredictionTile(
               prediction: p,
               onTap: (selectedPrediction) {
-                provider.searchTerm = "";
-                controller.clear();
-                FocusScope.of(context).unfocus();
+                resetSearchBar();
                 widget.onPicked(selectedPrediction);
               },
             ),
@@ -242,5 +257,15 @@ class _AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
       _displayOverlay(_buildPredictionOverlay(response.predictions));
     }
+  }
+
+  clearText() {
+    provider.searchTerm = "";
+    controller.clear();
+  }
+
+  resetSearchBar() {
+    clearText();
+    focus.unfocus();
   }
 }
