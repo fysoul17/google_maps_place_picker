@@ -74,6 +74,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
         // Google Map.
         GoogleMap(
           myLocationButtonEnabled: false,
+          compassEnabled: false,
+          mapToolbarEnabled: false,
           initialCameraPosition: CameraPosition(target: initialTarget, zoom: 15),
           mapType: mapType,
           myLocationEnabled: true,
@@ -150,31 +152,49 @@ class GoogleMapPlacePicker extends StatelessWidget {
     if (state == PinState.Preparing) {
       return Container();
     } else if (state == PinState.Idle) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      return Stack(
         children: <Widget>[
-          Icon(Icons.place, size: 36),
-          Container(
-            width: 5,
-            height: 5,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              shape: BoxShape.circle,
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.place, size: 36),
+                SizedBox(height: 42),
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              width: 5,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
         ],
       );
     } else {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      return Stack(
         children: <Widget>[
-          AnimatedPin(child: Icon(Icons.place, size: 36)),
-          Container(
-            width: 5,
-            height: 5,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              shape: BoxShape.circle,
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                AnimatedPin(child: Icon(Icons.place, size: 36)),
+                SizedBox(height: 42),
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              width: 5,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
         ],
