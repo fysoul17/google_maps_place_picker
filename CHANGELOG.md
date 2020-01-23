@@ -1,3 +1,7 @@
+## [0.1.2] - 23/Jan/2020
+
+- flutter format for suggested files
+
 ## [0.1.1] - 23/Jan/2020
 
 - flutter format for suggested files
