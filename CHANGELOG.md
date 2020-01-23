@@ -1,3 +1,8 @@
+## [0.1.4] - 23/Jan/2020
+
+- Updated additional information regarding 'PickResult' data
+- Fixed typo
+
 ## [0.1.3] - 23/Jan/2020
 
 - Updated additional information regarding 'geolocator' settings
