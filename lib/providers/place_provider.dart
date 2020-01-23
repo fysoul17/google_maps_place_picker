@@ -26,7 +26,8 @@ class PlaceProvider extends ChangeNotifier {
     );
   }
 
-  static PlaceProvider of(BuildContext context, {bool listen = true}) => Provider.of<PlaceProvider>(context, listen: listen);
+  static PlaceProvider of(BuildContext context, {bool listen = true}) =>
+      Provider.of<PlaceProvider>(context, listen: listen);
 
   GoogleMapsPlaces places;
   GoogleMapsGeocoding geocoding;
@@ -36,7 +37,8 @@ class PlaceProvider extends ChangeNotifier {
 
   Future<void> updateCurrentLocation() async {
     try {
-      currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
+      currentPosition = await Geolocator().getCurrentPosition(
+          desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
     } on PlatformException catch (e) {
       print(e);
       currentPosition = null;
