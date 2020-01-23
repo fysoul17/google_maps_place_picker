@@ -4,10 +4,10 @@ A Flutter plugin which provides 'Picking Place' using [Google Maps](https://deve
 
 The project relies on below packages.
 
-Map using Flutter's official [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)
-Fetching current location using Baseflow's [geolocator](https://pub.dev/packages/geolocator)
-Place and Geocoding API using hadrienlejard's [google_maps_webservice](https://pub.dev/packages/google_maps_webservice)
-Builder using kevmoo's [tuple](https://pub.dev/packages/tuple)
+Map using Flutter's official [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)   
+Fetching current location using Baseflow's [geolocator](https://pub.dev/packages/geolocator)   
+Place and Geocoding API using hadrienlejard's [google_maps_webservice](https://pub.dev/packages/google_maps_webservice)   
+Builder using kevmoo's [tuple](https://pub.dev/packages/tuple)   
 
 ## Preview
 ![](preview.gif)
