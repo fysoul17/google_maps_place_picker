@@ -101,7 +101,7 @@ with the key `io.flutter.embedded_views_preview` and the value `YES`.
 ### Basic usage
 
 You can use PlacePicker by pushing to a new page using Navigator.
-When the use picks a place on the map, it will return the result (PickResult).
+When the user picks a place on the map, it will return the result (PickResult).
 
 ```dart
 PickResult selectedPlace = await Navigator.push(
@@ -116,6 +116,18 @@ PickResult selectedPlace = await Navigator.push(
                             );
 ```
 
+#### PickResult 
+Parameter | Type | Description
+--------- | ---- | -----------
+placeId | String | A textual identifier that uniquely identifies a place. To retrieve information about the place, pass this identifier in the placeId field of a Places API request. See [PlaceId](https://developers.google.com/places/web-service/place-id) for more information.
+geometry | Geometry | Contains geometry information about the result, generally including the location (geocode) of the place and (optionally) the viewport identifying its general area of coverage.
+address | String | A string containing the human-readable address of this place. Often this address is equivalent to the "postal address".
+types | List\<String\> | Contains an array of feature types describing the given result. See the [list of supported types](https://developers.google.com/places/web-service/supported_types#table2). XML responses include multiple <type> elements if more than one type is assigned to the result.
+addressComponents | List\<AddressComponent\> | An array containing the separate components applicable to this address.
+
+[More info](https://developers.google.com/places/web-service/details) about results at google.
+
+#### PlacePicker
 Parameter | Type | Description
 --------- | ---- | -----------
 apiKey | String | (Required) Your google map API Key
