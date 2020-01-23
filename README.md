@@ -84,13 +84,37 @@ PickResult selectedPlace = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => PlacePicker(
-                                  apiKey: APIKeys.apiKey,
+                                  apiKey: APIKeys.apiKey,   // Put YOUR OWN KEY here.
                                   initialPosition: HomePage.kInitialPosition,
                                   useCurrentLocation: true,
                                 ),
                               ),
                             );
 ```
+
+Parameter | Type | Description
+--------- | ---- | -----------
+apiKey | String | (Required) Your google map API Key
+initialPosition | LatLng | Initial center position of google map when it is created. If useCurrentLocation is set to true, it will try to get device's current location first using GeoLocator.
+useCurrentLocation | bool | Whether to use device's current location for initial center position
+desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Default to 'high'.
+hintText | String | Hint text of search bar
+searchingText | String | A text which appears when searching is performing. Default to 'Searching...'
+searchBarHeight | double | Height of search bar. Default 40. Recommended using together with contentPadding.
+contentPadding | EdgeInsetsGeomery | content padding of search bar input textField's InputDecoration
+proxyBaseUrl | String | Used for API calling on google maps. In case of using a proxy the baseUrl can be set. The apiKey is not required in case the proxy sets it.
+httpClient | [Client](https://pub.dev/packages/google_maps_webservice) | Used for API calling on google maps. In case of using a proxy url that requires authentication or custom configuration.
+autoCompleteDebounceInMilliseconds | int | Debounce timer for auto complete input. Default 500
+cameraMoveDebounceInMilliseconds | int | Debounce timer for searching place with camera(map) dragging. Default 750
+intialMapType | MapType | MapTypes of google map. Default normal.
+enableMapTypeButton | bool | Whether to display MapType change button on the map
+enableMyLocationButton | bool | Whether to display my location button on the map
+onAutoCompleteFailed | Callback(String) | Invoked when auto complete search is failed
+onGeocodingSearchFailed | Callback(String) | Invoked when searching place by dragging the map failed
+onMapCreated | MapCreatedCallback | Returens google map controller when created
+selectedPlaceWidgetBuilder | WidgetBuilder | Specified on below section
+pinBuilder | WidgetBuilder | Specified on below section
+
 
 ### Customzing picked place visualisation
 
@@ -120,6 +144,12 @@ PlacePicker(apiKey: APIKeys.apiKey,
           ),
 ...
 ```
+Parameters | Type | Description
+---------- | ---- | -----------
+context | BuildContext | Flutter's build context value
+selectedPlace | PickResult | Result data of user selected place
+state | SearchingState | State of searching action. (Idle, Searching)
+isSearchBarFocused | bool | Whether the search bar is currently focused so the keyboard is shown
 
 ### Customizing Pin
 By default, Pin icon is provided with very simple picking animation when moving around.   
@@ -139,3 +169,13 @@ PlacePicker(apiKey: APIKeys.apiKey,
           ),
 ...
 ```
+
+Parameters | Type | Description
+---------- | ---- | -----------
+context | BuildContext | Flutter's build context value
+state | PinState | State of pin. (Preparing; When map loading, Idle, Dragging)
+
+## Feature Requests and Issues
+Please file feature requests and bugs at the [issue tracker][tracker].
+
+[tracker]: https://github.com/fysoul17/google_maps_place_picker/issues/new
