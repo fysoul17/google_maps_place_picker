@@ -1,8 +1,7 @@
 name: google_maps_place_picker
-description: A new Flutter package project.
-version: 0.0.1
-author:
-homepage:
+description: Place picker from Google Maps
+version: 0.1.0
+homepage: https://github.com/fysoul17/google_maps_place_picker
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
