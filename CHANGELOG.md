@@ -1,3 +1,7 @@
+## [0.1.3] - 23/Jan/2020
+
+- Updated additional information regarding 'geolocator' settings
+
 ## [0.1.2] - 23/Jan/2020
 
 - flutter format for suggested files
