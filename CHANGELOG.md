@@ -1,3 +1,8 @@
+## [0.1.1] - 23/Jan/2020
+
+- flutter format for suggested files
+- Re-write package description
+
 ## [0.1.0] - 23/Jan/2020
 
 - Update parameter info
