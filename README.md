@@ -119,7 +119,7 @@ selectedPlaceWidgetBuilder | WidgetBuilder | Specified on below section
 pinBuilder | WidgetBuilder | Specified on below section
 
 
-### Customzing picked place visualisation
+### Customizing picked place visualisation
 
 By default, when a user picks a place by using auto complete search or dragging the map, we display the information at the bottom of the screen (FloatingCard).  
 
