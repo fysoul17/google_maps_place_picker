@@ -1,5 +1,5 @@
 name: google_maps_place_picker
-description: Place picker from Google Maps
+description: A Flutter plugin which provides 'Picking Place' using Google Maps widget.
 version: 0.1.0
 homepage: https://github.com/fysoul17/google_maps_place_picker
 

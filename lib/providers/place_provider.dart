@@ -38,6 +38,7 @@ class PlaceProvider extends ChangeNotifier {
     try {
       currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
     } on PlatformException catch (e) {
+      print(e);
       currentPosition = null;
     }
 

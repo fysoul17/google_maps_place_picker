@@ -34,7 +34,10 @@ class PredictionTile extends StatelessWidget {
         result.add(
           TextSpan(
             text: prediction.description.substring(0, matchedSubString.offset),
-            style: TextStyle(color: Colors.grey[900], fontSize: 16, fontWeight: FontWeight.w300),
+            style: TextStyle(
+                color: Colors.grey[900],
+                fontSize: 16,
+                fontWeight: FontWeight.w300),
           ),
         );
       }
@@ -42,17 +45,24 @@ class PredictionTile extends StatelessWidget {
       // Matched strings.
       result.add(
         TextSpan(
-          text: prediction.description.substring(matchedSubString.offset, matchedSubString.offset + matchedSubString.length),
-          style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
+          text: prediction.description.substring(matchedSubString.offset,
+              matchedSubString.offset + matchedSubString.length),
+          style: TextStyle(
+              color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
         ),
       );
 
       // Other strings.
-      if (matchedSubString.offset + matchedSubString.length < prediction.description.length) {
+      if (matchedSubString.offset + matchedSubString.length <
+          prediction.description.length) {
         result.add(
           TextSpan(
-            text: prediction.description.substring(matchedSubString.offset + matchedSubString.length),
-            style: TextStyle(color: Colors.grey[900], fontSize: 16, fontWeight: FontWeight.w300),
+            text: prediction.description
+                .substring(matchedSubString.offset + matchedSubString.length),
+            style: TextStyle(
+                color: Colors.grey[900],
+                fontSize: 16,
+                fontWeight: FontWeight.w300),
           ),
         );
       }
@@ -61,7 +71,8 @@ class PredictionTile extends StatelessWidget {
       result.add(
         TextSpan(
           text: prediction.description,
-          style: TextStyle(color: Colors.grey, fontSize: 16, fontWeight: FontWeight.w300),
+          style: TextStyle(
+              color: Colors.grey, fontSize: 16, fontWeight: FontWeight.w300),
         ),
       );
     }
