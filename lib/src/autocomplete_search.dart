@@ -210,7 +210,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
           SizedBox(width: 24),
           Expanded(
             child: Text(
-              widget.searchingText,
+              widget.searchingText ?? "Searching...",
               style: TextStyle(fontSize: 16),
             ),
           )

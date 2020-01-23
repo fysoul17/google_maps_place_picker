@@ -66,7 +66,14 @@ class _HomePageState extends State<HomePage> {
                         //           leftPosition: MediaQuery.of(context).size.width * 0.05,
                         //           width: MediaQuery.of(context).size.width * 0.9,
                         //           borderRadius: BorderRadius.circular(12.0),
-                        //           child: state == SearchingState.Searching ? Center(child: CircularProgressIndicator()) : Text(selectedPlace.address),
+                        //           child: state == SearchingState.Searching
+                        //               ? Center(child: CircularProgressIndicator())
+                        //               : RaisedButton(
+                        //                   child: Text("Pick Here"),
+                        //                   onPressed: () {
+                        //                     Navigator.of(context).pop(selectedPlace);
+                        //                   },
+                        //                 ),
                         //         );
                         // },
                         // pinBuilder: (context, state) {
