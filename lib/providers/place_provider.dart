@@ -32,10 +32,11 @@ class PlaceProvider extends ChangeNotifier {
   GoogleMapsGeocoding geocoding;
   String sessionToken;
   bool isOnUpdateLocationCooldown = false;
+  LocationAccuracy desiredAccuracy;
 
   Future<void> updateCurrentLocation() async {
     try {
-      currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
     } on PlatformException catch (e) {
       currentPosition = null;
     }

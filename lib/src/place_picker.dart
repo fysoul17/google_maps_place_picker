@@ -24,13 +24,12 @@ class PlacePicker extends StatefulWidget {
     this.useCurrentLocation,
     this.desiredLocationAccuracy = LocationAccuracy.high,
     this.onMapCreated,
-    this.searchBarDecoration,
     this.hintText,
     this.searchingText,
     this.searchBarHeight,
     this.contentPadding,
     this.onAutoCompleteFailed,
-    this.onGecodingSearchFailed,
+    this.onGeocodingSearchFailed,
     this.proxyBaseUrl,
     this.httpClient,
     this.selectedPlaceWidgetBuilder,
@@ -51,14 +50,13 @@ class PlacePicker extends StatefulWidget {
 
   final MapCreatedCallback onMapCreated;
 
-  final Decoration searchBarDecoration;
   final String hintText;
   final String searchingText;
   final double searchBarHeight;
   final EdgeInsetsGeometry contentPadding;
 
   final ValueChanged<String> onAutoCompleteFailed;
-  final ValueChanged<String> onGecodingSearchFailed;
+  final ValueChanged<String> onGeocodingSearchFailed;
   final int autoCompleteDebounceInMilliseconds;
   final int cameraMoveDebounceInMilliseconds;
 
@@ -105,6 +103,7 @@ class _PlacePickerState extends State<PlacePicker> {
 
     provider = PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
     provider.sessionToken = Uuid().generateV4();
+    provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setMapType(widget.initialMapType);
   }
 
@@ -147,7 +146,6 @@ class _PlacePickerState extends State<PlacePicker> {
             searchBarController: searchBarController,
             sessionToken: provider.sessionToken,
             appBarKey: appBarKey,
-            searchBarDecoration: widget.searchBarDecoration,
             hintText: widget.hintText,
             searchingText: widget.searchingText,
             height: widget.searchBarHeight,
@@ -231,7 +229,7 @@ class _PlacePickerState extends State<PlacePicker> {
       initialTarget: initialTarget,
       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
       pinBuilder: widget.pinBuilder,
-      onSearchFailed: widget.onGecodingSearchFailed,
+      onSearchFailed: widget.onGeocodingSearchFailed,
       debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
       enableMapTypeButton: widget.enableMapTypeButton,
       enableMyLocationButton: widget.enableMyLocationButton,

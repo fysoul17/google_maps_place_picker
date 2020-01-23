@@ -14,7 +14,7 @@ import 'package:tuple/tuple.dart';
 
 typedef SelectedPlaceWidgetBuilder = Widget Function(
   BuildContext context,
-  PickResult seelctedPlace,
+  PickResult selectedPlace,
   SearchingState state,
   bool isSearchBarFocused,
 );
