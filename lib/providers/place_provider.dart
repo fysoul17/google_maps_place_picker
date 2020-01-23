@@ -9,6 +9,7 @@ import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 class PlaceProvider extends ChangeNotifier {
   PlaceProvider(String apiKey, String proxyBaseUrl, Client httpClient) {
@@ -30,6 +31,17 @@ class PlaceProvider extends ChangeNotifier {
   GoogleMapsPlaces places;
   GoogleMapsGeocoding geocoding;
   String sessionToken;
+  bool isOnUpdateLocationCooldown = false;
+
+  Future<void> updateCurrentLocation() async {
+    try {
+      currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    } on PlatformException catch (e) {
+      currentPosition = null;
+    }
+
+    notifyListeners();
+  }
 
   Position _currentPoisition;
   Position get currentPosition => _currentPoisition;
@@ -43,6 +55,12 @@ class PlaceProvider extends ChangeNotifier {
   set debounceTimer(Timer timer) {
     _debounceTimer = timer;
     notifyListeners();
+  }
+
+  CameraPosition _previousCameraPosition;
+  CameraPosition get prevCameraPosition => _previousCameraPosition;
+  setPrevCameraPosition(CameraPosition prePosition) {
+    _previousCameraPosition = prePosition;
   }
 
   CameraPosition _currentCameraPosition;
@@ -83,6 +101,20 @@ class PlaceProvider extends ChangeNotifier {
   bool get isSearchBarFocused => _isSeachBarFocused;
   set isSearchBarFocused(bool focused) {
     _isSeachBarFocused = focused;
+    notifyListeners();
+  }
+
+  MapType _mapType = MapType.normal;
+  MapType get mapType => _mapType;
+  setMapType(MapType mapType, {bool notify = false}) {
+    _mapType = mapType;
+    if (notify) notifyListeners();
+  }
+
+  switchMapType() {
+    _mapType = MapType.values[(_mapType.index + 1) % MapType.values.length];
+    if (_mapType == MapType.none) _mapType = MapType.normal;
+
     notifyListeners();
   }
 }

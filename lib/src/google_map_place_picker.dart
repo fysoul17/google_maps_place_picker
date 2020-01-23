@@ -28,23 +28,37 @@ class GoogleMapPlacePicker extends StatelessWidget {
   const GoogleMapPlacePicker({
     Key key,
     @required this.initialTarget,
-    this.mapType = MapType.normal,
     this.selectedPlaceWidgetBuilder,
     this.pinBuilder,
     this.onSearchFailed,
     this.onMoveStart,
+    this.onMapCreated,
     this.debounceMilliseconds,
+    this.enableMapTypeButton,
+    this.enableMyLocationButton,
+    this.onToggleMapType,
+    this.onMyLocation,
   }) : super(key: key);
 
   final LatLng initialTarget;
-  final MapType mapType;
   final SelectedPlaceWidgetBuilder selectedPlaceWidgetBuilder;
   final PinBuilder pinBuilder;
+
   final ValueChanged<String> onSearchFailed;
   final VoidCallback onMoveStart;
+  final MapCreatedCallback onMapCreated;
+  final VoidCallback onToggleMapType;
+  final VoidCallback onMyLocation;
+
   final int debounceMilliseconds;
+  final bool enableMapTypeButton;
+  final bool enableMyLocationButton;
 
   _searchByCameraLocation(PlaceProvider provider) async {
+    // We don't want to search location again if camera location is changed by zooming in/out.
+    bool isZoomChanged = provider.cameraPosition != null && provider.prevCameraPosition != null && provider.cameraPosition.zoom != provider.prevCameraPosition.zoom;
+    if (isZoomChanged) return;
+
     provider.placeSearchingState = SearchingState.Searching;
 
     final GeocodingResponse response = await provider.geocoding.searchByLocation(
@@ -62,89 +76,82 @@ class GoogleMapPlacePicker extends StatelessWidget {
     provider.selectedPlace = PickResult.fromGeocodingResult(response.results[0]);
 
     provider.placeSearchingState = SearchingState.Idle;
-    provider.setCameraPosition(null);
   }
 
   @override
   Widget build(BuildContext context) {
-    PlaceProvider provider = PlaceProvider.of(context, listen: false);
-
     return Stack(
       children: <Widget>[
-        // Google Map.
-        GoogleMap(
-          myLocationButtonEnabled: false,
-          compassEnabled: false,
-          mapToolbarEnabled: false,
-          initialCameraPosition: CameraPosition(target: initialTarget, zoom: 15),
-          mapType: mapType,
-          myLocationEnabled: true,
-          onMapCreated: (GoogleMapController controller) {
-            provider.mapController = controller;
-            provider.setCameraPosition(null);
-            provider.pinState = PinState.Idle;
-          },
-          onCameraIdle: () {
-            // Search current camera location only if camera has moved (dragged) before.
-            if (provider.pinState == PinState.Dragging) {
-              // Cancel previous timer.
-              if (provider.debounceTimer?.isActive ?? false) {
-                provider.debounceTimer.cancel();
-              }
-              provider.debounceTimer = Timer(Duration(milliseconds: debounceMilliseconds), () {
-                _searchByCameraLocation(provider);
-              });
-            }
-
-            provider.pinState = PinState.Idle;
-          },
-          onCameraMoveStarted: () {
-            // Cancel any other timer.
-            provider.debounceTimer?.cancel();
-
-            // Update state, dismiss keyboard and clear text.
-            provider.pinState = PinState.Dragging;
-
-            onMoveStart();
-          },
-          onCameraMove: (CameraPosition position) {
-            provider.setCameraPosition(position);
-          },
-        ),
-        // Current Location Pin.
-        Center(
-          child: Selector<PlaceProvider, PinState>(
-            selector: (_, provider) => provider.pinState,
-            builder: (sContext, state, __) {
-              if (pinBuilder == null) {
-                return _defaultPinBuilder(sContext, state);
-              } else {
-                return Builder(builder: (builderContext) => pinBuilder(builderContext, state));
-              }
-            },
-          ),
-        ),
-        // Floating Card.
-        Selector<PlaceProvider, Tuple3<PickResult, SearchingState, bool>>(
-          selector: (_, provider) => Tuple3(provider.selectedPlace, provider.placeSearchingState, provider.isSearchBarFocused),
-          builder: (sContext, data, __) {
-            if (data.item2 == SearchingState.Searching) {
-              return _buildFloatingCard(sContext, data.item1, SearchingState.Searching);
-            } else {
-              // Hide if there is no PlaceDetails OR if user is searching with search bar.
-              if (data.item1 == null || data.item3 == true) {
-                return Container();
-              } else {
-                if (selectedPlaceWidgetBuilder == null) {
-                  return _buildFloatingCard(sContext, data.item1, SearchingState.Idle);
-                } else {
-                  return Builder(builder: (builderContext) => selectedPlaceWidgetBuilder(builderContext, data.item1, data.item2, data.item3));
-                }
-              }
-            }
-          },
-        ),
+        _buildGoogleMap(context),
+        _buildPin(),
+        _buildFloatingCard(),
+        _buildMapIcons(context),
       ],
+    );
+  }
+
+  Widget _buildGoogleMap(BuildContext context) {
+    PlaceProvider provider = PlaceProvider.of(context, listen: false);
+
+    return Selector<PlaceProvider, MapType>(
+        selector: (_, provider) => provider.mapType,
+        builder: (_, data, __) {
+          return GoogleMap(
+            myLocationButtonEnabled: false,
+            compassEnabled: false,
+            mapToolbarEnabled: false,
+            initialCameraPosition: CameraPosition(target: initialTarget, zoom: 15),
+            mapType: data,
+            myLocationEnabled: true,
+            onMapCreated: (GoogleMapController controller) {
+              provider.mapController = controller;
+              provider.setCameraPosition(null);
+              provider.pinState = PinState.Idle;
+            },
+            onCameraIdle: () {
+              // Search current camera location only if camera has moved (dragged) before.
+              if (provider.pinState == PinState.Dragging) {
+                // Cancel previous timer.
+                if (provider.debounceTimer?.isActive ?? false) {
+                  provider.debounceTimer.cancel();
+                }
+                provider.debounceTimer = Timer(Duration(milliseconds: debounceMilliseconds), () {
+                  _searchByCameraLocation(provider);
+                });
+              }
+
+              provider.pinState = PinState.Idle;
+            },
+            onCameraMoveStarted: () {
+              provider.setPrevCameraPosition(provider.cameraPosition);
+
+              // Cancel any other timer.
+              provider.debounceTimer?.cancel();
+
+              // Update state, dismiss keyboard and clear text.
+              provider.pinState = PinState.Dragging;
+
+              onMoveStart();
+            },
+            onCameraMove: (CameraPosition position) {
+              provider.setCameraPosition(position);
+            },
+          );
+        });
+  }
+
+  Widget _buildPin() {
+    return Center(
+      child: Selector<PlaceProvider, PinState>(
+        selector: (_, provider) => provider.pinState,
+        builder: (context, state, __) {
+          if (pinBuilder == null) {
+            return _defaultPinBuilder(context, state);
+          } else {
+            return Builder(builder: (builderContext) => pinBuilder(builderContext, state));
+          }
+        },
+      ),
     );
   }
 
@@ -202,7 +209,29 @@ class GoogleMapPlacePicker extends StatelessWidget {
     }
   }
 
-  Widget _buildFloatingCard(BuildContext context, PickResult data, SearchingState state) {
+  Widget _buildFloatingCard() {
+    return Selector<PlaceProvider, Tuple3<PickResult, SearchingState, bool>>(
+      selector: (_, provider) => Tuple3(provider.selectedPlace, provider.placeSearchingState, provider.isSearchBarFocused),
+      builder: (context, data, __) {
+        if (data.item2 == SearchingState.Searching) {
+          return _defaultPlaceWidgetBuilder(context, data.item1, SearchingState.Searching);
+        } else {
+          // Hide if there is no PlaceDetails OR if user is searching with search bar.
+          if (data.item1 == null || data.item3 == true) {
+            return Container();
+          } else {
+            if (selectedPlaceWidgetBuilder == null) {
+              return _defaultPlaceWidgetBuilder(context, data.item1, SearchingState.Idle);
+            } else {
+              return Builder(builder: (builderContext) => selectedPlaceWidgetBuilder(builderContext, data.item1, data.item2, data.item3));
+            }
+          }
+        }
+      },
+    );
+  }
+
+  Widget _defaultPlaceWidgetBuilder(BuildContext context, PickResult data, SearchingState state) {
     return FloatingCard(
       bottomPosition: MediaQuery.of(context).size.height * 0.05,
       leftPosition: MediaQuery.of(context).size.width * 0.05,
@@ -251,6 +280,44 @@ class GoogleMapPlacePicker extends StatelessWidget {
               Navigator.of(context).pop(result);
             },
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMapIcons(BuildContext context) {
+    return Positioned(
+      top: 80,
+      right: 15,
+      child: Column(
+        children: <Widget>[
+          enableMapTypeButton
+              ? Container(
+                  width: 35,
+                  height: 35,
+                  child: RawMaterialButton(
+                    shape: CircleBorder(),
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
+                    elevation: 8.0,
+                    onPressed: onToggleMapType,
+                    child: Icon(Icons.layers),
+                  ),
+                )
+              : Container(),
+          SizedBox(height: 10),
+          enableMyLocationButton
+              ? Container(
+                  width: 35,
+                  height: 35,
+                  child: RawMaterialButton(
+                    shape: CircleBorder(),
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
+                    elevation: 8.0,
+                    onPressed: onMyLocation,
+                    child: Icon(Icons.my_location),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
@@ -22,6 +23,7 @@ class PlacePicker extends StatefulWidget {
     this.initialPosition,
     this.useCurrentLocation,
     this.desiredLocationAccuracy = LocationAccuracy.high,
+    this.onMapCreated,
     this.searchBarDecoration,
     this.hintText,
     this.searchingText,
@@ -35,6 +37,10 @@ class PlacePicker extends StatefulWidget {
     this.pinBuilder,
     this.autoCompleteDebounceInMilliseconds = 500,
     this.cameraMoveDebounceInMilliseconds = 750,
+    this.initialMapType = MapType.normal,
+    this.enableMapTypeButton = true,
+    this.enableMyLocationButton = true,
+    this.myLocationButtonCooldown = 10,
   }) : super(key: key);
 
   final String apiKey;
@@ -42,6 +48,8 @@ class PlacePicker extends StatefulWidget {
   final LatLng initialPosition;
   final bool useCurrentLocation;
   final LocationAccuracy desiredLocationAccuracy;
+
+  final MapCreatedCallback onMapCreated;
 
   final Decoration searchBarDecoration;
   final String hintText;
@@ -53,6 +61,11 @@ class PlacePicker extends StatefulWidget {
   final ValueChanged<String> onGecodingSearchFailed;
   final int autoCompleteDebounceInMilliseconds;
   final int cameraMoveDebounceInMilliseconds;
+
+  final MapType initialMapType;
+  final bool enableMapTypeButton;
+  final bool enableMyLocationButton;
+  final int myLocationButtonCooldown;
 
   /// optional - builds selected place's UI
   ///
@@ -84,7 +97,6 @@ class PlacePicker extends StatefulWidget {
 class _PlacePickerState extends State<PlacePicker> {
   GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
-  bool isFetchingLocation = false;
   SearchBarController searchBarController = SearchBarController();
 
   @override
@@ -93,8 +105,7 @@ class _PlacePickerState extends State<PlacePicker> {
 
     provider = PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
     provider.sessionToken = Uuid().generateV4();
-
-    if (widget.useCurrentLocation) _getCurrentLocation();
+    provider.setMapType(widget.initialMapType);
   }
 
   @override
@@ -102,18 +113,6 @@ class _PlacePickerState extends State<PlacePicker> {
     searchBarController.dispose();
 
     super.dispose();
-  }
-
-  _getCurrentLocation() async {
-    isFetchingLocation = true;
-
-    try {
-      provider.currentPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    } on PlatformException catch (e) {
-      provider.currentPosition = null;
-    }
-
-    isFetchingLocation = false;
   }
 
   @override
@@ -133,7 +132,7 @@ class _PlacePickerState extends State<PlacePicker> {
                 titleSpacing: 0.0,
                 title: _buildSearchBar(),
               ),
-              body: widget.useCurrentLocation ? _buildMapWithLocation() : _buildDefaultMap());
+              body: widget.useCurrentLocation ? _buildMapWithLocation() : _buildMap(widget.initialPosition));
         },
       ),
     );
@@ -164,7 +163,7 @@ class _PlacePickerState extends State<PlacePicker> {
             },
           ),
         ),
-        SizedBox(width: 15),
+        SizedBox(width: 5),
       ],
     );
   }
@@ -203,39 +202,54 @@ class _PlacePickerState extends State<PlacePicker> {
     );
   }
 
-  Widget _buildMapWithLocation() {
-    // Use Selector instead of Consumer or setState to avoid rebuilding whole widget including AutoCompleteSearch widget.
-    return Selector<PlaceProvider, Position>(
-      selector: (_, provider) => provider.currentPosition,
-      builder: (_, data, __) {
-        if (data == null) {
-          if (isFetchingLocation) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return _buildDefaultMap();
-          }
-        } else {
-          return GoogleMapPlacePicker(
-            initialTarget: LatLng(data.latitude, data.longitude),
-            selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
-            pinBuilder: widget.pinBuilder,
-            debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
-            onMoveStart: () {
-              searchBarController.reset();
-            },
-          );
-        }
-      },
-    );
+  _moveToCurrentPosition() async {
+    await _moveTo(provider.currentPosition.latitude, provider.currentPosition.longitude);
   }
 
-  Widget _buildDefaultMap() {
+  Widget _buildMapWithLocation() {
+    if (widget.useCurrentLocation) {
+      return FutureBuilder(
+          future: provider.updateCurrentLocation(),
+          builder: (context, snap) {
+            if (snap.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              if (provider.currentPosition == null) {
+                return _buildMap(widget.initialPosition);
+              } else {
+                return _buildMap(LatLng(provider.currentPosition.latitude, provider.currentPosition.longitude));
+              }
+            }
+          });
+    } else {
+      return _buildMap(widget.initialPosition);
+    }
+  }
+
+  Widget _buildMap(LatLng initialTarget) {
     return GoogleMapPlacePicker(
-      initialTarget: widget.initialPosition,
+      initialTarget: initialTarget,
       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
       pinBuilder: widget.pinBuilder,
       onSearchFailed: widget.onGecodingSearchFailed,
       debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
+      enableMapTypeButton: widget.enableMapTypeButton,
+      enableMyLocationButton: widget.enableMyLocationButton,
+      onMapCreated: widget.onMapCreated,
+      onToggleMapType: () {
+        provider.switchMapType();
+      },
+      onMyLocation: () async {
+        // Prevent to click many times in short period.
+        if (provider.isOnUpdateLocationCooldown == false) {
+          provider.isOnUpdateLocationCooldown = true;
+          Timer(Duration(seconds: widget.myLocationButtonCooldown), () {
+            provider.isOnUpdateLocationCooldown = false;
+          });
+          await provider.updateCurrentLocation();
+          await _moveToCurrentPosition();
+        }
+      },
       onMoveStart: () {
         searchBarController.reset();
       },
