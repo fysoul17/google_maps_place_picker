@@ -109,7 +109,10 @@ Navigator.push(
       MaterialPageRoute(
         builder: (context) => PlacePicker(
           apiKey: APIKeys.apiKey,   // Put YOUR OWN KEY here.
-          onPlacePicked: (result) { print(result.address); },
+          onPlacePicked: (result) { 
+            print(result.address); 
+            Navigator.of(context).pop();
+          },
           initialPosition: HomePage.kInitialPosition,
           useCurrentLocation: true,
         ),
