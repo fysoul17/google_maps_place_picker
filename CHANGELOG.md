@@ -1,4 +1,4 @@
-## [0.2.1] - 24/Jan/2020
+## [0.2.2] - 24/Jan/2020
 
 - Updated example to apply changed function
 
