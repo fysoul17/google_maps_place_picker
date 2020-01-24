@@ -1,3 +1,7 @@
+## [0.2.1] - 24/Jan/2020
+
+- Updated README for more information about result callback
+
 ## [0.2.0] - 24/Jan/2020
 
 - Added onResult callback. Now we can listen for the callback to get the result instead of using Navigator callback.
