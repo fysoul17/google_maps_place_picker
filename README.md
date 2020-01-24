@@ -104,16 +104,17 @@ You can use PlacePicker by pushing to a new page using Navigator.
 When the user picks a place on the map, it will return the result (PickResult).
 
 ```dart
-PickResult selectedPlace = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PlacePicker(
-                                  apiKey: APIKeys.apiKey,   // Put YOUR OWN KEY here.
-                                  initialPosition: HomePage.kInitialPosition,
-                                  useCurrentLocation: true,
-                                ),
-                              ),
-                            );
+Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlacePicker(
+          apiKey: APIKeys.apiKey,   // Put YOUR OWN KEY here.
+          onPlacePicked: (result) { print(result.address); },
+          initialPosition: HomePage.kInitialPosition,
+          useCurrentLocation: true,
+        ),
+      ),
+    );
 ```
 
 #### PickResult 
@@ -131,6 +132,7 @@ addressComponents | List\<AddressComponent\> | An array containing the separate 
 Parameter | Type | Description
 --------- | ---- | -----------
 apiKey | String | (Required) Your google map API Key
+onPlacePicked | Callback(PickResult) | Invoked when user picks the place and selects to use it. **This will not be called if you manually build 'selectedPlaceWidgetBuilder' as you will override default 'Select here' button.**
 initialPosition | LatLng | Initial center position of google map when it is created. If useCurrentLocation is set to true, it will try to get device's current location first using GeoLocator.
 useCurrentLocation | bool | Whether to use device's current location for initial center position
 desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Default to 'high'.
@@ -158,6 +160,8 @@ By default, when a user picks a place by using auto complete search or dragging 
 
 However, if you don't like this UI/UX, simple override the builder using 'selectedPlaceWidgetBuilder'. FlocatingCard widget can be reused which floating around the screen or build entirly new widget as you want. It is stacked with the map, so you might want to use [Positioned](https://api.flutter.dev/flutter/widgets/Positioned-class.html) widget.
 
+**Note that using this customization WILL NOT INVOKE [onPlacePicked] callback as it will override default 'Select here' button on floating card**
+
 ```dart
 ...
 PlacePicker(apiKey: APIKeys.apiKey,
@@ -173,7 +177,7 @@ PlacePicker(apiKey: APIKeys.apiKey,
                       borderRadius: BorderRadius.circular(12.0),
                       child: state == SearchingState.Searching ? 
                                       Center(child: CircularProgressIndicator()) : 
-                                      RaisedButton(onPressed: () { Navigator.of(context).pop(selectedPlace); },),
+                                      RaisedButton(onPressed: () { print("do something with [selectedPlace] data"); },),
                    );
             },
             ...
