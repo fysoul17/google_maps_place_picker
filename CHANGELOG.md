@@ -1,5 +1,9 @@
 ## [0.2.1] - 24/Jan/2020
 
+- Updated example to apply changed function
+
+## [0.2.1] - 24/Jan/2020
+
 - Updated README for more information about result callback
 
 ## [0.2.0] - 24/Jan/2020

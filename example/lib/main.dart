@@ -60,6 +60,7 @@ class _HomePageState extends State<HomePage> {
                         useCurrentLocation: true,
                         onPlacePicked: (result) {
                           selectedPlace = result;
+                          Navigator.of(context).pop();
                           setState(() {});
                         },
                         selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
