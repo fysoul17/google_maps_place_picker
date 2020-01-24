@@ -20,6 +20,7 @@ class PlacePicker extends StatefulWidget {
   PlacePicker({
     Key key,
     @required this.apiKey,
+    this.onPlacePicked,
     this.initialPosition,
     this.useCurrentLocation,
     this.desiredLocationAccuracy = LocationAccuracy.high,
@@ -65,9 +66,16 @@ class PlacePicker extends StatefulWidget {
   final bool enableMyLocationButton;
   final int myLocationButtonCooldown;
 
+  /// By using default setting of Place Picker, it will result result when user hits the select here button.
+  ///
+  /// If you managed to use your own [selectedPlaceWidgetBuilder], then this WILL NOT be invoked, and you need use data which is
+  /// being sent with [selectedPlaceWidgetBuilder].
+  final ValueChanged<PickResult> onPlacePicked;
+
   /// optional - builds selected place's UI
   ///
   /// It is provided by default if you leave it as a null.
+  /// INPORTANT: If this is non-null, [onPlacePicked] will not be invoked, as there will be no default 'Select here' button.
   final SelectedPlaceWidgetBuilder selectedPlaceWidgetBuilder;
 
   /// optional - builds customized pin widget which indicates current pointing position.
@@ -263,6 +271,7 @@ class _PlacePickerState extends State<PlacePicker> {
       onMoveStart: () {
         searchBarController.reset();
       },
+      onPlacePicked: widget.onPlacePicked,
     );
   }
 }

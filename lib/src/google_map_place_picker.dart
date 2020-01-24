@@ -38,6 +38,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.enableMyLocationButton,
     this.onToggleMapType,
     this.onMyLocation,
+    this.onPlacePicked,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -49,6 +50,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final MapCreatedCallback onMapCreated;
   final VoidCallback onToggleMapType;
   final VoidCallback onMyLocation;
+  final ValueChanged<PickResult> onPlacePicked;
 
   final int debounceMilliseconds;
   final bool enableMapTypeButton;
@@ -296,7 +298,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.0),
             ),
             onPressed: () {
-              Navigator.of(context).pop(result);
+              onPlacePicked(result);
             },
           ),
         ],
