@@ -106,7 +106,9 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              selectedPlace == null ? Container() : Text(selectedPlace.address ?? ""),
+              selectedPlace == null
+                  ? Container()
+                  : Text(selectedPlace.address ?? ""),
             ],
           ),
         ));
