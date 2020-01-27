@@ -12,6 +12,7 @@ import 'package:google_maps_place_picker/src/utils/uuid.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 
 enum PinState { Preparing, Idle, Dragging }
 enum SearchingState { Idle, Searching }
@@ -153,7 +154,7 @@ class _PlacePickerState extends State<PlacePicker> {
       children: <Widget>[
         IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
             padding: EdgeInsets.zero),
         Expanded(
           child: AutoCompleteSearch(
