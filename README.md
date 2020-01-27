@@ -218,6 +218,22 @@ Parameters | Type | Description
 context | BuildContext | Flutter's build context value
 state | PinState | State of pin. (Preparing; When map loading, Idle, Dragging)
 
+### Changing Colours of default FloatingCard (Prediction tile)
+While you can build your own prediction tile, you still can change the style of default tile using themeData as below:
+
+```dart
+theme: ThemeData.dark().copyWith(
+        cardColor: Colors.grey,                  // Background color of the FloatingCard
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.yellow,            // Select here's button color
+          textTheme: ButtonTextTheme.primary,    // Applying this will automatically change text color based on buttonColor. (Button color is dark ? white / is light ? black)
+        ),
+        textTheme: TextTheme(
+          body1: TextStyle(color: Colors.white), // This will change the text color of FloatingCard
+        ),
+      ),
+```
+
 ## Feature Requests and Issues
 Please file feature requests and bugs at the [issue tracker][tracker].
 
