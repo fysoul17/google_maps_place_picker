@@ -234,6 +234,8 @@ theme: ThemeData.dark().copyWith(
       ),
 ```
 
+![](screenshot2.png)
+
 ## Feature Requests and Issues
 Please file feature requests and bugs at the [issue tracker][tracker].
 
