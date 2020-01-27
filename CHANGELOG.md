@@ -1,3 +1,9 @@
+## [0.3.0] - 27/Jan/2020
+
+- The colors of FloatingCard (Prediction tile on the map) can be controlled by Theme Data.
+- Fixed back button for iOS (StanfordLin).
+- Pin color will be default to [Red] from now. You can still customize your pin using pinBuilder if you don't like default style ;).
+
 ## [0.2.2] - 24/Jan/2020
 
 - Updated example to apply changed function

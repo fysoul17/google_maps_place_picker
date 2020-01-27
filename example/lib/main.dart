@@ -13,10 +13,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Google Map Place Picer Demo',
-      theme: ThemeData(
+
+      // Example of changing theme for FloatingCard and texts.
+      theme: ThemeData.dark().copyWith(
+        // Background color of the FloatingCard
+        cardColor: Colors.grey,
         buttonTheme: ButtonThemeData(
-          buttonColor: Colors.black,
+          // Select here's button color
+          buttonColor: Colors.yellow,
+          // Applying this will automatically change text color based on buttonColor. (Button color is dark ? white / is light ? black)
           textTheme: ButtonTextTheme.primary,
+        ),
+        textTheme: TextTheme(
+          // This will change the address(text) color of FloatingCard
+          body1: TextStyle(color: Colors.white),
         ),
       ),
       home: HomePage(),
@@ -63,34 +73,34 @@ class _HomePageState extends State<HomePage> {
                           Navigator.of(context).pop();
                           setState(() {});
                         },
-                        selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
-                          return isSearchBarFocused
-                              ? Container()
-                              : FloatingCard(
-                                  bottomPosition: MediaQuery.of(context).size.height * 0.05,
-                                  leftPosition: MediaQuery.of(context).size.width * 0.05,
-                                  width: MediaQuery.of(context).size.width * 0.9,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: state == SearchingState.Searching
-                                      ? Center(child: CircularProgressIndicator())
-                                      : RaisedButton(
-                                          child: Text("Pick Here"),
-                                          onPressed: () {
-                                            // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
-                                            //            this will override default 'Select here' Button.
-                                            print("do something with [selectedPlace] data");
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                );
-                        },
-                        pinBuilder: (context, state) {
-                          if (state == PinState.Idle) {
-                            return Icon(Icons.favorite_border);
-                          } else {
-                            return Icon(Icons.favorite);
-                          }
-                        },
+                        // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
+                        //   return isSearchBarFocused
+                        //       ? Container()
+                        //       : FloatingCard(
+                        //           bottomPosition: MediaQuery.of(context).size.height * 0.05,
+                        //           leftPosition: MediaQuery.of(context).size.width * 0.05,
+                        //           width: MediaQuery.of(context).size.width * 0.9,
+                        //           borderRadius: BorderRadius.circular(12.0),
+                        //           child: state == SearchingState.Searching
+                        //               ? Center(child: CircularProgressIndicator())
+                        //               : RaisedButton(
+                        //                   child: Text("Pick Here"),
+                        //                   onPressed: () {
+                        //                     // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
+                        //                     //            this will override default 'Select here' Button.
+                        //                     print("do something with [selectedPlace] data");
+                        //                     Navigator.of(context).pop();
+                        //                   },
+                        //                 ),
+                        //         );
+                        // },
+                        // pinBuilder: (context, state) {
+                        //   if (state == PinState.Idle) {
+                        //     return Icon(Icons.favorite_border);
+                        //   } else {
+                        //     return Icon(Icons.favorite);
+                        //   }
+                        // },
                       ),
                     ),
                   );
