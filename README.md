@@ -162,7 +162,7 @@ pinBuilder | WidgetBuilder | Specified on below section
 
 By default, when a user picks a place by using auto complete search or dragging the map, we display the information at the bottom of the screen (FloatingCard).  
 
-However, if you don't like this UI/UX, simply override the builder using 'selectedPlaceWidgetBuilder'. FlocatingCard widget can be reused which floating around the screen or build entirly new widget as you want. It is stacked with the map, so you might want to use [Positioned](https://api.flutter.dev/flutter/widgets/Positioned-class.html) widget.
+However, if you don't like this UI/UX, simply override the builder using 'selectedPlaceWidgetBuilder'. FlocatingCard widget can be reused which is floating around the screen or build an entirely new widget as you want. It is stacked with the map, so you might want to use the [Positioned](https://api.flutter.dev/flutter/widgets/Positioned-class.html) widget.
 
 **Note that using this customization WILL NOT INVOKE [onPlacePicked] callback as it will override default 'Select here' button on floating card**
 
