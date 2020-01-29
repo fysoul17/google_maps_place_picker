@@ -101,7 +101,8 @@ with the key `io.flutter.embedded_views_preview` and the value `YES`.
 ### Basic usage
 
 You can use PlacePicker by pushing to a new page using Navigator.
-When the user picks a place on the map, it will return the result (PickResult).
+When the user picks a place on the map, it will return result with 'onPlacePicked' with PickResult type.
+Alternatively, you can build your own way with 'selectedPlaceWidgetBuilder' and fetch result from it (See the instruction below).
 
 ```dart
 Navigator.push(
@@ -161,7 +162,7 @@ pinBuilder | WidgetBuilder | Specified on below section
 
 By default, when a user picks a place by using auto complete search or dragging the map, we display the information at the bottom of the screen (FloatingCard).  
 
-However, if you don't like this UI/UX, simple override the builder using 'selectedPlaceWidgetBuilder'. FlocatingCard widget can be reused which floating around the screen or build entirly new widget as you want. It is stacked with the map, so you might want to use [Positioned](https://api.flutter.dev/flutter/widgets/Positioned-class.html) widget.
+However, if you don't like this UI/UX, simply override the builder using 'selectedPlaceWidgetBuilder'. FlocatingCard widget can be reused which is floating around the screen or build an entirely new widget as you want. It is stacked with the map, so you might want to use the [Positioned](https://api.flutter.dev/flutter/widgets/Positioned-class.html) widget.
 
 **Note that using this customization WILL NOT INVOKE [onPlacePicked] callback as it will override default 'Select here' button on floating card**
 
@@ -222,16 +223,27 @@ state | PinState | State of pin. (Preparing; When map loading, Idle, Dragging)
 While you can build your own prediction tile, you still can change the style of default tile using themeData as below:
 
 ```dart
-theme: ThemeData.dark().copyWith(
-        cardColor: Colors.grey,                  // Background color of the FloatingCard
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.yellow,            // Select here's button color
-          textTheme: ButtonTextTheme.primary,    // Applying this will automatically change text color based on buttonColor. (Button color is dark ? white / is light ? black)
-        ),
-        textTheme: TextTheme(
-          body1: TextStyle(color: Colors.white), // This will change the text color of FloatingCard
-        ),
-      ),
+// Light Theme
+final ThemeData lightTheme = ThemeData.light().copyWith(
+  // Background color of the FloatingCard
+  cardColor: Colors.white,
+  buttonTheme: ButtonThemeData(
+    // Select here's button color
+    buttonColor: Colors.black,
+    textTheme: ButtonTextTheme.primary,
+  ),
+);
+
+// Dark Theme
+final ThemeData darkTheme = ThemeData.dark().copyWith(
+  // Background color of the FloatingCard
+  cardColor: Colors.grey,
+  buttonTheme: ButtonThemeData(
+    // Select here's button color
+    buttonColor: Colors.yellow,
+    textTheme: ButtonTextTheme.primary,
+  ),
+);
 ```
 
 ![](screenshot2.png)
