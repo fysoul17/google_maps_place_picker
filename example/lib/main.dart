@@ -8,27 +8,36 @@ import 'keys.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  // Light Theme
+  final ThemeData lightTheme = ThemeData.light().copyWith(
+    // Background color of the FloatingCard
+    cardColor: Colors.white,
+    buttonTheme: ButtonThemeData(
+      // Select here's button color
+      buttonColor: Colors.black,
+      textTheme: ButtonTextTheme.primary,
+    ),
+  );
+
+  // Dark Theme
+  final ThemeData darkTheme = ThemeData.dark().copyWith(
+    // Background color of the FloatingCard
+    cardColor: Colors.grey,
+    buttonTheme: ButtonThemeData(
+      // Select here's button color
+      buttonColor: Colors.yellow,
+      textTheme: ButtonTextTheme.primary,
+    ),
+  );
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Google Map Place Picer Demo',
-
-      // Example of changing theme for FloatingCard and texts.
-      theme: ThemeData.dark().copyWith(
-        // Background color of the FloatingCard
-        cardColor: Colors.grey,
-        buttonTheme: ButtonThemeData(
-          // Select here's button color
-          buttonColor: Colors.yellow,
-          // Applying this will automatically change text color based on buttonColor. (Button color is dark ? white / is light ? black)
-          textTheme: ButtonTextTheme.primary,
-        ),
-        textTheme: TextTheme(
-          // This will change the address(text) color of FloatingCard
-          body1: TextStyle(color: Colors.white),
-        ),
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.dark,
       home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
@@ -106,9 +115,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              selectedPlace == null
-                  ? Container()
-                  : Text(selectedPlace.address ?? ""),
+              selectedPlace == null ? Container() : Text(selectedPlace.address ?? ""),
             ],
           ),
         ));

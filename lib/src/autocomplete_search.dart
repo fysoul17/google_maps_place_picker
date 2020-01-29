@@ -13,7 +13,6 @@ class AutoCompleteSearch extends StatefulWidget {
   const AutoCompleteSearch({
     Key key,
     @required this.sessionToken,
-    @required this.appBarKey,
     @required this.onPicked,
     this.hintText,
     this.searchingText = "Searching...",
@@ -25,7 +24,6 @@ class AutoCompleteSearch extends StatefulWidget {
   }) : super(key: key);
 
   final String sessionToken;
-  final GlobalKey appBarKey;
   final String hintText;
   final String searchingText;
   final double height;
@@ -184,13 +182,11 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   _displayOverlay(Widget overlayChild) {
     _clearOverlay();
 
-    final RenderBox appBarRenderBox =
-        widget.appBarKey.currentContext.findRenderObject();
     final screenWidth = MediaQuery.of(context).size.width;
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: appBarRenderBox.size.height,
+        top: 86,
         left: screenWidth * 0.05,
         width: screenWidth * 0.9,
         child: Material(
@@ -276,5 +272,9 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   resetSearchBar() {
     clearText();
     focus.unfocus();
+  }
+
+  clearOverlay() {
+    _clearOverlay();
   }
 }

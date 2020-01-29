@@ -13,7 +13,7 @@ class PredictionTile extends StatelessWidget {
       leading: Icon(Icons.location_on),
       title: RichText(
         text: TextSpan(
-          children: _buildPredictionText(),
+          children: _buildPredictionText(context),
         ),
       ),
       onTap: () {
@@ -24,8 +24,9 @@ class PredictionTile extends StatelessWidget {
     );
   }
 
-  List<TextSpan> _buildPredictionText() {
+  List<TextSpan> _buildPredictionText(BuildContext context) {
     final List<TextSpan> result = List<TextSpan>();
+    final textColor = Theme.of(context).textTheme.title.color;
 
     if (prediction.matchedSubstrings.length > 0) {
       MatchedSubstring matchedSubString = prediction.matchedSubstrings[0];
@@ -35,9 +36,7 @@ class PredictionTile extends StatelessWidget {
           TextSpan(
             text: prediction.description.substring(0, matchedSubString.offset),
             style: TextStyle(
-                color: Colors.grey[900],
-                fontSize: 16,
-                fontWeight: FontWeight.w300),
+                color: textColor, fontSize: 16, fontWeight: FontWeight.w300),
           ),
         );
       }
@@ -48,7 +47,7 @@ class PredictionTile extends StatelessWidget {
           text: prediction.description.substring(matchedSubString.offset,
               matchedSubString.offset + matchedSubString.length),
           style: TextStyle(
-              color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
+              color: textColor, fontSize: 16, fontWeight: FontWeight.w500),
         ),
       );
 
@@ -60,9 +59,7 @@ class PredictionTile extends StatelessWidget {
             text: prediction.description
                 .substring(matchedSubString.offset + matchedSubString.length),
             style: TextStyle(
-                color: Colors.grey[900],
-                fontSize: 16,
-                fontWeight: FontWeight.w300),
+                color: textColor, fontSize: 16, fontWeight: FontWeight.w300),
           ),
         );
       }
@@ -72,7 +69,7 @@ class PredictionTile extends StatelessWidget {
         TextSpan(
           text: prediction.description,
           style: TextStyle(
-              color: Colors.grey, fontSize: 16, fontWeight: FontWeight.w300),
+              color: textColor, fontSize: 16, fontWeight: FontWeight.w300),
         ),
       );
     }

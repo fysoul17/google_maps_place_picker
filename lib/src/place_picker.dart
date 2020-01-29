@@ -102,7 +102,6 @@ class PlacePicker extends StatefulWidget {
 }
 
 class _PlacePickerState extends State<PlacePicker> {
-  GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
   SearchBarController searchBarController = SearchBarController();
 
@@ -126,34 +125,38 @@ class _PlacePickerState extends State<PlacePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: provider,
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-              extendBodyBehindAppBar: true,
-              appBar: AppBar(
-                key: appBarKey,
-                automaticallyImplyLeading: false,
-                iconTheme: Theme.of(context).iconTheme,
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                titleSpacing: 0.0,
-                title: _buildSearchBar(),
-              ),
-              body: widget.useCurrentLocation
-                  ? _buildMapWithLocation()
-                  : _buildMap(widget.initialPosition));
+    return WillPopScope(
+        onWillPop: () {
+          searchBarController.clearOverlay();
+          return Future.value(true);
         },
-      ),
-    );
+        child: ChangeNotifierProvider.value(
+          value: provider,
+          child: Builder(
+            builder: (context) {
+              return Scaffold(
+                  extendBodyBehindAppBar: true,
+                  appBar: AppBar(
+                    automaticallyImplyLeading: false,
+                    iconTheme: Theme.of(context).iconTheme,
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    titleSpacing: 0.0,
+                    title: _buildSearchBar(),
+                  ),
+                  body: widget.useCurrentLocation
+                      ? _buildMapWithLocation()
+                      : _buildMap(widget.initialPosition));
+            },
+          ),
+        ));
   }
 
   Widget _buildSearchBar() {
     return Row(
       children: <Widget>[
         IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.maybePop(context),
             icon: Icon(
               Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
             ),
@@ -162,7 +165,6 @@ class _PlacePickerState extends State<PlacePicker> {
           child: AutoCompleteSearch(
             searchBarController: searchBarController,
             sessionToken: provider.sessionToken,
-            appBarKey: appBarKey,
             hintText: widget.hintText,
             searchingText: widget.searchingText,
             height: widget.searchBarHeight,

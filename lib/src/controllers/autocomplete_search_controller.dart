@@ -17,4 +17,8 @@ class SearchBarController extends ChangeNotifier {
   reset() {
     _autoCompleteSearch.resetSearchBar();
   }
+
+  clearOverlay() {
+    _autoCompleteSearch.clearOverlay();
+  }
 }

@@ -1,3 +1,10 @@
+## [0.4.0] - 29/Jan/2020
+
+- Fixed bug that autoComplete search prediction is remaining on screen when poping from map page. (Issue #3)
+- Search bar no longer relies on appBarRenderBox height. Position is fixed to 86 on top.
+- Added example for changing colour
+- AutoComplete search prediction's title colour now relies on Theme.of(context).textTheme.title.color
+
 ## [0.3.0] - 27/Jan/2020
 
 - The colors of FloatingCard (Prediction tile on the map) can be controlled by Theme Data.
