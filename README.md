@@ -223,16 +223,27 @@ state | PinState | State of pin. (Preparing; When map loading, Idle, Dragging)
 While you can build your own prediction tile, you still can change the style of default tile using themeData as below:
 
 ```dart
-theme: ThemeData.dark().copyWith(
-        cardColor: Colors.grey,                  // Background color of the FloatingCard
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.yellow,            // Select here's button color
-          textTheme: ButtonTextTheme.primary,    // Applying this will automatically change text color based on buttonColor. (Button color is dark ? white / is light ? black)
-        ),
-        textTheme: TextTheme(
-          body1: TextStyle(color: Colors.white), // This will change the text color of FloatingCard
-        ),
-      ),
+// Light Theme
+final ThemeData lightTheme = ThemeData.light().copyWith(
+  // Background color of the FloatingCard
+  cardColor: Colors.white,
+  buttonTheme: ButtonThemeData(
+    // Select here's button color
+    buttonColor: Colors.black,
+    textTheme: ButtonTextTheme.primary,
+  ),
+);
+
+// Dark Theme
+final ThemeData darkTheme = ThemeData.dark().copyWith(
+  // Background color of the FloatingCard
+  cardColor: Colors.grey,
+  buttonTheme: ButtonThemeData(
+    // Select here's button color
+    buttonColor: Colors.yellow,
+    textTheme: ButtonTextTheme.primary,
+  ),
+);
 ```
 
 ![](screenshot2.png)
