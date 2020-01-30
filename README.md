@@ -126,9 +126,31 @@ Parameter | Type | Description
 --------- | ---- | -----------
 placeId | String | A textual identifier that uniquely identifies a place. To retrieve information about the place, pass this identifier in the placeId field of a Places API request. See [PlaceId](https://developers.google.com/places/web-service/place-id) for more information.
 geometry | Geometry | Contains geometry information about the result, generally including the location (geocode) of the place and (optionally) the viewport identifying its general area of coverage.
-address | String | A string containing the human-readable address of this place. Often this address is equivalent to the "postal address".
+formattedAddress | String | A string containing the human-readable address of this place. Often this address is equivalent to the "postal address".
 types | List\<String\> | Contains an array of feature types describing the given result. See the [list of supported types](https://developers.google.com/places/web-service/supported_types#table2). XML responses include multiple <type> elements if more than one type is assigned to the result.
 addressComponents | List\<AddressComponent\> | An array containing the separate components applicable to this address.
+  
+** Below results will be fetched only when using auto-complete search or usePlaceDetailSearch is set to true when searching by dragging the map.
+#### PickResult (Optional)
+Parameter | Type | Description
+--------- | ---- | -----------
+adrAddress | String | A representation of the place's address in the [adr microformat](http://microformats.org/wiki/adr)
+formattedPhoneNumber | String | Contains the place's phone number in its [local format](http://en.wikipedia.org/wiki/Local_conventions_for_writing_telephone_numbers)
+id | String | ? (Not documented at Google - see more info below)
+reference | String | ? (Not documented at Google - see more info below)
+icon | String | The URL of a suggested icon which may be displayed to the user when indicating this result on a map.
+name | String | Human-readable name for the returned result
+openingHours | OpeningHoursDetail | Opening hour information
+photos | List<Photo> | Array of photo objects, each containing a reference to an image
+internationalPhoneNumber | String | The place's phone number in international format
+priceLevel | PriceLevel | The price level of the place, on a scale of 0 to 4. The exact amount indicated by a specific value will vary from region to region.
+rating | num | The place's rating, from 1.0 to 5.0, based on aggregated user reviews.
+scope | String |
+url | String | The URL of the official Google page for this place. 
+vicinity | String | Lists a simplified address for the place, including the street name, street number, and locality, but not the province/state, postal code, or country
+utcOffset | num | The number of minutes this place’s current timezone is offset from UTC
+website | String | The authoritative website for this place
+reviews | List<Review> | JSON array of up to five reviews
 
 [More info](https://developers.google.com/places/web-service/details) about results at google.
 
@@ -151,6 +173,8 @@ cameraMoveDebounceInMilliseconds | int | Debounce timer for searching place with
 intialMapType | MapType | MapTypes of google map. Default normal.
 enableMapTypeButton | bool | Whether to display MapType change button on the map
 enableMyLocationButton | bool | Whether to display my location button on the map
+usePinPointingSearch | bool | Defaults to true. This will allow user to drag map and get a place info where the pin is pointing.
+usePlaceDetailSearch | bool | Defaults to false. Setting this to true will get detailed result from searching by dragging the map, but will use +1 request on Place Detail API.
 onAutoCompleteFailed | Callback(String) | Invoked when auto complete search is failed
 onGeocodingSearchFailed | Callback(String) | Invoked when searching place by dragging the map failed
 onMapCreated | MapCreatedCallback | Returens google map controller when created
