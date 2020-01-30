@@ -39,6 +39,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.onToggleMapType,
     this.onMyLocation,
     this.onPlacePicked,
+    this.usePinPointingSearch,
+    this.usePlaceDetailSearch,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -55,6 +57,9 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final int debounceMilliseconds;
   final bool enableMapTypeButton;
   final bool enableMyLocationButton;
+
+  final bool usePinPointingSearch;
+  final bool usePlaceDetailSearch;
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
@@ -77,11 +82,31 @@ class GoogleMapPlacePicker extends StatelessWidget {
       if (onSearchFailed != null) {
         onSearchFailed(response.status);
       }
+      provider.placeSearchingState = SearchingState.Idle;
       return;
     }
 
-    provider.selectedPlace =
-        PickResult.fromGeocodingResult(response.results[0]);
+    if (usePlaceDetailSearch) {
+      final PlacesDetailsResponse detailResponse = await provider.places
+          .getDetailsByPlaceId(response.results[0].placeId);
+
+      if (detailResponse.errorMessage?.isNotEmpty == true ||
+          detailResponse.status == "REQUEST_DENIED") {
+        print("Fetching details by placeId Error: " +
+            detailResponse.errorMessage);
+        if (onSearchFailed != null) {
+          onSearchFailed(detailResponse.status);
+        }
+        provider.placeSearchingState = SearchingState.Idle;
+        return;
+      }
+
+      provider.selectedPlace =
+          PickResult.fromPlaceDetailResult(detailResponse.result);
+    } else {
+      provider.selectedPlace =
+          PickResult.fromGeocodingResult(response.results[0]);
+    }
 
     provider.placeSearchingState = SearchingState.Idle;
   }
@@ -118,16 +143,25 @@ class GoogleMapPlacePicker extends StatelessWidget {
               provider.pinState = PinState.Idle;
             },
             onCameraIdle: () {
-              // Search current camera location only if camera has moved (dragged) before.
-              if (provider.pinState == PinState.Dragging) {
-                // Cancel previous timer.
-                if (provider.debounceTimer?.isActive ?? false) {
-                  provider.debounceTimer.cancel();
+              if (provider.isAutoCompleteSearching) {
+                provider.isAutoCompleteSearching = false;
+                provider.pinState = PinState.Idle;
+                return;
+              }
+
+              // Perform search only if the setting is to true.
+              if (usePinPointingSearch) {
+                // Search current camera location only if camera has moved (dragged) before.
+                if (provider.pinState == PinState.Dragging) {
+                  // Cancel previous timer.
+                  if (provider.debounceTimer?.isActive ?? false) {
+                    provider.debounceTimer.cancel();
+                  }
+                  provider.debounceTimer =
+                      Timer(Duration(milliseconds: debounceMilliseconds), () {
+                    _searchByCameraLocation(provider);
+                  });
                 }
-                provider.debounceTimer =
-                    Timer(Duration(milliseconds: debounceMilliseconds), () {
-                  _searchByCameraLocation(provider);
-                });
               }
 
               provider.pinState = PinState.Idle;
@@ -226,22 +260,15 @@ class GoogleMapPlacePicker extends StatelessWidget {
       selector: (_, provider) => Tuple3(provider.selectedPlace,
           provider.placeSearchingState, provider.isSearchBarFocused),
       builder: (context, data, __) {
-        if (data.item2 == SearchingState.Searching) {
-          return _defaultPlaceWidgetBuilder(
-              context, data.item1, SearchingState.Searching);
+        if (data.item1 == null || data.item3 == true) {
+          return Container();
         } else {
-          // Hide if there is no PlaceDetails OR if user is searching with search bar.
-          if (data.item1 == null || data.item3 == true) {
-            return Container();
+          if (selectedPlaceWidgetBuilder == null) {
+            return _defaultPlaceWidgetBuilder(context, data.item1, data.item2);
           } else {
-            if (selectedPlaceWidgetBuilder == null) {
-              return _defaultPlaceWidgetBuilder(
-                  context, data.item1, SearchingState.Idle);
-            } else {
-              return Builder(
-                  builder: (builderContext) => selectedPlaceWidgetBuilder(
-                      builderContext, data.item1, data.item2, data.item3));
-            }
+            return Builder(
+                builder: (builderContext) => selectedPlaceWidgetBuilder(
+                    builderContext, data.item1, data.item2, data.item3));
           }
         }
       },
@@ -282,7 +309,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            result.address,
+            result.formattedAddress,
             style: TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),

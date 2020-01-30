@@ -34,6 +34,7 @@ class PlaceProvider extends ChangeNotifier {
   String sessionToken;
   bool isOnUpdateLocationCooldown = false;
   LocationAccuracy desiredAccuracy;
+  bool isAutoCompleteSearching = false;
 
   Future<void> updateCurrentLocation() async {
     try {

@@ -28,8 +28,8 @@ class PlacePicker extends StatefulWidget {
     this.onMapCreated,
     this.hintText,
     this.searchingText,
-    this.searchBarHeight,
-    this.contentPadding,
+    // this.searchBarHeight,
+    // this.contentPadding,
     this.onAutoCompleteFailed,
     this.onGeocodingSearchFailed,
     this.proxyBaseUrl,
@@ -42,6 +42,8 @@ class PlacePicker extends StatefulWidget {
     this.enableMapTypeButton = true,
     this.enableMyLocationButton = true,
     this.myLocationButtonCooldown = 10,
+    this.usePinPointingSearch = true,
+    this.usePlaceDetailSearch = false,
   }) : super(key: key);
 
   final String apiKey;
@@ -54,8 +56,8 @@ class PlacePicker extends StatefulWidget {
 
   final String hintText;
   final String searchingText;
-  final double searchBarHeight;
-  final EdgeInsetsGeometry contentPadding;
+  // final double searchBarHeight;
+  // final EdgeInsetsGeometry contentPadding;
 
   final ValueChanged<String> onAutoCompleteFailed;
   final ValueChanged<String> onGeocodingSearchFailed;
@@ -66,6 +68,9 @@ class PlacePicker extends StatefulWidget {
   final bool enableMapTypeButton;
   final bool enableMyLocationButton;
   final int myLocationButtonCooldown;
+
+  final bool usePinPointingSearch;
+  final bool usePlaceDetailSearch;
 
   /// By using default setting of Place Picker, it will result result when user hits the select here button.
   ///
@@ -167,8 +172,8 @@ class _PlacePickerState extends State<PlacePicker> {
             sessionToken: provider.sessionToken,
             hintText: widget.hintText,
             searchingText: widget.searchingText,
-            height: widget.searchBarHeight,
-            contentPadding: widget.contentPadding,
+            // height: widget.searchBarHeight,
+            // contentPadding: widget.contentPadding,
             debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
             onPicked: (prediction) {
               _pickPrediction(prediction);
@@ -203,7 +208,10 @@ class _PlacePickerState extends State<PlacePicker> {
 
     provider.selectedPlace = PickResult.fromPlaceDetailResult(response.result);
 
-    _moveTo(provider.selectedPlace.geometry.location.lat,
+    // Prevents searching again by camera movement.
+    provider.isAutoCompleteSearching = true;
+
+    await _moveTo(provider.selectedPlace.geometry.location.lat,
         provider.selectedPlace.geometry.location.lng);
 
     provider.placeSearchingState = SearchingState.Idle;
@@ -258,6 +266,8 @@ class _PlacePickerState extends State<PlacePicker> {
       debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
       enableMapTypeButton: widget.enableMapTypeButton,
       enableMyLocationButton: widget.enableMyLocationButton,
+      usePinPointingSearch: widget.usePinPointingSearch,
+      usePlaceDetailSearch: widget.usePlaceDetailSearch,
       onMapCreated: widget.onMapCreated,
       onToggleMapType: () {
         provider.switchMapType();

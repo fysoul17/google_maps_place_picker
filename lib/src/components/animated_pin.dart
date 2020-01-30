@@ -33,12 +33,12 @@ class _AnimatedPinState extends State<AnimatedPin>
 
   @override
   Widget build(BuildContext context) {
-    return SpinningContainer(controller: _controller, child: widget.child);
+    return JumpingContainer(controller: _controller, child: widget.child);
   }
 }
 
-class SpinningContainer extends AnimatedWidget {
-  const SpinningContainer({
+class JumpingContainer extends AnimatedWidget {
+  const JumpingContainer({
     Key key,
     AnimationController controller,
     this.child,

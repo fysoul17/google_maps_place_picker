@@ -1,3 +1,10 @@
+## [0.5.0] - 31/Jan/2020
+
+- Added 'usePinPointingSearch' option. Setting it to false will not allow user get a place info with map dragging. Defaults to true.
+- Added 'usePlaceDetailSearch' option. Setting this to true will get detailed result from searching by dragging the map, but will use +1 request on Place Detail API. Defailts to false.
+- Fixed bug of not returning Searching state to 'selectedPlaceWidgetBuilder'.
+- Fixed bug of unnecessary search (issue #4). No extra searching will be performed from now when camera is moved by auto-complete search.
+
 ## [0.4.0] - 29/Jan/2020
 
 - Fixed bug that autoComplete search prediction is remaining on screen when poping from map page. (Issue #3)

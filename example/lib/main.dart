@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Google Map Place Picer Demo',
+      title: 'Google Map Place Picker Demo',
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.dark,
@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
                         apiKey: APIKeys.apiKey,
                         initialPosition: HomePage.kInitialPosition,
                         useCurrentLocation: true,
+                        //usePlaceDetailSearch: true,
                         onPlacePicked: (result) {
                           selectedPlace = result;
                           Navigator.of(context).pop();
@@ -115,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              selectedPlace == null ? Container() : Text(selectedPlace.address ?? ""),
+              selectedPlace == null ? Container() : Text(selectedPlace.formattedAddress ?? ""),
             ],
           ),
         ));
