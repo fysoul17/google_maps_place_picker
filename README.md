@@ -219,7 +219,7 @@ Parameters | Type | Description
 context | BuildContext | Flutter's build context value
 state | PinState | State of pin. (Preparing; When map loading, Idle, Dragging)
 
-### Changing Colours of default FloatingCard (Prediction tile)
+### Changing Colours of default FloatingCard
 While you can build your own prediction tile, you still can change the style of default tile using themeData as below:
 
 ```dart
