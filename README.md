@@ -164,8 +164,6 @@ useCurrentLocation | bool | Whether to use device's current location for initial
 desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Default to 'high'.
 hintText | String | Hint text of search bar
 searchingText | String | A text which appears when searching is performing. Default to 'Searching...'
-~~searchBarHeight | double | Height of search bar. Default 40. Recommended using together with contentPadding.~~
-~~contentPadding | EdgeInsetsGeomery | content padding of search bar input textField's InputDecoration~~
 proxyBaseUrl | String | Used for API calling on google maps. In case of using a proxy the baseUrl can be set. The apiKey is not required in case the proxy sets it.
 httpClient | [Client](https://pub.dev/packages/google_maps_webservice) | Used for API calling on google maps. In case of using a proxy url that requires authentication or custom configuration.
 autoCompleteDebounceInMilliseconds | int | Debounce timer for auto complete input. Default 500
