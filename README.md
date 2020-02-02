@@ -141,7 +141,7 @@ reference | String | ? (Not documented at Google - see more info below)
 icon | String | The URL of a suggested icon which may be displayed to the user when indicating this result on a map.
 name | String | Human-readable name for the returned result
 openingHours | OpeningHoursDetail | Opening hour information
-photos | List<Photo> | Array of photo objects, each containing a reference to an image
+photos | List\<Photo\> | Array of photo objects, each containing a reference to an image
 internationalPhoneNumber | String | The place's phone number in international format
 priceLevel | PriceLevel | The price level of the place, on a scale of 0 to 4. The exact amount indicated by a specific value will vary from region to region.
 rating | num | The place's rating, from 1.0 to 5.0, based on aggregated user reviews.
@@ -150,7 +150,7 @@ url | String | The URL of the official Google page for this place.
 vicinity | String | Lists a simplified address for the place, including the street name, street number, and locality, but not the province/state, postal code, or country
 utcOffset | num | The number of minutes this place’s current timezone is offset from UTC
 website | String | The authoritative website for this place
-reviews | List<Review> | JSON array of up to five reviews
+reviews | List\<Review\> | JSON array of up to five reviews
 
 [More info](https://developers.google.com/places/web-service/details) about results at google.
 
@@ -164,8 +164,6 @@ useCurrentLocation | bool | Whether to use device's current location for initial
 desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Default to 'high'.
 hintText | String | Hint text of search bar
 searchingText | String | A text which appears when searching is performing. Default to 'Searching...'
-searchBarHeight | double | Height of search bar. Default 40. Recommended using together with contentPadding.
-contentPadding | EdgeInsetsGeomery | content padding of search bar input textField's InputDecoration
 proxyBaseUrl | String | Used for API calling on google maps. In case of using a proxy the baseUrl can be set. The apiKey is not required in case the proxy sets it.
 httpClient | [Client](https://pub.dev/packages/google_maps_webservice) | Used for API calling on google maps. In case of using a proxy url that requires authentication or custom configuration.
 autoCompleteDebounceInMilliseconds | int | Debounce timer for auto complete input. Default 500
