@@ -260,7 +260,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
       selector: (_, provider) => Tuple3(provider.selectedPlace,
           provider.placeSearchingState, provider.isSearchBarFocused),
       builder: (context, data, __) {
-        if (data.item1 == null || data.item3 == true) {
+        if ((data.item1 == null && data.item2 == SearchingState.Idle) ||
+            data.item3 == true) {
           return Container();
         } else {
           if (selectedPlaceWidgetBuilder == null) {

@@ -1,3 +1,7 @@
+## [0.5.1] - 3/Feb/2020
+
+- Minor bug Fix.
+
 ## [0.5.0] - 31/Jan/2020
 
 - Added 'usePinPointingSearch' option. Setting it to false will not allow user get a place info with map dragging. Defaults to true.
