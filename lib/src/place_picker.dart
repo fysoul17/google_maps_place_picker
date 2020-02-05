@@ -44,6 +44,12 @@ class PlacePicker extends StatefulWidget {
     this.myLocationButtonCooldown = 10,
     this.usePinPointingSearch = true,
     this.usePlaceDetailSearch = false,
+    this.autocompleteOffset,
+    this.autocompleteRadius,
+    this.autocompleteLanguage,
+    this.autocompleteComponents,
+    this.autocompleteTypes,
+    this.strictbounds,
   }) : super(key: key);
 
   final String apiKey;
@@ -71,6 +77,13 @@ class PlacePicker extends StatefulWidget {
 
   final bool usePinPointingSearch;
   final bool usePlaceDetailSearch;
+
+  final num autocompleteOffset;
+  final num autocompleteRadius;
+  final String autocompleteLanguage;
+  final List<String> autocompleteTypes;
+  final List<Component> autocompleteComponents;
+  final bool strictbounds;
 
   /// By using default setting of Place Picker, it will result result when user hits the select here button.
   ///
@@ -183,6 +196,12 @@ class _PlacePickerState extends State<PlacePicker> {
                 widget.onAutoCompleteFailed(status);
               }
             },
+            autocompleteOffset: widget.autocompleteOffset,
+            autocompleteRadius: widget.autocompleteRadius,
+            autocompleteLanguage: widget.autocompleteLanguage,
+            autocompleteComponents: widget.autocompleteComponents,
+            autocompleteTypes: widget.autocompleteTypes,
+            strictbounds: widget.strictbounds,
           ),
         ),
         SizedBox(width: 5),

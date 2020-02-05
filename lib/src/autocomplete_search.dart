@@ -21,6 +21,12 @@ class AutoCompleteSearch extends StatefulWidget {
     this.debounceMilliseconds,
     this.onSearchFailed,
     this.searchBarController,
+    this.autocompleteOffset,
+    this.autocompleteRadius,
+    this.autocompleteLanguage,
+    this.autocompleteComponents,
+    this.autocompleteTypes,
+    this.strictbounds,
   }) : super(key: key);
 
   final String sessionToken;
@@ -32,6 +38,12 @@ class AutoCompleteSearch extends StatefulWidget {
   final ValueChanged<Prediction> onPicked;
   final ValueChanged<String> onSearchFailed;
   final SearchBarController searchBarController;
+  final num autocompleteOffset;
+  final num autocompleteRadius;
+  final String autocompleteLanguage;
+  final List<String> autocompleteTypes;
+  final List<Component> autocompleteComponents;
+  final bool strictbounds;
 
   @override
   AutoCompleteSearchState createState() => AutoCompleteSearchState();
@@ -249,6 +261,12 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
             ? null
             : Location(provider.currentPosition.latitude,
                 provider.currentPosition.longitude),
+        offset: widget.autocompleteOffset,
+        radius: widget.autocompleteRadius,
+        language: widget.autocompleteLanguage,
+        types: widget.autocompleteTypes,
+        components: widget.autocompleteComponents,
+        strictbounds: widget.strictbounds,
       );
 
       if (response.errorMessage?.isNotEmpty == true ||

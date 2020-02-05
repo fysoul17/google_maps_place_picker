@@ -1,3 +1,8 @@
+## [0.6.0] - 5/Feb/2020
+
+- Added options for auto complete search. Now you can narrow down the result using offset, radius, language, types, components and strictbounds.
+- Updated README.md for added parameters.
+
 ## [0.5.1] - 3/Feb/2020
 
 - Minor bug Fix.
