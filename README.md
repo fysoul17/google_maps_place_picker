@@ -152,7 +152,7 @@ utcOffset | num | The number of minutes this place’s current timezone is offse
 website | String | The authoritative website for this place
 reviews | List\<Review\> | JSON array of up to five reviews
 
-[More info](https://developers.google.com/places/web-service/details) about results at google.
+[More info](https://developers.google.com/places/web-service/details) about results at Google document.
 
 #### PlacePicker
 Parameter | Type | Description
@@ -178,7 +178,14 @@ onGeocodingSearchFailed | Callback(String) | Invoked when searching place by dra
 onMapCreated | MapCreatedCallback | Returens google map controller when created
 selectedPlaceWidgetBuilder | WidgetBuilder | Specified on below section
 pinBuilder | WidgetBuilder | Specified on below section
+autocompleteOffset | num | The position, in the input term, of the last character that the service uses to match predictions
+autocompleteRadius | num | The distance (in meters) within which to return place results
+autocompleteLanguage | String | The language code, indicating in which language the results should be returned, if possible
+autocompleteComponents | List<Components> | A grouping of places to which you would like to restrict your results. Currently, you can use components to filter by up to 5 countries.
+autocompleteTypes | List<String> | The types of place results to return. See [Place Types](https://developers.google.com/places/web-service/autocomplete#place_types).
+strictbounds | bool | Returns only those places that are strictly within the region defined by location and radius.
 
+[More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
 ### Customizing picked place visualisation
 
