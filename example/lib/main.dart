@@ -83,6 +83,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.of(context).pop();
                           setState(() {});
                         },
+                        region: 'au',
                         // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
                         //   return isSearchBarFocused
                         //       ? Container()

@@ -27,6 +27,7 @@ class AutoCompleteSearch extends StatefulWidget {
     this.autocompleteComponents,
     this.autocompleteTypes,
     this.strictbounds,
+    this.region,
   }) : super(key: key);
 
   final String sessionToken;
@@ -44,6 +45,7 @@ class AutoCompleteSearch extends StatefulWidget {
   final List<String> autocompleteTypes;
   final List<Component> autocompleteComponents;
   final bool strictbounds;
+  final String region;
 
   @override
   AutoCompleteSearchState createState() => AutoCompleteSearchState();
@@ -267,6 +269,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
         types: widget.autocompleteTypes,
         components: widget.autocompleteComponents,
         strictbounds: widget.strictbounds,
+        region: widget.region,
       );
 
       if (response.errorMessage?.isNotEmpty == true ||

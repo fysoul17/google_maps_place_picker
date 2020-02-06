@@ -50,6 +50,7 @@ class PlacePicker extends StatefulWidget {
     this.autocompleteComponents,
     this.autocompleteTypes,
     this.strictbounds,
+    this.region,
   }) : super(key: key);
 
   final String apiKey;
@@ -84,6 +85,7 @@ class PlacePicker extends StatefulWidget {
   final List<String> autocompleteTypes;
   final List<Component> autocompleteComponents;
   final bool strictbounds;
+  final String region;
 
   /// By using default setting of Place Picker, it will result result when user hits the select here button.
   ///
@@ -202,6 +204,7 @@ class _PlacePickerState extends State<PlacePicker> {
             autocompleteComponents: widget.autocompleteComponents,
             autocompleteTypes: widget.autocompleteTypes,
             strictbounds: widget.strictbounds,
+            region: widget.region,
           ),
         ),
         SizedBox(width: 5),
