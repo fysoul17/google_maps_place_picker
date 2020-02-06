@@ -1,4 +1,4 @@
-## [0.6.0] - 5/Feb/2020
+## [0.6.1] - 6/Feb/2020
 
 - Added region option for auto-complete search.
 - Updated README.md for added parameters.
