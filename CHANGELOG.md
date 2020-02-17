@@ -1,3 +1,8 @@
+## [0.6.2] - 17/Feb/2020
+
+- Fixed bug. Map icons are now positioned correctly.
+- Fixed iOS obsoleted in swift 4.2 issue for the example.
+
 ## [0.6.1] - 6/Feb/2020
 
 - Added region option for auto-complete search.

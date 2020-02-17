@@ -28,6 +28,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
   const GoogleMapPlacePicker({
     Key key,
     @required this.initialTarget,
+    @required this.appBarKey,
     this.selectedPlaceWidgetBuilder,
     this.pinBuilder,
     this.onSearchFailed,
@@ -44,6 +45,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }) : super(key: key);
 
   final LatLng initialTarget;
+  final GlobalKey appBarKey;
+
   final SelectedPlaceWidgetBuilder selectedPlaceWidgetBuilder;
   final PinBuilder pinBuilder;
 
@@ -124,11 +127,11 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildGoogleMap(BuildContext context) {
-    PlaceProvider provider = PlaceProvider.of(context, listen: false);
-
     return Selector<PlaceProvider, MapType>(
         selector: (_, provider) => provider.mapType,
         builder: (_, data, __) {
+          PlaceProvider provider = PlaceProvider.of(context, listen: false);
+
           return GoogleMap(
             myLocationButtonEnabled: false,
             compassEnabled: false,
@@ -334,8 +337,11 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildMapIcons(BuildContext context) {
+    final RenderBox appBarRenderBox =
+        appBarKey.currentContext.findRenderObject();
+
     return Positioned(
-      top: 80,
+      top: appBarRenderBox.size.height,
       right: 15,
       child: Column(
         children: <Widget>[

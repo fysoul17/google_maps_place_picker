@@ -122,6 +122,7 @@ class PlacePicker extends StatefulWidget {
 }
 
 class _PlacePickerState extends State<PlacePicker> {
+  GlobalKey appBarKey = GlobalKey();
   PlaceProvider provider;
   SearchBarController searchBarController = SearchBarController();
 
@@ -157,6 +158,7 @@ class _PlacePickerState extends State<PlacePicker> {
               return Scaffold(
                   extendBodyBehindAppBar: true,
                   appBar: AppBar(
+                    key: appBarKey,
                     automaticallyImplyLeading: false,
                     iconTheme: Theme.of(context).iconTheme,
                     elevation: 0,
@@ -183,6 +185,7 @@ class _PlacePickerState extends State<PlacePicker> {
             padding: EdgeInsets.zero),
         Expanded(
           child: AutoCompleteSearch(
+            appBarKey: appBarKey,
             searchBarController: searchBarController,
             sessionToken: provider.sessionToken,
             hintText: widget.hintText,
@@ -282,6 +285,7 @@ class _PlacePickerState extends State<PlacePicker> {
   Widget _buildMap(LatLng initialTarget) {
     return GoogleMapPlacePicker(
       initialTarget: initialTarget,
+      appBarKey: appBarKey,
       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
       pinBuilder: widget.pinBuilder,
       onSearchFailed: widget.onGeocodingSearchFailed,
