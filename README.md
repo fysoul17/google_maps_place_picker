@@ -185,6 +185,7 @@ autocompleteComponents | List\<Components\> | A grouping of places to which you 
 autocompleteTypes | List\<String\> | The types of place results to return. See [Place Types](https://developers.google.com/places/web-service/autocomplete#place_types).
 strictbounds | bool | Returns only those places that are strictly within the region defined by location and radius.
 region | String | region — The region code, specified as a ccTLD (country code top-level domain) two-character value. Most ccTLD codes are identical to ISO 3166-1 codes, with some exceptions. This parameter will only influence, not fully restrict, search results. If more relevant results exist outside of the specified region, they may be included. **When this parameter is used, the country name is omitted from the resulting formatted_address for results in the specified region.**
+selectInitialPosition | bool | Whether to display selected place on initial map load. Defaults to false.
 
 [More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
