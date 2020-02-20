@@ -51,6 +51,7 @@ class PlacePicker extends StatefulWidget {
     this.autocompleteTypes,
     this.strictbounds,
     this.region,
+    this.selectInitialPosition = false,
   }) : super(key: key);
 
   final String apiKey;
@@ -86,6 +87,8 @@ class PlacePicker extends StatefulWidget {
   final List<Component> autocompleteComponents;
   final bool strictbounds;
   final String region;
+
+  final bool selectInitialPosition;
 
   /// By using default setting of Place Picker, it will result result when user hits the select here button.
   ///
@@ -295,6 +298,7 @@ class _PlacePickerState extends State<PlacePicker> {
       usePinPointingSearch: widget.usePinPointingSearch,
       usePlaceDetailSearch: widget.usePlaceDetailSearch,
       onMapCreated: widget.onMapCreated,
+      selectInitialPosition: widget.selectInitialPosition,
       onToggleMapType: () {
         provider.switchMapType();
       },

@@ -42,6 +42,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.onPlacePicked,
     this.usePinPointingSearch,
     this.usePlaceDetailSearch,
+    this.selectInitialPosition,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -63,6 +64,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   final bool usePinPointingSearch;
   final bool usePlaceDetailSearch;
+
+  final bool selectInitialPosition;
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
@@ -131,19 +134,26 @@ class GoogleMapPlacePicker extends StatelessWidget {
         selector: (_, provider) => provider.mapType,
         builder: (_, data, __) {
           PlaceProvider provider = PlaceProvider.of(context, listen: false);
+          CameraPosition initialCameraPosition =
+              CameraPosition(target: initialTarget, zoom: 15);
 
           return GoogleMap(
             myLocationButtonEnabled: false,
             compassEnabled: false,
             mapToolbarEnabled: false,
-            initialCameraPosition:
-                CameraPosition(target: initialTarget, zoom: 15),
+            initialCameraPosition: initialCameraPosition,
             mapType: data,
             myLocationEnabled: true,
             onMapCreated: (GoogleMapController controller) {
               provider.mapController = controller;
               provider.setCameraPosition(null);
               provider.pinState = PinState.Idle;
+
+              // When select initialPosition set to true.
+              if (selectInitialPosition) {
+                provider.setCameraPosition(initialCameraPosition);
+                _searchByCameraLocation(provider);
+              }
             },
             onCameraIdle: () {
               if (provider.isAutoCompleteSearching) {

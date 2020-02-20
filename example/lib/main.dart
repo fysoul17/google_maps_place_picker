@@ -84,6 +84,7 @@ class _HomePageState extends State<HomePage> {
                           setState(() {});
                         },
                         region: 'au',
+                        //selectInitialPosition: true,
                         // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
                         //   return isSearchBarFocused
                         //       ? Container()

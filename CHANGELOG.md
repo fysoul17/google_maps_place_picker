@@ -1,3 +1,7 @@
+## [0.6.3] - 17/Feb/2020
+
+- Feature added. Now, initial position of the map can be 'selected' automatically.
+
 ## [0.6.2] - 17/Feb/2020
 
 - Fixed bug. Map icons are now positioned correctly.
