@@ -1,3 +1,8 @@
+## [0.6.4] - 22/Feb/2020
+
+- Feature added. You can set resizeToAvoidBottomInset for the scaffold to avoid resizing screen when keyboard is shown.
+- Example modified. Removed MediaQuery.of(context) from the example as it will cause rebuild.
+
 ## [0.6.3] - 20/Feb/2020
 
 - Feature added. Now, initial position of the map can be 'selected' automatically.
