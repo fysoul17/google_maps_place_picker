@@ -159,8 +159,8 @@ Parameter | Type | Description
 --------- | ---- | -----------
 apiKey | String | (Required) Your google map API Key
 onPlacePicked | Callback(PickResult) | Invoked when user picks the place and selects to use it. **This will not be called if you manually build 'selectedPlaceWidgetBuilder' as you will override default 'Select here' button.**
-initialPosition | LatLng | Initial center position of google map when it is created. If useCurrentLocation is set to true, it will try to get device's current location first using GeoLocator.
-useCurrentLocation | bool | Whether to use device's current location for initial center position
+initialPosition | LatLng | (Required) Initial center position of google map when it is created. If useCurrentLocation is set to true, it will try to get device's current location first using GeoLocator. 
+useCurrentLocation | bool | Whether to use device's current location for initial center position. This will be used instead of initial position when it is set to true AND user ALLOW to collect their location. If DENIED, initialPosition will be used.
 desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Default to 'high'.
 hintText | String | Hint text of search bar
 searchingText | String | A text which appears when searching is performing. Default to 'Searching...'
