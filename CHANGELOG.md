@@ -1,3 +1,8 @@
+## [0.7.0] - 25/Feb/2020
+
+- Bug Fixed. Fixed throwing rendering exception when [useCurrentLocation] is set to false. Issue #11.
+- [initialPosition] has been set to Required paramater since Google Map needs at least one initial position of the camera. Issue #10.
+
 ## [0.6.4] - 22/Feb/2020
 
 - Feature added. You can set resizeToAvoidBottomInset for the scaffold to avoid resizing screen when keyboard is shown.

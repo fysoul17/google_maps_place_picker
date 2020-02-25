@@ -22,7 +22,7 @@ class PlacePicker extends StatefulWidget {
     Key key,
     @required this.apiKey,
     this.onPlacePicked,
-    this.initialPosition,
+    @required this.initialPosition,
     this.useCurrentLocation,
     this.desiredLocationAccuracy = LocationAccuracy.high,
     this.onMapCreated,
@@ -171,20 +171,19 @@ class _PlacePickerState extends State<PlacePicker> {
           child: Builder(
             builder: (context) {
               return Scaffold(
-                  resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-                  extendBodyBehindAppBar: true,
-                  appBar: AppBar(
-                    key: appBarKey,
-                    automaticallyImplyLeading: false,
-                    iconTheme: Theme.of(context).iconTheme,
-                    elevation: 0,
-                    backgroundColor: Colors.transparent,
-                    titleSpacing: 0.0,
-                    title: _buildSearchBar(),
-                  ),
-                  body: widget.useCurrentLocation
-                      ? _buildMapWithLocation()
-                      : _buildMap(widget.initialPosition));
+                resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+                extendBodyBehindAppBar: true,
+                appBar: AppBar(
+                  key: appBarKey,
+                  automaticallyImplyLeading: false,
+                  iconTheme: Theme.of(context).iconTheme,
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  titleSpacing: 0.0,
+                  title: _buildSearchBar(),
+                ),
+                body: _buildMapWithLocation(),
+              );
             },
           ),
         ));
@@ -273,8 +272,10 @@ class _PlacePickerState extends State<PlacePicker> {
   }
 
   _moveToCurrentPosition() async {
-    await _moveTo(
-        provider.currentPosition.latitude, provider.currentPosition.longitude);
+    if (provider.currentPosition != null) {
+      await _moveTo(provider.currentPosition.latitude,
+          provider.currentPosition.longitude);
+    }
   }
 
   Widget _buildMapWithLocation() {
@@ -294,7 +295,16 @@ class _PlacePickerState extends State<PlacePicker> {
             }
           });
     } else {
-      return _buildMap(widget.initialPosition);
+      return FutureBuilder(
+        future: Future.delayed(Duration(milliseconds: 1)),
+        builder: (context, snap) {
+          if (snap.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return _buildMap(widget.initialPosition);
+          }
+        },
+      );
     }
   }
 
