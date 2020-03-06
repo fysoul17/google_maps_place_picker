@@ -1,35 +1,37 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/providers/place_provider.dart';
 import 'package:google_maps_place_picker/providers/search_provider.dart';
 import 'package:google_maps_place_picker/src/components/prediction_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/src/components/rounded_frame.dart';
 import 'package:google_maps_place_picker/src/controllers/autocomplete_search_controller.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 
 class AutoCompleteSearch extends StatefulWidget {
-  const AutoCompleteSearch({
-    Key key,
-    @required this.sessionToken,
-    @required this.onPicked,
-    @required this.appBarKey,
-    this.hintText,
-    this.searchingText = "Searching...",
-    this.height = 40,
-    this.contentPadding = EdgeInsets.zero,
-    this.debounceMilliseconds,
-    this.onSearchFailed,
-    this.searchBarController,
-    this.autocompleteOffset,
-    this.autocompleteRadius,
-    this.autocompleteLanguage,
-    this.autocompleteComponents,
-    this.autocompleteTypes,
-    this.strictbounds,
-    this.region,
-  }) : super(key: key);
+  const AutoCompleteSearch(
+      {Key key,
+      @required this.sessionToken,
+      @required this.onPicked,
+      @required this.appBarKey,
+      this.hintText,
+      this.searchingText = "Searching...",
+      this.height = 40,
+      this.contentPadding = EdgeInsets.zero,
+      this.debounceMilliseconds,
+      this.onSearchFailed,
+      this.searchBarController,
+      this.autocompleteOffset,
+      this.autocompleteRadius,
+      this.autocompleteLanguage,
+      this.autocompleteComponents,
+      this.autocompleteTypes,
+      this.strictbounds,
+      this.region,
+      this.initialSearchString,
+      this.searchForInitialValue})
+      : super(key: key);
 
   final String sessionToken;
   final String hintText;
@@ -48,6 +50,8 @@ class AutoCompleteSearch extends StatefulWidget {
   final bool strictbounds;
   final String region;
   final GlobalKey appBarKey;
+  final String initialSearchString;
+  final bool searchForInitialValue;
 
   @override
   AutoCompleteSearchState createState() => AutoCompleteSearchState();
@@ -62,6 +66,14 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialSearchString != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+          controller.text = widget.initialSearchString;
+          if (widget.searchForInitialValue) {
+            _onSearchInputChange();
+          }
+      });
+    }
     controller.addListener(_onSearchInputChange);
     focus.addListener(_onFocusChanged);
 
@@ -147,6 +159,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   }
 
   _onSearchInputChange() {
+    if (!mounted) return;
     PlaceProvider provider = PlaceProvider.of(context, listen: false);
 
     if (controller.text.isEmpty) {
