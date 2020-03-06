@@ -68,10 +68,10 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
     super.initState();
     if (widget.initialSearchString != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-          controller.text = widget.initialSearchString;
-          if (widget.searchForInitialValue) {
-            _onSearchInputChange();
-          }
+        controller.text = widget.initialSearchString;
+        if (widget.searchForInitialValue) {
+          _onSearchInputChange();
+        }
       });
     }
     controller.addListener(_onSearchInputChange);

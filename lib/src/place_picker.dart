@@ -54,7 +54,7 @@ class PlacePicker extends StatefulWidget {
     this.selectInitialPosition = false,
     this.resizeToAvoidBottomInset = true,
     this.initialSearchString,
-    this.searchForInitialValue = false
+    this.searchForInitialValue = false,
   }) : super(key: key);
 
   final String apiKey;
@@ -153,8 +153,7 @@ class _PlacePickerState extends State<PlacePicker> {
   void initState() {
     super.initState();
 
-    provider =
-        PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
+    provider = PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
     provider.sessionToken = Uuid().generateV4();
     provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setMapType(widget.initialMapType);
@@ -213,8 +212,6 @@ class _PlacePickerState extends State<PlacePicker> {
             sessionToken: provider.sessionToken,
             hintText: widget.hintText,
             searchingText: widget.searchingText,
-            // height: widget.searchBarHeight,
-            // contentPadding: widget.contentPadding,
             debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
             onPicked: (prediction) {
               _pickPrediction(prediction);
@@ -243,15 +240,13 @@ class _PlacePickerState extends State<PlacePicker> {
   _pickPrediction(Prediction prediction) async {
     provider.placeSearchingState = SearchingState.Searching;
 
-    final PlacesDetailsResponse response =
-        await provider.places.getDetailsByPlaceId(
+    final PlacesDetailsResponse response = await provider.places.getDetailsByPlaceId(
       prediction.placeId,
       sessionToken: provider.sessionToken,
       language: widget.autocompleteLanguage,
     );
 
-    if (response.errorMessage?.isNotEmpty == true ||
-        response.status == "REQUEST_DENIED") {
+    if (response.errorMessage?.isNotEmpty == true || response.status == "REQUEST_DENIED") {
       print("AutoCompleteSearch Error: " + response.errorMessage);
       if (widget.onAutoCompleteFailed != null) {
         widget.onAutoCompleteFailed(response.status);
@@ -264,8 +259,7 @@ class _PlacePickerState extends State<PlacePicker> {
     // Prevents searching again by camera movement.
     provider.isAutoCompleteSearching = true;
 
-    await _moveTo(provider.selectedPlace.geometry.location.lat,
-        provider.selectedPlace.geometry.location.lng);
+    await _moveTo(provider.selectedPlace.geometry.location.lat, provider.selectedPlace.geometry.location.lng);
 
     provider.placeSearchingState = SearchingState.Idle;
   }
@@ -286,8 +280,7 @@ class _PlacePickerState extends State<PlacePicker> {
 
   _moveToCurrentPosition() async {
     if (provider.currentPosition != null) {
-      await _moveTo(provider.currentPosition.latitude,
-          provider.currentPosition.longitude);
+      await _moveTo(provider.currentPosition.latitude, provider.currentPosition.longitude);
     }
   }
 
@@ -302,8 +295,7 @@ class _PlacePickerState extends State<PlacePicker> {
               if (provider.currentPosition == null) {
                 return _buildMap(widget.initialPosition);
               } else {
-                return _buildMap(LatLng(provider.currentPosition.latitude,
-                    provider.currentPosition.longitude));
+                return _buildMap(LatLng(provider.currentPosition.latitude, provider.currentPosition.longitude));
               }
             }
           });

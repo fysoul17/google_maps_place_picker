@@ -1,4 +1,8 @@
-## [0.7.1] - 25/Feb/2020
+## [0.8.0] - 07/Mar/2020
+
+- New feature. You can now set [initialSearchString] and [searchForInitialValue]. Issue(Pull Request) #14 (@moritzdouda)
+
+## [0.7.1] - 06/Mar/2020
 
 - Bug Fixed. [autoCompleteLanguage] will now display the correct result.
 
