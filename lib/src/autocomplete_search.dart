@@ -29,6 +29,8 @@ class AutoCompleteSearch extends StatefulWidget {
     this.autocompleteTypes,
     this.strictbounds,
     this.region,
+    this.initialSearchString,
+    this.searchForInitialValue
   }) : super(key: key);
 
   final String sessionToken;
@@ -48,13 +50,15 @@ class AutoCompleteSearch extends StatefulWidget {
   final bool strictbounds;
   final String region;
   final GlobalKey appBarKey;
+  final String initialSearchString;
+  final bool searchForInitialValue;
 
   @override
   AutoCompleteSearchState createState() => AutoCompleteSearchState();
 }
 
 class AutoCompleteSearchState extends State<AutoCompleteSearch> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController controller;
   FocusNode focus = FocusNode();
   OverlayEntry overlayEntry;
   SearchProvider provider = SearchProvider();
@@ -62,6 +66,14 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialSearchString != null) {
+      controller = TextEditingController(text: widget.initialSearchString);
+      if(widget.searchForInitialValue) {
+        _onSearchInputChange();
+      }
+    } else {
+      controller = TextEditingController();
+    }
     controller.addListener(_onSearchInputChange);
     focus.addListener(_onFocusChanged);
 
