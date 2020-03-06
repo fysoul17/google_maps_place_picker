@@ -233,9 +233,12 @@ class _PlacePickerState extends State<PlacePicker> {
   _pickPrediction(Prediction prediction) async {
     provider.placeSearchingState = SearchingState.Searching;
 
-    final PlacesDetailsResponse response = await provider.places
-        .getDetailsByPlaceId(prediction.placeId,
-            sessionToken: provider.sessionToken);
+    final PlacesDetailsResponse response =
+        await provider.places.getDetailsByPlaceId(
+      prediction.placeId,
+      sessionToken: provider.sessionToken,
+      language: widget.autocompleteLanguage,
+    );
 
     if (response.errorMessage?.isNotEmpty == true ||
         response.status == "REQUEST_DENIED") {
@@ -322,6 +325,7 @@ class _PlacePickerState extends State<PlacePicker> {
       usePlaceDetailSearch: widget.usePlaceDetailSearch,
       onMapCreated: widget.onMapCreated,
       selectInitialPosition: widget.selectInitialPosition,
+      language: widget.autocompleteLanguage,
       onToggleMapType: () {
         provider.switchMapType();
       },

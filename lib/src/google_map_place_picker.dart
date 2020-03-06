@@ -43,6 +43,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.usePinPointingSearch,
     this.usePlaceDetailSearch,
     this.selectInitialPosition,
+    this.language,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -67,6 +68,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   final bool selectInitialPosition;
 
+  final String language;
+
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
     bool isZoomChanged = provider.cameraPosition != null &&
@@ -80,6 +83,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
         await provider.geocoding.searchByLocation(
       Location(provider.cameraPosition.target.latitude,
           provider.cameraPosition.target.longitude),
+      language: language,
     );
 
     if (response.errorMessage?.isNotEmpty == true ||
@@ -93,8 +97,11 @@ class GoogleMapPlacePicker extends StatelessWidget {
     }
 
     if (usePlaceDetailSearch) {
-      final PlacesDetailsResponse detailResponse = await provider.places
-          .getDetailsByPlaceId(response.results[0].placeId);
+      final PlacesDetailsResponse detailResponse =
+          await provider.places.getDetailsByPlaceId(
+        response.results[0].placeId,
+        language: language,
+      );
 
       if (detailResponse.errorMessage?.isNotEmpty == true ||
           detailResponse.status == "REQUEST_DENIED") {

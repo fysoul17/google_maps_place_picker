@@ -1,3 +1,7 @@
+## [0.7.1] - 25/Feb/2020
+
+- Bug Fixed. [autoCompleteLanguage] will now display the correct result.
+
 ## [0.7.0] - 25/Feb/2020
 
 - Bug Fixed. Fixed throwing rendering exception when [useCurrentLocation] is set to false. Issue #11.
