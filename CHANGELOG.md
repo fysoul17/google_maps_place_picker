@@ -1,6 +1,7 @@
 ## [0.8.0] - 07/Mar/2020
 
 - New feature. You can now set [initialSearchString] and [searchForInitialValue]. Issue(Pull Request) #14 (@moritzdouda)
+- Bug Fixed. Changing orientation of the device will not break UI of Floating card anymore. Issue #15
 
 ## [0.7.1] - 06/Mar/2020
 

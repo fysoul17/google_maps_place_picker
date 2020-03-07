@@ -300,7 +300,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
       BuildContext context, PickResult data, SearchingState state) {
     return FloatingCard(
       bottomPosition: MediaQuery.of(context).size.height * 0.05,
-      leftPosition: MediaQuery.of(context).size.width * 0.05,
+      leftPosition: MediaQuery.of(context).size.width * 0.025,
+      rightPosition: MediaQuery.of(context).size.width * 0.025,
       width: MediaQuery.of(context).size.width * 0.9,
       borderRadius: BorderRadius.circular(12.0),
       elevation: 4.0,
