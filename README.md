@@ -287,7 +287,7 @@ Please file feature requests and bugs at the [issue tracker][tracker].
 
 [tracker]: https://github.com/fysoul17/google_maps_place_picker/issues/new
 
-### Other useful packages you might be instrested
+### Other useful packages you might be insterested
 [Firebase Auth Simplify](https://pub.dev/packages/firebase_auth_simplify)   
 [Material design Speed Dial](https://pub.dev/packages/flutter_speed_dial_material_design) 
 
