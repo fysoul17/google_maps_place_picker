@@ -1,3 +1,10 @@
+## [0.8.1] - 10/Mar/2020
+
+- Added location service checking logic when using [useCurrentLocation].
+- Added [forceAndroidLocationManager] parameter for GeoLocator package.
+- Updated GeoLocator version to 5.3.0.
+- Bug Fixed. Changing orientation of the device will not break UI of search prediction anymore. Issue #15
+
 ## [0.8.0] - 07/Mar/2020
 
 - New feature. You can now set [initialSearchString] and [searchForInitialValue]. Issue(Pull Request) #14 (@moritzdouda)

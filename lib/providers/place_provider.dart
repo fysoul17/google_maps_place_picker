@@ -36,11 +36,17 @@ class PlaceProvider extends ChangeNotifier {
   LocationAccuracy desiredAccuracy;
   bool isAutoCompleteSearching = false;
 
-  Future<void> updateCurrentLocation() async {
+  Future<void> updateCurrentLocation(bool forceAndroidLocationManager) async {
     try {
-      currentPosition = await Geolocator().getCurrentPosition(
-          desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
-    } on PlatformException catch (e) {
+      Geolocator geolocator = Geolocator()
+        ..forceAndroidLocationManager = forceAndroidLocationManager;
+      if (await geolocator.isLocationServiceEnabled()) {
+        currentPosition = await geolocator.getCurrentPosition(
+            desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
+      } else {
+        currentPosition = null;
+      }
+    } catch (e) {
       print(e);
       currentPosition = null;
     }
