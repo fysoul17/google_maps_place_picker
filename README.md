@@ -189,6 +189,7 @@ selectInitialPosition | bool | Whether to display selected place on initial map 
 resizeToAvoidBottomInset | bool | Refer to Scaffold's resizeToAvoidBottomInset property.
 initialSearchString | String | Sets initial search string for auto complete search
 searchForInitialValue | bool | Wether to automatically search for initial value on start
+forceAndroidLocationManager | bool | On Android devices you can set this to true to force the geolocator plugin to use the 'LocationManager' to determine the position instead of the 'FusedLocationProviderClient'. On iOS this is ignored.
 
 [More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
