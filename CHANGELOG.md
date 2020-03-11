@@ -1,3 +1,8 @@
+## [0.9.0] - 10/Mar/2020
+
+- Hot fix. DO NOT use 0.8.1 anymore.
+- Fixed bug that auto complete search prediction layout is not displaying.
+
 ## [0.8.1] - 10/Mar/2020
 
 - Added location service checking logic when using [useCurrentLocation].

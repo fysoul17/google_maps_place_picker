@@ -220,7 +220,6 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
         top: appBarRenderBox.size.height,
         left: screenWidth * 0.025,
         right: screenWidth * 0.025,
-        width: screenWidth * 0.9,
         child: Material(
           elevation: 4.0,
           child: overlayChild,
