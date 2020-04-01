@@ -190,6 +190,7 @@ resizeToAvoidBottomInset | bool | Refer to Scaffold's resizeToAvoidBottomInset p
 initialSearchString | String | Sets initial search string for auto complete search
 searchForInitialValue | bool | Wether to automatically search for initial value on start
 forceAndroidLocationManager | bool | On Android devices you can set this to true to force the geolocator plugin to use the 'LocationManager' to determine the position instead of the 'FusedLocationProviderClient'. On iOS this is ignored.
+myLocationButtonCooldown | int | Cooldown time in seconds for the 'myLocationButton'. Defaults to 10 seconds. 
 
 [More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
