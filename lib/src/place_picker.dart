@@ -56,6 +56,7 @@ class PlacePicker extends StatefulWidget {
     this.initialSearchString,
     this.searchForInitialValue = false,
     this.forceAndroidLocationManager = false,
+    this.forceSearchOnZoomChanged = false,
   }) : super(key: key);
 
   final String apiKey;
@@ -145,6 +146,9 @@ class PlacePicker extends StatefulWidget {
   /// to true to force the plugin to use the [LocationManager] to determine the
   /// position instead of the [FusedLocationProviderClient]. On iOS this is ignored.
   final bool forceAndroidLocationManager;
+
+  /// Allow searching place when zoom has changed. By default searching is disabled when zoom has changed in order to prevent unwilling API usage.
+  final bool forceSearchOnZoomChanged;
 
   @override
   _PlacePickerState createState() => _PlacePickerState();
@@ -341,6 +345,7 @@ class _PlacePickerState extends State<PlacePicker> {
       onMapCreated: widget.onMapCreated,
       selectInitialPosition: widget.selectInitialPosition,
       language: widget.autocompleteLanguage,
+      forceSearchOnZoomChanged: widget.forceSearchOnZoomChanged,
       onToggleMapType: () {
         provider.switchMapType();
       },

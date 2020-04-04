@@ -1,3 +1,7 @@
+## [0.9.1] - 10/Mar/2020
+
+- Added [forceSearchOnZoomChanged] parameter to allow place search even when the zoom has changed. Issue #21
+
 ## [0.9.0] - 10/Mar/2020
 
 - Hot fix. DO NOT use 0.8.1 anymore.

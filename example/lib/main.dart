@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       title: 'Google Map Place Picker Demo',
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
@@ -84,7 +84,8 @@ class _HomePageState extends State<HomePage> {
                             Navigator.of(context).pop();
                             setState(() {});
                           },
-                          autocompleteLanguage: "ko",
+                          forceSearchOnZoomChanged: true,
+                          //autocompleteLanguage: "ko",
                           //region: 'au',
                           //selectInitialPosition: true,
                           // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {

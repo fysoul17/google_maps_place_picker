@@ -31,7 +31,8 @@ class AutoCompleteSearch extends StatefulWidget {
       this.region,
       this.initialSearchString,
       this.searchForInitialValue})
-      : super(key: key);
+      : assert(searchBarController != null),
+        super(key: key);
 
   final String sessionToken;
   final String hintText;
@@ -77,7 +78,6 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
     controller.addListener(_onSearchInputChange);
     focus.addListener(_onFocusChanged);
 
-    widget.searchBarController ?? SearchBarController();
     widget.searchBarController.attach(this);
   }
 
