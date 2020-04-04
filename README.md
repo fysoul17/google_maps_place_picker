@@ -161,14 +161,14 @@ apiKey | String | (Required) Your google map API Key
 onPlacePicked | Callback(PickResult) | Invoked when user picks the place and selects to use it. **This will not be called if you manually build 'selectedPlaceWidgetBuilder' as you will override default 'Select here' button.**
 initialPosition | LatLng | (Required) Initial center position of google map when it is created. If useCurrentLocation is set to true, it will try to get device's current location first using GeoLocator. 
 useCurrentLocation | bool | Whether to use device's current location for initial center position. This will be used instead of initial position when it is set to true AND user ALLOW to collect their location. If DENIED, initialPosition will be used.
-desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Default to 'high'.
+desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Defaults to 'high'.
 hintText | String | Hint text of search bar
 searchingText | String | A text which appears when searching is performing. Default to 'Searching...'
 proxyBaseUrl | String | Used for API calling on google maps. In case of using a proxy the baseUrl can be set. The apiKey is not required in case the proxy sets it.
 httpClient | [Client](https://pub.dev/packages/google_maps_webservice) | Used for API calling on google maps. In case of using a proxy url that requires authentication or custom configuration.
-autoCompleteDebounceInMilliseconds | int | Debounce timer for auto complete input. Default 500
-cameraMoveDebounceInMilliseconds | int | Debounce timer for searching place with camera(map) dragging. Default 750
-intialMapType | MapType | MapTypes of google map. Default normal.
+autoCompleteDebounceInMilliseconds | int | Debounce timer for auto complete input. Default to 500
+cameraMoveDebounceInMilliseconds | int | Debounce timer for searching place with camera(map) dragging. Defaults to 750
+intialMapType | MapType | MapTypes of google map. Defaults to normal.
 enableMapTypeButton | bool | Whether to display MapType change button on the map
 enableMyLocationButton | bool | Whether to display my location button on the map
 usePinPointingSearch | bool | Defaults to true. This will allow user to drag map and get a place info where the pin is pointing.
@@ -191,6 +191,7 @@ initialSearchString | String | Sets initial search string for auto complete sear
 searchForInitialValue | bool | Wether to automatically search for initial value on start
 forceAndroidLocationManager | bool | On Android devices you can set this to true to force the geolocator plugin to use the 'LocationManager' to determine the position instead of the 'FusedLocationProviderClient'. On iOS this is ignored.
 myLocationButtonCooldown | int | Cooldown time in seconds for the 'myLocationButton'. Defaults to 10 seconds. 
+forceSearchOnZoomChanged | bool | Wether to allow place search even when the zoom has changed. Defaults to false.
 
 [More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
