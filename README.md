@@ -93,9 +93,29 @@ import GoogleMaps
   }
 }
 ```
+
+On iOS you'll need to add the following entries to your Info.plist file (located under ios/Runner) in order to access the device's location. 
+
+Simply open your Info.plist file and add the following:
+
+``` xml
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app needs access to location when open.</string>
+<key>NSLocationAlwaysUsageDescription</key>
+<string>This app needs access to location when in the background.</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>This app needs access to location when open and in the background.</string>
+```
+
+In addition, you need to add the `Background Modes` capability to your XCode project (Project > Signing and Capabilties > "+ Capability" button) and select `Location Updates`.g>This app needs access to location when open and in the background.</string>
+
 Opt-in to the embedded views preview by adding a boolean property to the app's `Info.plist` file
 with the key `io.flutter.embedded_views_preview` and the value `YES`.
 
+```xml
+<key>io.flutter.embedded_views_preview</key>
+<true/>
+```
 ## Usage
 
 ### Basic usage
