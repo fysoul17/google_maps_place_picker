@@ -1,8 +1,13 @@
-## [0.9.1] - 10/Mar/2020
+## [0.9.2] - 09/Apr/2020
+
+- Added NSLocation Descriptions in order to avoid iOS error when using useCurrentLocation. (See Geolocator pacakge regarding iOS Settings)
+- Added [automaticallyImplyAppBarLeading] parameter to allow removing back button on the app bar if needed. Issue #23
+
+## [0.9.1] - 05/Apr/2020
 
 - Added [forceSearchOnZoomChanged] parameter to allow place search even when the zoom has changed. Issue #21
 
-## [0.9.0] - 10/Mar/2020
+## [0.9.0] - 11/Mar/2020
 
 - Hot fix. DO NOT use 0.8.1 anymore.
 - Fixed bug that auto complete search prediction layout is not displaying.

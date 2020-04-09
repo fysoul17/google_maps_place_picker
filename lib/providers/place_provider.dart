@@ -9,7 +9,6 @@ import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
 
 class PlaceProvider extends ChangeNotifier {
   PlaceProvider(String apiKey, String proxyBaseUrl, Client httpClient) {

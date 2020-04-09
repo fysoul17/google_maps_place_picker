@@ -57,6 +57,7 @@ class PlacePicker extends StatefulWidget {
     this.searchForInitialValue = false,
     this.forceAndroidLocationManager = false,
     this.forceSearchOnZoomChanged = false,
+    this.automaticallyImplyAppBarLeading = true,
   }) : super(key: key);
 
   final String apiKey;
@@ -150,6 +151,9 @@ class PlacePicker extends StatefulWidget {
   /// Allow searching place when zoom has changed. By default searching is disabled when zoom has changed in order to prevent unwilling API usage.
   final bool forceSearchOnZoomChanged;
 
+  /// Whether to display appbar backbutton. Defaults to true.
+  final bool automaticallyImplyAppBarLeading;
+
   @override
   _PlacePickerState createState() => _PlacePickerState();
 }
@@ -210,12 +214,14 @@ class _PlacePickerState extends State<PlacePicker> {
   Widget _buildSearchBar() {
     return Row(
       children: <Widget>[
-        IconButton(
-            onPressed: () => Navigator.maybePop(context),
-            icon: Icon(
-              Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-            ),
-            padding: EdgeInsets.zero),
+        widget.automaticallyImplyAppBarLeading
+            ? IconButton(
+                onPressed: () => Navigator.maybePop(context),
+                icon: Icon(
+                  Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+                ),
+                padding: EdgeInsets.zero)
+            : SizedBox(width: 15),
         Expanded(
           child: AutoCompleteSearch(
             appBarKey: appBarKey,
