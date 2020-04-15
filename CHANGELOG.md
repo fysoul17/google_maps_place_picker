@@ -1,3 +1,7 @@
+## [0.9.3] - 15/Apr/2020
+
+- Updated google_maps_flutter package to 0.5.25+3
+
 ## [0.9.2] - 09/Apr/2020
 
 - Added NSLocation Descriptions in order to avoid iOS error when using useCurrentLocation. (See Geolocator pacakge regarding iOS Settings)
