@@ -212,6 +212,7 @@ searchForInitialValue | bool | Wether to automatically search for initial value 
 forceAndroidLocationManager | bool | On Android devices you can set this to true to force the geolocator plugin to use the 'LocationManager' to determine the position instead of the 'FusedLocationProviderClient'. On iOS this is ignored.
 myLocationButtonCooldown | int | Cooldown time in seconds for the 'myLocationButton'. Defaults to 10 seconds. 
 forceSearchOnZoomChanged | bool | Wether to allow place search even when the zoom has changed. Defaults to false.
+automaticallyImplyAppBarLeading | bool | By default, there is a back button on the top. Setting false will remove the back button.
 
 [More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
