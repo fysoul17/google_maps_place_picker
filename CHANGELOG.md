@@ -1,3 +1,7 @@
+## [0.9.4] - 21/Apr/2020
+
+- Updated geolocator version to 5.3.1 which contains updated version of google_api_availability.
+
 ## [0.9.3] - 15/Apr/2020
 
 - Updated google_maps_flutter package to 0.5.25+3
