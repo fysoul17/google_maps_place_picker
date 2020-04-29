@@ -233,9 +233,10 @@ PlacePicker(apiKey: APIKeys.apiKey,
                   ? Container()
                   // Use FloatingCard or just create your own Widget.
                   : FloatingCard(
-                      bottomPosition: MediaQuery.of(context).size.height * 0.05,
-                      leftPosition: MediaQuery.of(context).size.width * 0.05,
-                      width: MediaQuery.of(context).size.width * 0.9,
+                      bottomPosition: 0.0,    // MediaQuery.of(context) will cause rebuild. See MediaQuery document for the information.
+                      leftPosition: 0.0,
+                      rightPosition: 0.0,
+                      width: 500,
                       borderRadius: BorderRadius.circular(12.0),
                       child: state == SearchingState.Searching ? 
                                       Center(child: CircularProgressIndicator()) : 
