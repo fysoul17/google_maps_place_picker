@@ -20,7 +20,18 @@ The more caffeine I get, the more useful projects I can make in the future.
 
 ## Getting Started
 
-Get an API key at <https://cloud.google.com/maps-platform/>.
+* Get an API key at <https://cloud.google.com/maps-platform/>.
+
+* Enable Google Map SDK for each platform.
+  * Go to [Google Developers Console](https://console.cloud.google.com/).
+  * Choose the project that you want to enable Google Maps on.
+  * Select the navigation menu and then select "Google Maps".
+  * Select "APIs" under the Google Maps menu.
+  * To enable Google Maps for Android, select "Maps SDK for Android" in the "Additional APIs" section, then select "ENABLE".
+  * To enable Google Maps for iOS, select "Maps SDK for iOS" in the "Additional APIs" section, then select "ENABLE".
+  * Make sure the APIs you enabled are under the "Enabled APIs" section.
+
+* You can also find detailed steps to get started with Google Maps Platform [here](https://developers.google.com/maps/gmp-get-started).
 
 ### Android
 
