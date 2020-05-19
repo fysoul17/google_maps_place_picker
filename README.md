@@ -131,7 +131,7 @@ with the key `io.flutter.embedded_views_preview` and the value `YES`.
 
 ### Basic usage
 
-You can use PlacePicker by pushing to a new page using Navigator.
+You can use PlacePicker by pushing to a new page using Navigator, OR put as a child of any widget.  
 When the user picks a place on the map, it will return result to 'onPlacePicked' with PickResult type.
 Alternatively, you can build your own way with 'selectedPlaceWidgetBuilder' and fetch result from it (See the instruction below).
 
