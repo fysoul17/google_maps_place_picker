@@ -30,7 +30,8 @@ class AutoCompleteSearch extends StatefulWidget {
       this.strictbounds,
       this.region,
       this.initialSearchString,
-      this.searchForInitialValue})
+      this.searchForInitialValue,
+      this.autocompleteOnTrailingWhitespace = false})
       : assert(searchBarController != null),
         super(key: key);
 
@@ -53,6 +54,13 @@ class AutoCompleteSearch extends StatefulWidget {
   final GlobalKey appBarKey;
   final String initialSearchString;
   final bool searchForInitialValue;
+
+  /// Will perform an autocomplete search, if set to true. Note that setting
+  /// this to true, while providing a smoother UX experience, may cause
+  /// additional unnecessary queries to the Places API.
+  ///
+  /// Defaults to `false`.
+  final bool autocompleteOnTrailingWhitespace;
 
   @override
   AutoCompleteSearchState createState() => AutoCompleteSearchState();
@@ -168,7 +176,8 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       return;
     }
 
-    if (controller.text.substring(controller.text.length - 1) == " ") {
+    if (!widget.autocompleteOnTrailingWhitespace &&
+        controller.text.substring(controller.text.length - 1) == " ") {
       provider.debounceTimer?.cancel();
       return;
     }
@@ -179,7 +188,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
     provider.debounceTimer =
         Timer(Duration(milliseconds: widget.debounceMilliseconds), () {
-      _searchPlace(controller.text);
+      _searchPlace(controller.text.trim());
     });
   }
 
