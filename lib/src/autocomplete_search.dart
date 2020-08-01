@@ -31,7 +31,7 @@ class AutoCompleteSearch extends StatefulWidget {
       this.region,
       this.initialSearchString,
       this.searchForInitialValue,
-      this.autocompleteOnTrailingWhitespace = false})
+      this.autocompleteOnTrailingWhitespace})
       : assert(searchBarController != null),
         super(key: key);
 
@@ -54,12 +54,6 @@ class AutoCompleteSearch extends StatefulWidget {
   final GlobalKey appBarKey;
   final String initialSearchString;
   final bool searchForInitialValue;
-
-  /// Will perform an autocomplete search, if set to true. Note that setting
-  /// this to true, while providing a smoother UX experience, may cause
-  /// additional unnecessary queries to the Places API.
-  ///
-  /// Defaults to `false`.
   final bool autocompleteOnTrailingWhitespace;
 
   @override
