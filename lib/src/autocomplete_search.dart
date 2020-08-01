@@ -170,6 +170,11 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       return;
     }
 
+    if (controller.text.trim() == provider.prevSearchTerm) {
+      provider.debounceTimer?.cancel();
+      return;
+    }
+
     if (!widget.autocompleteOnTrailingWhitespace &&
         controller.text.substring(controller.text.length - 1) == " ") {
       provider.debounceTimer?.cancel();
