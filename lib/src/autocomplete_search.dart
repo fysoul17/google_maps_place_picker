@@ -129,9 +129,6 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
         isDense: true,
         contentPadding: widget.contentPadding,
       ),
-      onChanged: (value) {
-        provider.searchTerm = value;
-      },
     );
   }
 
@@ -162,6 +159,8 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
   _onSearchInputChange() {
     if (!mounted) return;
+    this.provider.searchTerm = controller.text;
+
     PlaceProvider provider = PlaceProvider.of(context, listen: false);
 
     if (controller.text.isEmpty) {
@@ -170,7 +169,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       return;
     }
 
-    if (controller.text.trim() == provider.prevSearchTerm) {
+    if (controller.text.trim() == this.provider.prevSearchTerm.trim()) {
       provider.debounceTimer?.cancel();
       return;
     }
@@ -198,6 +197,8 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   }
 
   _searchPlace(String searchTerm) {
+    this.provider.prevSearchTerm = searchTerm;
+
     if (context == null) return;
 
     _clearOverlay();

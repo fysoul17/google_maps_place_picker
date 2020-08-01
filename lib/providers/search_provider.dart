@@ -12,8 +12,11 @@ class SearchProvider extends ChangeNotifier {
   String get searchTerm => _searchTerm;
 
   set searchTerm(String newValue) {
-    _prevSearchTerm = _searchTerm;
     _searchTerm = newValue;
     notifyListeners();
+  }
+
+  set prevSearchTerm(String newValue) {
+    _prevSearchTerm = newValue;
   }
 }
