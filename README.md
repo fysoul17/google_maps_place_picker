@@ -224,6 +224,7 @@ forceAndroidLocationManager | bool | On Android devices you can set this to true
 myLocationButtonCooldown | int | Cooldown time in seconds for the 'myLocationButton'. Defaults to 10 seconds. 
 forceSearchOnZoomChanged | bool | Wether to allow place search even when the zoom has changed. Defaults to false.
 automaticallyImplyAppBarLeading | bool | By default, there is a back button on the top. Setting false will remove the back button.
+autocompleteOnTrailingWhitespace | bool | Whether to allow autocomplete to run even on whitespace at the end of the search. Defaults to false. Issue ref #54.
 
 [More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
