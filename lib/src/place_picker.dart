@@ -58,6 +58,7 @@ class PlacePicker extends StatefulWidget {
     this.forceAndroidLocationManager = false,
     this.forceSearchOnZoomChanged = false,
     this.automaticallyImplyAppBarLeading = true,
+    this.autocompleteOnTrailingWhitespace = false,
   }) : super(key: key);
 
   final String apiKey;
@@ -154,6 +155,13 @@ class PlacePicker extends StatefulWidget {
   /// Whether to display appbar backbutton. Defaults to true.
   final bool automaticallyImplyAppBarLeading;
 
+  /// Will perform an autocomplete search, if set to true. Note that setting
+  /// this to true, while providing a smoother UX experience, may cause
+  /// additional unnecessary queries to the Places API.
+  ///
+  /// Defaults to false.
+  final bool autocompleteOnTrailingWhitespace;
+
   @override
   _PlacePickerState createState() => _PlacePickerState();
 }
@@ -224,30 +232,31 @@ class _PlacePickerState extends State<PlacePicker> {
             : SizedBox(width: 15),
         Expanded(
           child: AutoCompleteSearch(
-            appBarKey: appBarKey,
-            searchBarController: searchBarController,
-            sessionToken: provider.sessionToken,
-            hintText: widget.hintText,
-            searchingText: widget.searchingText,
-            debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
-            onPicked: (prediction) {
-              _pickPrediction(prediction);
-            },
-            onSearchFailed: (status) {
-              if (widget.onAutoCompleteFailed != null) {
-                widget.onAutoCompleteFailed(status);
-              }
-            },
-            autocompleteOffset: widget.autocompleteOffset,
-            autocompleteRadius: widget.autocompleteRadius,
-            autocompleteLanguage: widget.autocompleteLanguage,
-            autocompleteComponents: widget.autocompleteComponents,
-            autocompleteTypes: widget.autocompleteTypes,
-            strictbounds: widget.strictbounds,
-            region: widget.region,
-            initialSearchString: widget.initialSearchString,
-            searchForInitialValue: widget.searchForInitialValue,
-          ),
+              appBarKey: appBarKey,
+              searchBarController: searchBarController,
+              sessionToken: provider.sessionToken,
+              hintText: widget.hintText,
+              searchingText: widget.searchingText,
+              debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
+              onPicked: (prediction) {
+                _pickPrediction(prediction);
+              },
+              onSearchFailed: (status) {
+                if (widget.onAutoCompleteFailed != null) {
+                  widget.onAutoCompleteFailed(status);
+                }
+              },
+              autocompleteOffset: widget.autocompleteOffset,
+              autocompleteRadius: widget.autocompleteRadius,
+              autocompleteLanguage: widget.autocompleteLanguage,
+              autocompleteComponents: widget.autocompleteComponents,
+              autocompleteTypes: widget.autocompleteTypes,
+              strictbounds: widget.strictbounds,
+              region: widget.region,
+              initialSearchString: widget.initialSearchString,
+              searchForInitialValue: widget.searchForInitialValue,
+              autocompleteOnTrailingWhitespace:
+                  widget.autocompleteOnTrailingWhitespace),
         ),
         SizedBox(width: 5),
       ],
