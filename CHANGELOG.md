@@ -1,3 +1,7 @@
+## [0.9.5] - 02/Aug/2020
+
+- Added [autocompleteOnTrailingWhitespace] parameter. Issue(Pull request) #54 (@therladbsgh)
+
 ## [0.9.4] - 21/Apr/2020
 
 - Updated geolocator version to 5.3.1 which contains updated version of google_api_availability.
