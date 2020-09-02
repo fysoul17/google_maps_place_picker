@@ -59,6 +59,7 @@ class PlacePicker extends StatefulWidget {
     this.forceSearchOnZoomChanged = false,
     this.automaticallyImplyAppBarLeading = true,
     this.autocompleteOnTrailingWhitespace = false,
+    this.hidePlaceDetailsWhenDraggingPin = true
   }) : super(key: key);
 
   final String apiKey;
@@ -161,6 +162,8 @@ class PlacePicker extends StatefulWidget {
   ///
   /// Defaults to false.
   final bool autocompleteOnTrailingWhitespace;
+
+  final bool hidePlaceDetailsWhenDraggingPin;
 
   @override
   _PlacePickerState createState() => _PlacePickerState();
@@ -361,6 +364,7 @@ class _PlacePickerState extends State<PlacePicker> {
       selectInitialPosition: widget.selectInitialPosition,
       language: widget.autocompleteLanguage,
       forceSearchOnZoomChanged: widget.forceSearchOnZoomChanged,
+      hidePlaceDetailsWhenDraggingPin: widget.hidePlaceDetailsWhenDraggingPin,
       onToggleMapType: () {
         provider.switchMapType();
       },
