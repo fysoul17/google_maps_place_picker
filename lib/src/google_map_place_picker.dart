@@ -45,6 +45,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.selectInitialPosition,
     this.language,
     this.forceSearchOnZoomChanged,
+    this.hidePlaceDetailsWhenDraggingPin,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -72,13 +73,18 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final String language;
 
   final bool forceSearchOnZoomChanged;
+  final bool hidePlaceDetailsWhenDraggingPin;
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
     bool hasZoomChanged = provider.cameraPosition != null &&
         provider.prevCameraPosition != null &&
         provider.cameraPosition.zoom != provider.prevCameraPosition.zoom;
-    if (forceSearchOnZoomChanged == false && hasZoomChanged) return;
+
+    if (forceSearchOnZoomChanged == false && hasZoomChanged) {
+      provider.placeSearchingState = SearchingState.Idle;
+      return;
+    }
 
     provider.placeSearchingState = SearchingState.Searching;
 
@@ -198,6 +204,11 @@ class GoogleMapPlacePicker extends StatelessWidget {
               // Update state, dismiss keyboard and clear text.
               provider.pinState = PinState.Dragging;
 
+              // Begins the search state if the hide details is enabled
+              if(this.hidePlaceDetailsWhenDraggingPin){
+                 provider.placeSearchingState = SearchingState.Searching;
+              }
+
               onMoveStart();
             },
             onCameraMove: (CameraPosition position) {
@@ -279,12 +290,12 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildFloatingCard() {
-    return Selector<PlaceProvider, Tuple3<PickResult, SearchingState, bool>>(
-      selector: (_, provider) => Tuple3(provider.selectedPlace,
-          provider.placeSearchingState, provider.isSearchBarFocused),
+    return Selector<PlaceProvider, Tuple4<PickResult, SearchingState, bool, PinState>>(
+      selector: (_, provider) => Tuple4(provider.selectedPlace,
+          provider.placeSearchingState, provider.isSearchBarFocused, provider.pinState),
       builder: (context, data, __) {
         if ((data.item1 == null && data.item2 == SearchingState.Idle) ||
-            data.item3 == true) {
+            data.item3 == true || data.item4 == PinState.Dragging && this.hidePlaceDetailsWhenDraggingPin) {
           return Container();
         } else {
           if (selectedPlaceWidgetBuilder == null) {
