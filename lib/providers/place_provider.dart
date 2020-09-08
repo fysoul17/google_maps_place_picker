@@ -8,6 +8,7 @@ import 'package:google_maps_place_picker/src/place_picker.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class PlaceProvider extends ChangeNotifier {
@@ -37,10 +38,9 @@ class PlaceProvider extends ChangeNotifier {
 
   Future<void> updateCurrentLocation(bool forceAndroidLocationManager) async {
     try {
-      Geolocator geolocator = Geolocator()
-        ..forceAndroidLocationManager = forceAndroidLocationManager;
-      if (await geolocator.isLocationServiceEnabled()) {
-        currentPosition = await geolocator.getCurrentPosition(
+      await Permission.location.request();
+      if (await Permission.location.request().isGranted) {
+        currentPosition = await getCurrentPosition(
             desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
       } else {
         currentPosition = null;

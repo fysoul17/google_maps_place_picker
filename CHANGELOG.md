@@ -1,3 +1,10 @@
+## [0.10.0] - 09/Sep/2020
+
+- Updated geolocator version to 6.0.0.
+- Added permission package to improve checking permissions. Issue #66
+- Added gestureRecognizers to make it possible to navigate the map when it's a child in a scroll view. Issue #52. Pull-request #64.
+- Applied pull-request #67 (@Darkeyren)
+
 ## [0.9.5] - 02/Aug/2020
 
 - Added [autocompleteOnTrailingWhitespace] parameter. Issue(Pull request) #54 (@therladbsgh)
