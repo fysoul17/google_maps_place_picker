@@ -1,3 +1,7 @@
+## [1.0.0] - 05/Oct/2020
+
+- Updated google_maps_flutter version to 1.0.2 which is now out of developer preview.
+
 ## [0.10.0] - 09/Sep/2020
 
 - Updated geolocator version to 6.0.0.
