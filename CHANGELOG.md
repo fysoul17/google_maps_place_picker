@@ -1,3 +1,7 @@
+## [1.0.1] - 23/Nov/2020
+
+- Fixed bug related to infinte loading.
+
 ## [1.0.0] - 05/Oct/2020
 
 - Updated google_maps_flutter version to 1.0.2 which is now out of developer preview.
