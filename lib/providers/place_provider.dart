@@ -12,17 +12,24 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class PlaceProvider extends ChangeNotifier {
-  PlaceProvider(String apiKey, String proxyBaseUrl, Client httpClient) {
+  PlaceProvider(
+    String apiKey,
+    String proxyBaseUrl,
+    Client httpClient,
+    Map<String, dynamic> apiHeaders,
+  ) {
     places = GoogleMapsPlaces(
       apiKey: apiKey,
       baseUrl: proxyBaseUrl,
       httpClient: httpClient,
+      apiHeaders: apiHeaders,
     );
 
     geocoding = GoogleMapsGeocoding(
       apiKey: apiKey,
       baseUrl: proxyBaseUrl,
       httpClient: httpClient,
+      apiHeaders: apiHeaders,
     );
   }
 
