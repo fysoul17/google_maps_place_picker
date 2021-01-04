@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_place_picker/providers/place_provider.dart';
@@ -59,7 +60,7 @@ class PlacePicker extends StatefulWidget {
     this.forceSearchOnZoomChanged = false,
     this.automaticallyImplyAppBarLeading = true,
     this.autocompleteOnTrailingWhitespace = false,
-    this.hidePlaceDetailsWhenDraggingPin = true
+    this.hidePlaceDetailsWhenDraggingPin = true,
   }) : super(key: key);
 
   final String apiKey;
@@ -171,6 +172,7 @@ class PlacePicker extends StatefulWidget {
 
 class _PlacePickerState extends State<PlacePicker> {
   GlobalKey appBarKey = GlobalKey();
+  Future<PlaceProvider> _futureProvider;
   PlaceProvider provider;
   SearchBarController searchBarController = SearchBarController();
 
@@ -178,11 +180,7 @@ class _PlacePickerState extends State<PlacePicker> {
   void initState() {
     super.initState();
 
-    provider =
-        PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
-    provider.sessionToken = Uuid().generateV4();
-    provider.desiredAccuracy = widget.desiredLocationAccuracy;
-    provider.setMapType(widget.initialMapType);
+    _futureProvider = _initPlaceProvider();
   }
 
   @override
@@ -192,34 +190,85 @@ class _PlacePickerState extends State<PlacePicker> {
     super.dispose();
   }
 
+  Future<PlaceProvider> _initPlaceProvider() async {
+    final headers = await GoogleApiHeaders().getHeaders();
+    final provider = PlaceProvider(
+      widget.apiKey,
+      widget.proxyBaseUrl,
+      widget.httpClient,
+      headers,
+    );
+    provider.sessionToken = Uuid().generateV4();
+    provider.desiredAccuracy = widget.desiredLocationAccuracy;
+    provider.setMapType(widget.initialMapType);
+
+    return provider;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () {
-          searchBarController.clearOverlay();
-          return Future.value(true);
-        },
-        child: ChangeNotifierProvider.value(
-          value: provider,
-          child: Builder(
-            builder: (context) {
-              return Scaffold(
-                resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-                extendBodyBehindAppBar: true,
-                appBar: AppBar(
-                  key: appBarKey,
-                  automaticallyImplyLeading: false,
-                  iconTheme: Theme.of(context).iconTheme,
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  titleSpacing: 0.0,
-                  title: _buildSearchBar(),
+      onWillPop: () {
+        searchBarController.clearOverlay();
+        return Future.value(true);
+      },
+      child: FutureBuilder(
+        future: _futureProvider,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            provider = snapshot.data;
+
+            return ChangeNotifierProvider.value(
+              value: provider,
+              child: Builder(
+                builder: (context) {
+                  return Scaffold(
+                    resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+                    extendBodyBehindAppBar: true,
+                    appBar: AppBar(
+                      key: appBarKey,
+                      automaticallyImplyLeading: false,
+                      iconTheme: Theme.of(context).iconTheme,
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      titleSpacing: 0.0,
+                      title: _buildSearchBar(),
+                    ),
+                    body: _buildMapWithLocation(),
+                  );
+                },
+              ),
+            );
+          } else {
+            final children = <Widget>[];
+            if (snapshot.hasError) {
+              children.addAll([
+                Icon(
+                  Icons.error_outline,
+                  color: Theme.of(context).errorColor,
                 ),
-                body: _buildMapWithLocation(),
-              );
-            },
-          ),
-        ));
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text('Error: ${snapshot.error}'),
+                )
+              ]);
+            } else {
+              children.add(CircularProgressIndicator());
+            }
+
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: children,
+                ),
+              ),
+            );
+          }
+        },
+      ),
+    );
   }
 
   Widget _buildSearchBar() {
