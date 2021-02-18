@@ -228,7 +228,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: appBarRenderBox.size.height,
+        top: appBarRenderBox.size.height + 64,
         left: screenWidth * 0.025,
         right: screenWidth * 0.025,
         child: Material(

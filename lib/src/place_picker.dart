@@ -224,17 +224,24 @@ class _PlacePickerState extends State<PlacePicker> {
                 builder: (context) {
                   return Scaffold(
                     resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-                    extendBodyBehindAppBar: true,
+                    extendBodyBehindAppBar: false,
+                    // appBar: AppBar(),
                     appBar: AppBar(
                       key: appBarKey,
-                      automaticallyImplyLeading: false,
-                      iconTheme: Theme.of(context).iconTheme,
-                      elevation: 0,
-                      backgroundColor: Colors.transparent,
-                      titleSpacing: 0.0,
-                      title: _buildSearchBar(),
+                      // automaticallyImplyLeading: false,
+                      // iconTheme: Theme.of(context).iconTheme,
+                      // elevation: 0,
+                      // backgroundColor: Colors.transparent,
+                      // titleSpacing: 0.0,
+                      title: Text('Choose custom location'),
                     ),
-                    body: _buildMapWithLocation(),
+                    body: Stack(children: [
+                      _buildMapWithLocation(),
+                      Positioned(
+                          child: _buildSearchBar()
+                      )
+                    ]),
+                    // body: _buildSearchBar(),
                   );
                 },
               ),
@@ -272,46 +279,41 @@ class _PlacePickerState extends State<PlacePicker> {
   }
 
   Widget _buildSearchBar() {
-    return Row(
-      children: <Widget>[
-        widget.automaticallyImplyAppBarLeading
-            ? IconButton(
-                onPressed: () => Navigator.maybePop(context),
-                icon: Icon(
-                  Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-                ),
-                padding: EdgeInsets.zero)
-            : SizedBox(width: 15),
-        Expanded(
-          child: AutoCompleteSearch(
-              appBarKey: appBarKey,
-              searchBarController: searchBarController,
-              sessionToken: provider.sessionToken,
-              hintText: widget.hintText,
-              searchingText: widget.searchingText,
-              debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
-              onPicked: (prediction) {
-                _pickPrediction(prediction);
-              },
-              onSearchFailed: (status) {
-                if (widget.onAutoCompleteFailed != null) {
-                  widget.onAutoCompleteFailed(status);
-                }
-              },
-              autocompleteOffset: widget.autocompleteOffset,
-              autocompleteRadius: widget.autocompleteRadius,
-              autocompleteLanguage: widget.autocompleteLanguage,
-              autocompleteComponents: widget.autocompleteComponents,
-              autocompleteTypes: widget.autocompleteTypes,
-              strictbounds: widget.strictbounds,
-              region: widget.region,
-              initialSearchString: widget.initialSearchString,
-              searchForInitialValue: widget.searchForInitialValue,
-              autocompleteOnTrailingWhitespace:
-                  widget.autocompleteOnTrailingWhitespace),
-        ),
-        SizedBox(width: 5),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: <Widget>[
+          SizedBox(width: 5,),
+          Expanded(
+            child: AutoCompleteSearch(
+                appBarKey: appBarKey,
+                searchBarController: searchBarController,
+                sessionToken: provider.sessionToken,
+                hintText: widget.hintText,
+                searchingText: widget.searchingText,
+                debounceMilliseconds: widget.autoCompleteDebounceInMilliseconds,
+                onPicked: (prediction) {
+                  _pickPrediction(prediction);
+                },
+                onSearchFailed: (status) {
+                  if (widget.onAutoCompleteFailed != null) {
+                    widget.onAutoCompleteFailed(status);
+                  }
+                },
+                autocompleteOffset: widget.autocompleteOffset,
+                autocompleteRadius: widget.autocompleteRadius,
+                autocompleteLanguage: widget.autocompleteLanguage,
+                autocompleteComponents: widget.autocompleteComponents,
+                autocompleteTypes: widget.autocompleteTypes,
+                strictbounds: widget.strictbounds,
+                region: widget.region,
+                initialSearchString: widget.initialSearchString,
+                searchForInitialValue: widget.searchForInitialValue,
+                autocompleteOnTrailingWhitespace:
+                    widget.autocompleteOnTrailingWhitespace),
+          ),
+        ],
+      ),
     );
   }
 
