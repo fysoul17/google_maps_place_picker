@@ -121,6 +121,20 @@ class PlaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _saveLocation = false;
+  bool get saveLocation => _saveLocation;
+  set saveLocation(bool focused) {
+    _saveLocation = focused;
+    notifyListeners();
+  }
+
+  String _saveLocationName = '';
+  String get saveLocationName => _saveLocationName;
+  set saveLocationName(String val) {
+    _saveLocationName = val;
+    notifyListeners();
+  }
+
   MapType _mapType = MapType.normal;
   MapType get mapType => _mapType;
   setMapType(MapType mapType, {bool notify = false}) {

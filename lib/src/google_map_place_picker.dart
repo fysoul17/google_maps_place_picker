@@ -21,6 +21,8 @@ typedef SelectedPlaceWidgetBuilder = Widget Function(
   PickResult selectedPlace,
   SearchingState state,
   bool isSearchBarFocused,
+  bool saveLocation,
+  String saveLocationName,
 );
 
 typedef PinBuilder = Widget Function(
@@ -238,7 +240,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(Icons.place, size: 36, color: Colors.red),
+                Icon(Icons.place, size: 36, color: Color(0XFF48CEF3)),
                 SizedBox(height: 42),
               ],
             ),
@@ -262,7 +264,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                AnimatedPin(child: Icon(Icons.place, size: 36, color: Colors.red)),
+                AnimatedPin(child: Icon(Icons.place, size: 36, color: Color(0XFF48CEF3))),
                 SizedBox(height: 42),
               ],
             ),
@@ -283,8 +285,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildFloatingCard() {
-    return Selector<PlaceProvider, Tuple4<PickResult, SearchingState, bool, PinState>>(
-      selector: (_, provider) => Tuple4(provider.selectedPlace, provider.placeSearchingState, provider.isSearchBarFocused, provider.pinState),
+    return Selector<PlaceProvider, Tuple6<PickResult, SearchingState, bool, PinState, bool, String>>(
+      selector: (_, provider) => Tuple6(provider.selectedPlace, provider.placeSearchingState, provider.isSearchBarFocused, provider.pinState, provider.saveLocation, provider.saveLocationName),
       builder: (context, data, __) {
         if ((data.item1 == null && data.item2 == SearchingState.Idle) || data.item3 == true || data.item4 == PinState.Dragging && this.hidePlaceDetailsWhenDraggingPin) {
           return Container();
@@ -292,7 +294,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
           if (selectedPlaceWidgetBuilder == null) {
             return _defaultPlaceWidgetBuilder(context, data.item1, data.item2);
           } else {
-            return Builder(builder: (builderContext) => selectedPlaceWidgetBuilder(builderContext, data.item1, data.item2, data.item3));
+            return Builder(builder: (builderContext) => selectedPlaceWidgetBuilder(builderContext, data.item1, data.item2, data.item3, data.item5, data.item6));
           }
         }
       },
