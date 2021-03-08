@@ -289,8 +289,9 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
         sessionToken: widget.sessionToken,
         location: provider.currentPosition == null
             ? null
-            : Location(provider.currentPosition.latitude,
-                provider.currentPosition.longitude),
+            : Location(
+                lat: provider.currentPosition.latitude,
+                lng: provider.currentPosition.longitude),
         offset: widget.autocompleteOffset,
         radius: widget.autocompleteRadius,
         language: widget.autocompleteLanguage,

@@ -91,29 +91,29 @@ class _HomePageState extends State<HomePage> {
                           //autocompleteLanguage: "ko",
                           //region: 'au',
                           //selectInitialPosition: true,
-                          selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
-                            print("state: $state, isSearchBarFocused: $isSearchBarFocused");
-                            return isSearchBarFocused
-                                ? Container()
-                                : FloatingCard(
-                                    bottomPosition: 0.0, // MediaQuery.of(context) will cause rebuild. See MediaQuery document for the information.
-                                    leftPosition: 0.0,
-                                    rightPosition: 0.0,
-                                    width: 500,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    child: state == SearchingState.Searching
-                                        ? Center(child: CircularProgressIndicator())
-                                        : RaisedButton(
-                                            child: Text("Pick Here"),
-                                            onPressed: () {
-                                              // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
-                                              //            this will override default 'Select here' Button.
-                                              print("do something with [selectedPlace] data");
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                  );
-                          },
+                          // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
+                          //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
+                          //   return isSearchBarFocused
+                          //       ? Container()
+                          //       : FloatingCard(
+                          //           bottomPosition: 0.0, // MediaQuery.of(context) will cause rebuild. See MediaQuery document for the information.
+                          //           leftPosition: 0.0,
+                          //           rightPosition: 0.0,
+                          //           width: 500,
+                          //           borderRadius: BorderRadius.circular(12.0),
+                          //           child: state == SearchingState.Searching
+                          //               ? Center(child: CircularProgressIndicator())
+                          //               : RaisedButton(
+                          //                   child: Text("Pick Here"),
+                          //                   onPressed: () {
+                          //                     // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
+                          //                     //            this will override default 'Select here' Button.
+                          //                     print("do something with [selectedPlace] data");
+                          //                     Navigator.of(context).pop();
+                          //                   },
+                          //                 ),
+                          //         );
+                          // },
                           // pinBuilder: (context, state) {
                           //   if (state == PinState.Idle) {
                           //     return Icon(Icons.favorite_border);
@@ -127,7 +127,9 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              selectedPlace == null ? Container() : Text(selectedPlace.formattedAddress ?? ""),
+              selectedPlace == null
+                  ? Container()
+                  : Text(selectedPlace.formattedAddress ?? ""),
             ],
           ),
         ));

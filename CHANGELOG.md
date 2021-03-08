@@ -1,3 +1,7 @@
+## [2.0.0-nullsafety.0] - 08/Mar/2021
+
+- Updated to solve nullsafety issues
+
 ## [1.0.1] - 23/Nov/2020
 
 - Fixed bug related to infinte loading.
