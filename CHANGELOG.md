@@ -1,3 +1,7 @@
+## [2.0.0-nullsafety.1] - 11/Mar/2021
+
+- Updated to handle nullsafety.
+
 ## [2.0.0-nullsafety.0] - 08/Mar/2021
 
 - Updated to solve nullsafety issues
