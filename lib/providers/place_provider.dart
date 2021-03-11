@@ -14,33 +14,33 @@ import 'package:provider/provider.dart';
 class PlaceProvider extends ChangeNotifier {
   PlaceProvider(
     String apiKey,
-    String proxyBaseUrl,
-    Client httpClient,
+    String? proxyBaseUrl,
+    Client? httpClient,
     Map<String, dynamic> apiHeaders,
   ) {
     places = GoogleMapsPlaces(
       apiKey: apiKey,
       baseUrl: proxyBaseUrl,
       httpClient: httpClient,
-      apiHeaders: apiHeaders,
+      apiHeaders: apiHeaders as Map<String, String>?,
     );
 
     geocoding = GoogleMapsGeocoding(
       apiKey: apiKey,
       baseUrl: proxyBaseUrl,
       httpClient: httpClient,
-      apiHeaders: apiHeaders,
+      apiHeaders: apiHeaders as Map<String, String>?,
     );
   }
 
   static PlaceProvider of(BuildContext context, {bool listen = true}) =>
       Provider.of<PlaceProvider>(context, listen: listen);
 
-  GoogleMapsPlaces places;
-  GoogleMapsGeocoding geocoding;
-  String sessionToken;
+  late GoogleMapsPlaces places;
+  late GoogleMapsGeocoding geocoding;
+  String? sessionToken;
   bool isOnUpdateLocationCooldown = false;
-  LocationAccuracy desiredAccuracy;
+  LocationAccuracy? desiredAccuracy;
   bool isAutoCompleteSearching = false;
 
   Future<void> updateCurrentLocation(bool forceAndroidLocationManager) async {
@@ -60,35 +60,35 @@ class PlaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Position _currentPoisition;
-  Position get currentPosition => _currentPoisition;
-  set currentPosition(Position newPosition) {
+  Position? _currentPoisition;
+  Position? get currentPosition => _currentPoisition;
+  set currentPosition(Position? newPosition) {
     _currentPoisition = newPosition;
     notifyListeners();
   }
 
-  Timer _debounceTimer;
-  Timer get debounceTimer => _debounceTimer;
-  set debounceTimer(Timer timer) {
+  Timer? _debounceTimer;
+  Timer? get debounceTimer => _debounceTimer;
+  set debounceTimer(Timer? timer) {
     _debounceTimer = timer;
     notifyListeners();
   }
 
-  CameraPosition _previousCameraPosition;
-  CameraPosition get prevCameraPosition => _previousCameraPosition;
-  setPrevCameraPosition(CameraPosition prePosition) {
+  CameraPosition? _previousCameraPosition;
+  CameraPosition? get prevCameraPosition => _previousCameraPosition;
+  setPrevCameraPosition(CameraPosition? prePosition) {
     _previousCameraPosition = prePosition;
   }
 
-  CameraPosition _currentCameraPosition;
-  CameraPosition get cameraPosition => _currentCameraPosition;
-  setCameraPosition(CameraPosition newPosition) {
+  CameraPosition? _currentCameraPosition;
+  CameraPosition? get cameraPosition => _currentCameraPosition;
+  setCameraPosition(CameraPosition? newPosition) {
     _currentCameraPosition = newPosition;
   }
 
-  PickResult _selectedPlace;
-  PickResult get selectedPlace => _selectedPlace;
-  set selectedPlace(PickResult result) {
+  PickResult? _selectedPlace;
+  PickResult? get selectedPlace => _selectedPlace;
+  set selectedPlace(PickResult? result) {
     _selectedPlace = result;
     notifyListeners();
   }
@@ -100,9 +100,9 @@ class PlaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  GoogleMapController _mapController;
-  GoogleMapController get mapController => _mapController;
-  set mapController(GoogleMapController controller) {
+  GoogleMapController? _mapController;
+  GoogleMapController? get mapController => _mapController;
+  set mapController(GoogleMapController? controller) {
     _mapController = controller;
     notifyListeners();
   }

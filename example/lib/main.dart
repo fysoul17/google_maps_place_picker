@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              RaisedButton(
+              ElevatedButton(
                 child: Text("Load Google Map"),
                 onPressed: () {
                   Navigator.push(
@@ -127,9 +127,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              selectedPlace == null
-                  ? Container()
-                  : Text(selectedPlace.formattedAddress ?? ""),
+              selectedPlace == null ? Container() : Text(selectedPlace.formattedAddress ?? ""),
             ],
           ),
         ));
