@@ -49,7 +49,7 @@ class PredictionTile extends StatelessWidget {
       );
 
       // Other strings.
-      if (matchedSubString.offset + matchedSubString.length < (prediction.description?.length ?? 0)) {
+      if (matchedSubString.offset + (matchedSubString.length as int?) < prediction.description?.length) {
         result.add(
           TextSpan(
             text: prediction.description?.substring(matchedSubString.offset + matchedSubString.length as int),
