@@ -295,7 +295,7 @@ class _PlacePickerState extends State<PlacePicker> {
                 },
                 onSearchFailed: (status) {
                   if (widget.onAutoCompleteFailed != null) {
-                    widget.onAutoCompleteFailed(status);
+                    widget.onAutoCompleteFailed!(status);
                   }
                 },
                 autocompleteOffset: widget.autocompleteOffset,

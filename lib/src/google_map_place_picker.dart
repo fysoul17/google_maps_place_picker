@@ -288,7 +288,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     return Selector<PlaceProvider, Tuple6<PickResult?, SearchingState, bool, PinState, bool, String>>(
       selector: (_, provider) => Tuple6(provider.selectedPlace, provider.placeSearchingState, provider.isSearchBarFocused, provider.pinState, provider.saveLocation, provider.saveLocationName),
       builder: (context, data, __) {
-        if ((data.item1 == null && data.item2 == SearchingState.Idle) || data.item3 == true || data.item4 == PinState.Dragging && this.hidePlaceDetailsWhenDraggingPin) {
+        if ((data.item1 == null && data.item2 == SearchingState.Idle) || data.item3 == true || data.item4 == PinState.Dragging && this.hidePlaceDetailsWhenDraggingPin!) {
           return Container();
         } else {
           if (selectedPlaceWidgetBuilder == null) {
@@ -373,7 +373,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
                     fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
                     elevation: 8.0,
                     onPressed: onToggleMapType,
-                    child: Icon(Icons.layers),
+                    child: Icon(Icons.layers, color: Colors.black,),
                   ),
                 )
               : Container(),
@@ -387,7 +387,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
                     fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
                     elevation: 8.0,
                     onPressed: onMyLocation,
-                    child: Icon(Icons.my_location),
+                    child: Icon(Icons.my_location, color: Colors.black,),
                   ),
                 )
               : Container(),
