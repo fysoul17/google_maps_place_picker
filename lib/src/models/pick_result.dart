@@ -27,30 +27,30 @@ class PickResult {
     this.reviews,
   });
 
-  final String placeId;
-  final Geometry geometry;
-  final String formattedAddress;
-  final List<String> types;
-  final List<AddressComponent> addressComponents;
+  final String? placeId;
+  final Geometry? geometry;
+  final String? formattedAddress;
+  final List<String>? types;
+  final List<AddressComponent>? addressComponents;
 
   // Below results will not be fetched if 'usePlaceDetailSearch' is set to false (Defaults to false).
-  final String adrAddress;
-  final String formattedPhoneNumber;
-  final String id;
-  final String reference;
-  final String icon;
-  final String name;
-  final OpeningHoursDetail openingHours;
-  final List<Photo> photos;
-  final String internationalPhoneNumber;
-  final PriceLevel priceLevel;
-  final num rating;
-  final String scope;
-  final String url;
-  final String vicinity;
-  final num utcOffset;
-  final String website;
-  final List<Review> reviews;
+  final String? adrAddress;
+  final String? formattedPhoneNumber;
+  final String? id;
+  final String? reference;
+  final String? icon;
+  final String? name;
+  final OpeningHoursDetail? openingHours;
+  final List<Photo>? photos;
+  final String? internationalPhoneNumber;
+  final PriceLevel? priceLevel;
+  final num? rating;
+  final String? scope;
+  final String? url;
+  final String? vicinity;
+  final num? utcOffset;
+  final String? website;
+  final List<Review>? reviews;
 
   factory PickResult.fromGeocodingResult(GeocodingResult result) {
     return PickResult(

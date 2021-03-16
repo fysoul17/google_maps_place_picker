@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class RoundedFrame extends StatelessWidget {
   const RoundedFrame({
-    Key key,
+    Key? key,
     this.margin,
     this.padding,
     this.width,
@@ -15,16 +15,16 @@ class RoundedFrame extends StatelessWidget {
     this.materialType,
   }) : super(key: key);
 
-  final EdgeInsetsGeometry margin;
-  final EdgeInsetsGeometry padding;
-  final double width;
-  final double height;
-  final Widget child;
-  final Color color;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final double? width;
+  final double? height;
+  final Widget? child;
+  final Color? color;
   final Color borderColor;
   final BorderRadius borderRadius;
   final double elevation;
-  final MaterialType materialType;
+  final MaterialType? materialType;
 
   @override
   Widget build(BuildContext context) {

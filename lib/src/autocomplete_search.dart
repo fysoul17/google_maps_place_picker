@@ -12,17 +12,17 @@ import 'package:provider/provider.dart';
 
 class AutoCompleteSearch extends StatefulWidget {
   const AutoCompleteSearch(
-      {Key key,
-      @required this.sessionToken,
-      @required this.onPicked,
-      @required this.appBarKey,
+      {Key? key,
+      required this.sessionToken,
+      required this.onPicked,
+      required this.appBarKey,
       this.hintText,
       this.searchingText = "Searching...",
       this.height = 40,
       this.contentPadding = EdgeInsets.zero,
       this.debounceMilliseconds,
       this.onSearchFailed,
-      this.searchBarController,
+      required this.searchBarController,
       this.autocompleteOffset,
       this.autocompleteRadius,
       this.autocompleteLanguage,
@@ -36,26 +36,26 @@ class AutoCompleteSearch extends StatefulWidget {
       : assert(searchBarController != null),
         super(key: key);
 
-  final String sessionToken;
-  final String hintText;
-  final String searchingText;
+  final String? sessionToken;
+  final String? hintText;
+  final String? searchingText;
   final double height;
   final EdgeInsetsGeometry contentPadding;
-  final int debounceMilliseconds;
+  final int? debounceMilliseconds;
   final ValueChanged<Prediction> onPicked;
-  final ValueChanged<String> onSearchFailed;
+  final ValueChanged<String>? onSearchFailed;
   final SearchBarController searchBarController;
-  final num autocompleteOffset;
-  final num autocompleteRadius;
-  final String autocompleteLanguage;
-  final List<String> autocompleteTypes;
-  final List<Component> autocompleteComponents;
-  final bool strictbounds;
-  final String region;
+  final num? autocompleteOffset;
+  final num? autocompleteRadius;
+  final String? autocompleteLanguage;
+  final List<String>? autocompleteTypes;
+  final List<Component>? autocompleteComponents;
+  final bool? strictbounds;
+  final String? region;
   final GlobalKey appBarKey;
-  final String initialSearchString;
-  final bool searchForInitialValue;
-  final bool autocompleteOnTrailingWhitespace;
+  final String? initialSearchString;
+  final bool? searchForInitialValue;
+  final bool? autocompleteOnTrailingWhitespace;
 
   @override
   AutoCompleteSearchState createState() => AutoCompleteSearchState();
@@ -64,16 +64,16 @@ class AutoCompleteSearch extends StatefulWidget {
 class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   TextEditingController controller = TextEditingController();
   FocusNode focus = FocusNode();
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   SearchProvider provider = SearchProvider();
 
   @override
   void initState() {
     super.initState();
     if (widget.initialSearchString != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        controller.text = widget.initialSearchString;
-        if (widget.searchForInitialValue) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        controller.text = widget.initialSearchString!;
+        if (widget.searchForInitialValue!) {
           _onSearchInputChange();
         }
       });
@@ -102,9 +102,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       child: RoundedFrame(
         height: widget.height,
         padding: const EdgeInsets.only(right: 10),
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.black54
-            : Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
         borderRadius: BorderRadius.circular(20),
         elevation: 8.0,
         child: Row(
@@ -143,9 +141,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
               child: GestureDetector(
                 child: Icon(
                   Icons.clear,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                 ),
                 onTap: () {
                   clearText();
@@ -175,18 +171,16 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       return;
     }
 
-    if (!widget.autocompleteOnTrailingWhitespace &&
-        controller.text.substring(controller.text.length - 1) == " ") {
+    if (!widget.autocompleteOnTrailingWhitespace! && controller.text.substring(controller.text.length - 1) == " ") {
       provider.debounceTimer?.cancel();
       return;
     }
 
     if (provider.debounceTimer?.isActive ?? false) {
-      provider.debounceTimer.cancel();
+      provider.debounceTimer!.cancel();
     }
 
-    provider.debounceTimer =
-        Timer(Duration(milliseconds: widget.debounceMilliseconds), () {
+    provider.debounceTimer = Timer(Duration(milliseconds: widget.debounceMilliseconds!), () {
       _searchPlace(controller.text.trim());
     });
   }
@@ -214,7 +208,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
   _clearOverlay() {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }
@@ -222,13 +216,12 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   _displayOverlay(Widget overlayChild) {
     _clearOverlay();
 
-    final RenderBox appBarRenderBox =
-        widget.appBarKey.currentContext.findRenderObject();
+    final RenderBox? appBarRenderBox = widget.appBarKey.currentContext!.findRenderObject() as RenderBox?;
     final screenWidth = MediaQuery.of(context).size.width;
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: appBarRenderBox.size.height + 64,
+        top: appBarRenderBox!.size.height + 64,
         left: screenWidth * 0.025,
         right: screenWidth * 0.025,
         child: Material(
@@ -238,7 +231,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       ),
     );
 
-    Overlay.of(context).insert(overlayEntry);
+    Overlay.of(context)!.insert(overlayEntry!);
   }
 
   Widget _buildSearchingOverlay() {
@@ -283,28 +276,22 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
     PlaceProvider provider = PlaceProvider.of(context, listen: false);
 
     if (searchTerm.isNotEmpty) {
-      final PlacesAutocompleteResponse response =
-          await provider.places.autocomplete(
+      final PlacesAutocompleteResponse response = await provider.places.autocomplete(
         searchTerm,
         sessionToken: widget.sessionToken,
-        location: provider.currentPosition == null
-            ? null
-            : Location(provider.currentPosition.latitude,
-                provider.currentPosition.longitude),
+        location: provider.currentPosition == null ? null : Location(lat: provider.currentPosition!.latitude, lng: provider.currentPosition!.longitude),
         offset: widget.autocompleteOffset,
         radius: widget.autocompleteRadius,
         language: widget.autocompleteLanguage,
-        types: widget.autocompleteTypes,
-        components: widget.autocompleteComponents,
-        strictbounds: widget.strictbounds,
+        types: widget.autocompleteTypes ?? const [],
+        components: widget.autocompleteComponents ?? const [],
+        strictbounds: widget.strictbounds ?? false,
         region: widget.region,
       );
 
-      if (response.errorMessage?.isNotEmpty == true ||
-          response.status == "REQUEST_DENIED") {
-        print("AutoCompleteSearch Error: " + response.errorMessage);
+      if (response.errorMessage?.isNotEmpty == true || response.status == "REQUEST_DENIED") {
         if (widget.onSearchFailed != null) {
-          widget.onSearchFailed(response.status);
+          widget.onSearchFailed!(response.status);
         }
         return;
       }
