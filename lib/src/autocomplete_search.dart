@@ -91,6 +91,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
     focus.removeListener(_onFocusChanged);
     focus.dispose();
+    _clearOverlay();
 
     super.dispose();
   }
