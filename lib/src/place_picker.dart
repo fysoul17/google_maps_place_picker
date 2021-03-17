@@ -317,7 +317,7 @@ class _PlacePickerState extends State<PlacePicker> {
     provider!.placeSearchingState = SearchingState.Searching;
 
     final PlacesDetailsResponse response = await provider!.places.getDetailsByPlaceId(
-      prediction.placeId,
+      prediction.placeId!,
       sessionToken: provider!.sessionToken,
       language: widget.autocompleteLanguage,
     );
