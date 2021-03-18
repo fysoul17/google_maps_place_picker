@@ -1,3 +1,7 @@
+## [2.0.0-nullsafety.3] - 18/Mar/2021
+
+- Updated google_maps_webservice to 0.0.20-nullsafety.2
+
 ## [2.0.0-nullsafety.2] - 17/Mar/2021
 
 - Fixed bugs (PR #106, #108)

@@ -14,7 +14,7 @@ dependencies:
   geolocator: ^7.0.1
   permission_handler: ^6.0.1+1
   provider: ^5.0.0
-  google_maps_webservice: ^0.0.20-nullsafety.1
+  google_maps_webservice: ^0.0.20-nullsafety.2
   google_api_headers: ^1.0.0
   tuple: ^2.0.0-nullsafety.0
   http: ^0.13.0
