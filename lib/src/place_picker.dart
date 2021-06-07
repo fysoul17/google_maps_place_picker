@@ -23,6 +23,7 @@ class PlacePicker extends StatefulWidget {
     Key? key,
     required this.apiKey,
     this.onPlacePicked,
+    this.rightBarButtons,
     required this.initialPosition,
     this.useCurrentLocation,
     this.desiredLocationAccuracy = LocationAccuracy.high,
@@ -166,6 +167,8 @@ class PlacePicker extends StatefulWidget {
 
   final bool hidePlaceDetailsWhenDraggingPin;
 
+  final List<Widget>? rightBarButtons;
+
   @override
   _PlacePickerState createState() => _PlacePickerState();
 }
@@ -234,6 +237,7 @@ class _PlacePickerState extends State<PlacePicker> {
                   // backgroundColor: Colors.transparent,
                   // titleSpacing: 0.0,
                   title: Text('Choose custom location'),
+                  actions: widget.rightBarButtons != null ? widget.rightBarButtons : [],
                 ),
                 body: Stack(children: [
                   _buildMapWithLocation(),
