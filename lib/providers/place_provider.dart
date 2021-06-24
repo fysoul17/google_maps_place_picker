@@ -8,8 +8,8 @@ import 'package:google_maps_place_picker/src/place_picker.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:location/location.dart' as loc;
 
 class PlaceProvider extends ChangeNotifier {
   PlaceProvider(
@@ -43,10 +43,22 @@ class PlaceProvider extends ChangeNotifier {
   LocationAccuracy? desiredAccuracy;
   bool isAutoCompleteSearching = false;
 
+  loc.Location _location = loc.Location();
+  loc.PermissionStatus? _permissionStatus;
+  bool _isLocationServiceEnabled = false;
+
   Future<void> updateCurrentLocation(bool forceAndroidLocationManager) async {
+    _isLocationServiceEnabled = await _location.serviceEnabled();
+    if (!_isLocationServiceEnabled) {
+      _isLocationServiceEnabled = await _location.requestService();
+      if (!_isLocationServiceEnabled) return;
+    }
+
+    _permissionStatus = await _location.hasPermission();
+
     try {
-      await Permission.location.request();
-      if (await Permission.location.request().isGranted) {
+      _permissionStatus = await _location.requestPermission();
+      if (_permissionStatus != null && _permissionStatus == loc.PermissionStatus.granted) {
         currentPosition = await Geolocator.getCurrentPosition(
             desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best);
       } else {
