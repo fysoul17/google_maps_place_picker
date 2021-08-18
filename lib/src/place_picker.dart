@@ -360,7 +360,7 @@ class _PlacePickerState extends State<PlacePicker> {
   }
 
   Widget _buildMapWithLocation() {
-    if (widget.useCurrentLocation!) {
+    if (widget.useCurrentLocation != null && widget.useCurrentLocation!) {
       return FutureBuilder(
           future: provider!.updateCurrentLocation(widget.forceAndroidLocationManager),
           builder: (context, snap) {
