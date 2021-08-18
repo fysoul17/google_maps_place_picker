@@ -79,18 +79,24 @@ class _HomePageState extends State<HomePage> {
                           initialPosition: HomePage.kInitialPosition,
                           useCurrentLocation: true,
                           selectInitialPosition: true,
-
-                          //usePlaceDetailSearch: true,
+                          usePinPointingSearch: true,
+                          usePlaceDetailSearch: true,
                           onPlacePicked: (result) {
                             selectedPlace = result;
                             Navigator.of(context).pop();
                             setState(() {});
                           },
-                          //forceSearchOnZoomChanged: true,
-                          //automaticallyImplyAppBarLeading: false,
-                          //autocompleteLanguage: "ko",
-                          //region: 'au',
-                          //selectInitialPosition: true,
+                          // forceSearchOnZoomChanged: true,
+                          // automaticallyImplyAppBarLeading: false,
+                          // autocompleteLanguage: "ko",
+                          // region: 'au',
+                          // pickArea: CircleArea(
+                          //   center: HomePage.kInitialPosition,
+                          //   radius: 300,
+                          //   fillColor: Colors.lightGreen.withGreen(255).withAlpha(32),
+                          //   strokeColor: Colors.lightGreen.withGreen(255).withAlpha(192),
+                          //   strokeWidth: 2,
+                          // ),
                           // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
                           //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
                           //   return isSearchBarFocused

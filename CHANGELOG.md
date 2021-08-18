@@ -1,7 +1,8 @@
 ## [2.0.0-mb.1] - 18/Aug/2021
 
 - Forked
-- Added restriction area.
+- Added allowed pick area feature
+- Improved place details widget
 
 ## [2.0.0-nullsafety.3] - 18/Mar/2021
 

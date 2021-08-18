@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
@@ -15,6 +16,7 @@ import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+import 'dart:math' as math;
 
 typedef SelectedPlaceWidgetBuilder = Widget Function(
   BuildContext context,
@@ -48,6 +50,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.usePlaceDetailSearch,
     this.selectInitialPosition,
     this.language,
+    this.pickArea,
     this.forceSearchOnZoomChanged,
     this.hidePlaceDetailsWhenDraggingPin,
   }) : super(key: key);
@@ -75,6 +78,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final bool? selectInitialPosition;
 
   final String? language;
+  final CircleArea? pickArea;
 
   final bool? forceSearchOnZoomChanged;
   final bool? hidePlaceDetailsWhenDraggingPin;
@@ -151,6 +155,9 @@ class GoogleMapPlacePicker extends StatelessWidget {
             initialCameraPosition: initialCameraPosition,
             mapType: data,
             myLocationEnabled: true,
+            circles: pickArea != null && pickArea!.radius > 0 ? Set<Circle>.from([
+              pickArea
+            ]) : Set<Circle>(),
             onMapCreated: (GoogleMapController controller) {
               provider.mapController = controller;
               provider.setCameraPosition(null);
@@ -299,10 +306,10 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   Widget _defaultPlaceWidgetBuilder(BuildContext context, PickResult? data, SearchingState state) {
     return FloatingCard(
-      bottomPosition: MediaQuery.of(context).size.height * 0.05,
-      leftPosition: MediaQuery.of(context).size.width * 0.025,
-      rightPosition: MediaQuery.of(context).size.width * 0.025,
-      width: MediaQuery.of(context).size.width * 0.9,
+      bottomPosition: MediaQuery.of(context).size.height * 0.1,
+      leftPosition: MediaQuery.of(context).size.width * 0.15,
+      rightPosition: MediaQuery.of(context).size.width * 0.15,
+      width: MediaQuery.of(context).size.width * 0.7,
       borderRadius: BorderRadius.circular(12.0),
       elevation: 4.0,
       color: Theme.of(context).cardColor,
@@ -324,6 +331,13 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildSelectionDetails(BuildContext context, PickResult result) {
+    bool canBePicked = pickArea == null || pickArea!.radius <= 0 || Geolocator.distanceBetween(
+      pickArea!.center.latitude, 
+      pickArea!.center.longitude, 
+      result.geometry!.location.lat, 
+      result.geometry!.location.lng
+    ) <= pickArea!.radius;
+    MaterialStateColor buttonColor = MaterialStateColor.resolveWith((states) => canBePicked ? (pickArea != null ? pickArea!.strokeColor : Colors.lightGreen.withGreen(255)) : Colors.red);
     return Container(
       margin: EdgeInsets.all(10),
       child: Column(
@@ -339,10 +353,20 @@ class GoogleMapPlacePicker extends StatelessWidget {
             child: ClipOval(
               child: Material(
                 child: InkWell(
+                  overlayColor: buttonColor,
                   onTap: () {
-                    onPlacePicked!(result);
+                    if(canBePicked) {
+                      onPlacePicked!(result);
+                    } else {
+                      double radiusElevated = pickArea!.radius + pickArea!.radius / 2;
+                      double scale = radiusElevated / 500;
+                      double zoom = 15 - math.log(scale) / math.log(2);
+                      PlaceProvider.of(context, listen: false).mapController!.animateCamera(
+                        CameraUpdate.newLatLngZoom(pickArea!.center, zoom), // show entire pick area
+                      );
+                    }
                   },
-                  child: Icon(Icons.check_sharp)
+                  child: Icon(canBePicked ? Icons.check_sharp : Icons.app_blocking_sharp, color: buttonColor)
                 ),
               ),
             ),
