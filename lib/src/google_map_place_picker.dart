@@ -81,9 +81,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
-    bool hasZoomChanged = provider.cameraPosition != null && provider.prevCameraPosition != null && provider.cameraPosition!.zoom != provider.prevCameraPosition!.zoom;
-
-    if (forceSearchOnZoomChanged == false && hasZoomChanged) {
+    if (forceSearchOnZoomChanged == false && provider.prevCameraPosition != null && provider.prevCameraPosition!.target.latitude == provider.cameraPosition!.target.latitude && provider.prevCameraPosition!.target.longitude == provider.cameraPosition!.target.longitude) {
       provider.placeSearchingState = SearchingState.Idle;
       return;
     }
