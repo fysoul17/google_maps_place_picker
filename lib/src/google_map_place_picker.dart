@@ -336,19 +336,19 @@ class GoogleMapPlacePicker extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 10),
-          RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Text(
-              "Select here",
-              style: TextStyle(fontSize: 16),
+          SizedBox.fromSize(
+            size: Size(56, 56), // button width and height
+            child: ClipOval(
+              child: Material(
+                child: InkWell(
+                  onTap: () {
+                    onPlacePicked!(result);
+                  },
+                  child: Icon(Icons.check_sharp)
+                ),
+              ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-            onPressed: () {
-              onPlacePicked!(result);
-            },
-          ),
+          )
         ],
       ),
     );
