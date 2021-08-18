@@ -1,0 +1,3 @@
+class APIKeys {
+  static String apiKey = "YOUR KEY HERE";
+}

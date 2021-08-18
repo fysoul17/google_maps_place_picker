@@ -1,3 +1,8 @@
+## [2.0.0-mb.1] - 18/Aug/2021
+
+- Forked
+- Added restriction area.
+
 ## [2.0.0-nullsafety.3] - 18/Mar/2021
 
 - Updated google_maps_webservice to 0.0.20-nullsafety.2
@@ -16,7 +21,7 @@
 
 ## [1.0.1] - 23/Nov/2020
 
-- Fixed bug related to infinte loading.
+- Fixed bug related to infinite loading.
 
 ## [1.0.0] - 05/Oct/2020
 

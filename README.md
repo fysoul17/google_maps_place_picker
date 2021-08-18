@@ -1,4 +1,5 @@
-# Google Maps Place Picker
+# Google Maps Place Picker MB
+(forked MB edition)
 
 A Flutter plugin which provides 'Picking Place' using [Google Maps](https://developers.google.com/maps/) widget.
 
@@ -13,8 +14,8 @@ Builder using kevmoo's [tuple](https://pub.dev/packages/tuple)
 ![](preview.gif)
 
 ## Support
-If the package was useful or saved your time, please do not hesitate to buy me a cup of coffee! ;)  
-The more caffeine I get, the more useful projects I can make in the future. 
+If the package was useful or saved your time, please do not hesitate to buy the original a cup of coffee! ;)  
+The more caffeine he gets, the more useful projects he can make in the future. 
 
 <a href="https://www.buymeacoffee.com/Oj17EcZ" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
@@ -322,9 +323,9 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
 ## Feature Requests and Issues
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: https://github.com/fysoul17/google_maps_place_picker/issues/new
+[tracker]: https://github.com/martin_braun/google_maps_place_picker_mb/issues/new
 
-### Other useful packages you might be insterested
+### Other useful packages you might be interested
 [Firebase Auth Simplify](https://pub.dev/packages/firebase_auth_simplify)   
 [Material design Speed Dial](https://pub.dev/packages/flutter_speed_dial_material_design) 
 

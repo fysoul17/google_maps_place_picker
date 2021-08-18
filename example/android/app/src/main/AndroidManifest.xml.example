@@ -14,7 +14,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="example"
+        android:label="Place Picker Demo"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -37,7 +37,7 @@
         <!-- Google Map API -->
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB2TWHONvLIUNBz29hs82Ff7ZBWYa3Zy3Y"/>
+            android:value="YOUR KEY HERE"/>
             
     </application>
 </manifest>

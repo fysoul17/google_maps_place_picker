@@ -1,5 +1,5 @@
-name: example
-description: A new Flutter project.
+name: google_maps_place_picker_mb_demo
+description: Google Maps Place Picker - forked MB edition
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -26,7 +26,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
-  google_maps_place_picker:
+  google_maps_place_picker_mb:
     path: ../
 
 dev_dependencies:
