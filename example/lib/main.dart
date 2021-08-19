@@ -12,22 +12,12 @@ class MyApp extends StatelessWidget {
   final ThemeData lightTheme = ThemeData.light().copyWith(
     // Background color of the FloatingCard
     cardColor: Colors.white,
-    buttonTheme: ButtonThemeData(
-      // Select here's button color
-      buttonColor: Colors.black,
-      textTheme: ButtonTextTheme.primary,
-    ),
   );
 
   // Dark Theme
   final ThemeData darkTheme = ThemeData.dark().copyWith(
     // Background color of the FloatingCard
     cardColor: Colors.grey,
-    buttonTheme: ButtonThemeData(
-      // Select here's button color
-      buttonColor: Colors.yellow,
-      textTheme: ButtonTextTheme.primary,
-    ),
   );
 
   // This widget is the root of your application.
