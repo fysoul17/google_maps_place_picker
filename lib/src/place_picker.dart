@@ -64,6 +64,9 @@ class PlacePicker extends StatefulWidget {
     this.automaticallyImplyAppBarLeading = true,
     this.autocompleteOnTrailingWhitespace = false,
     this.hidePlaceDetailsWhenDraggingPin = true,
+    this.onCameraMoveStarted,
+    this.onCameraMove,
+    this.onCameraIdle,
   }) : super(key: key);
 
   final String apiKey;
@@ -183,18 +186,18 @@ class PlacePicker extends StatefulWidget {
   /// 2. Programmatically initiated animation.
   /// 3. Camera motion initiated in response to user gestures on the map.
   ///    For example: pan, tilt, pinch to zoom, or rotate.
-  final VoidCallback? onCameraMoveStarted = null;
+  final VoidCallback? onCameraMoveStarted;
 
   /// Called repeatedly as the camera continues to move after an
   /// onCameraMoveStarted call.
   ///
   /// This may be called as often as once every frame and should
   /// not perform expensive operations.
-  final CameraPositionCallback? onCameraMove = null;
+  final CameraPositionCallback? onCameraMove;
 
   /// Called when camera movement has ended, there are no pending
   /// animations and the user has stopped interacting with the map.
-  final VoidCallback? onCameraIdle = null;
+  final VoidCallback? onCameraIdle;
 
 
   @override
