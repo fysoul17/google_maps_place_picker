@@ -313,7 +313,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
       borderRadius: BorderRadius.circular(12.0),
       elevation: 4.0,
       color: Theme.of(context).cardColor,
-      child: state == SearchingState.Searching ? _buildLoadingIndicator() : _buildSelectionDetails(context, data!),
+      child: state == SearchingState.Searching && data == null ? _buildLoadingIndicator() : _buildSelectionDetails(context, data!),
     );
   }
 
