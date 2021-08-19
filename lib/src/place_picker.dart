@@ -173,6 +173,30 @@ class PlacePicker extends StatefulWidget {
 
   final bool hidePlaceDetailsWhenDraggingPin;
 
+  /// GoogleMap pass-through events:
+
+  /// Called when the camera starts moving.
+  ///
+  /// This can be initiated by the following:
+  /// 1. Non-gesture animation initiated in response to user actions.
+  ///    For example: zoom buttons, my location button, or marker clicks.
+  /// 2. Programmatically initiated animation.
+  /// 3. Camera motion initiated in response to user gestures on the map.
+  ///    For example: pan, tilt, pinch to zoom, or rotate.
+  final VoidCallback? onCameraMoveStarted = null;
+
+  /// Called repeatedly as the camera continues to move after an
+  /// onCameraMoveStarted call.
+  ///
+  /// This may be called as often as once every frame and should
+  /// not perform expensive operations.
+  final CameraPositionCallback? onCameraMove = null;
+
+  /// Called when camera movement has ended, there are no pending
+  /// animations and the user has stopped interacting with the map.
+  final VoidCallback? onCameraIdle = null;
+
+
   @override
   _PlacePickerState createState() => _PlacePickerState();
 }
@@ -286,6 +310,7 @@ class _PlacePickerState extends State<PlacePicker> {
                 icon: Icon(
                   Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
                 ),
+                color: Colors.black.withAlpha(128),
                 padding: EdgeInsets.zero)
             : SizedBox(width: 15),
         Expanded(

@@ -53,6 +53,9 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.pickArea,
     this.forceSearchOnZoomChanged,
     this.hidePlaceDetailsWhenDraggingPin,
+    this.onCameraMoveStarted,
+    this.onCameraMove,
+    this.onCameraIdle,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -82,6 +85,11 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   final bool? forceSearchOnZoomChanged;
   final bool? hidePlaceDetailsWhenDraggingPin;
+
+  /// GoogleMap pass-through events:
+  final VoidCallback? onCameraMoveStarted;
+  final CameraPositionCallback? onCameraMove;
+  final VoidCallback? onCameraIdle;
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
@@ -191,8 +199,16 @@ class GoogleMapPlacePicker extends StatelessWidget {
               }
 
               provider.pinState = PinState.Idle;
+
+              if(onCameraIdle != null) {
+                onCameraIdle!();
+              }
             },
             onCameraMoveStarted: () {
+              if(onCameraMoveStarted != null) {
+                onCameraMoveStarted!();
+              }
+
               provider.setPrevCameraPosition(provider.cameraPosition);
 
               // Cancel any other timer.
@@ -210,6 +226,9 @@ class GoogleMapPlacePicker extends StatelessWidget {
             },
             onCameraMove: (CameraPosition position) {
               provider.setCameraPosition(position);
+              if(onCameraMove != null) {
+                onCameraMove!(position);
+              }
             },
             // gestureRecognizers make it possible to navigate the map when it's a
             // child in a scroll view e.g ListView, SingleChildScrollView...

@@ -1,6 +1,7 @@
 ## [2.0.0-mb.3] - 19/Aug/2021
 
 - Updated colors and shapes
+- Expose essential GoogleMap events
 
 ## [2.0.0-mb.2] - 19/Aug/2021
 
