@@ -8,7 +8,7 @@ import 'package:google_maps_place_picker_mb/src/place_picker.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:location/location.dart' as LocationPlatformInterface;
 import 'package:provider/provider.dart';
 
 class PlaceProvider extends ChangeNotifier {
@@ -43,12 +43,25 @@ class PlaceProvider extends ChangeNotifier {
   LocationAccuracy? desiredAccuracy;
   bool isAutoCompleteSearching = false;
 
+  LocationPlatformInterface.Location location = new LocationPlatformInterface.Location();
+  LocationPlatformInterface.PermissionStatus permissionGranted = LocationPlatformInterface.PermissionStatus.denied;
+  bool isLocationServiceEnabled = false;
+
   Future<void> updateCurrentLocation(bool forceAndroidLocationManager) async {
+    isLocationServiceEnabled = await location.serviceEnabled();
+
+    if (!isLocationServiceEnabled) {
+      isLocationServiceEnabled = await location.requestService();
+      if (!isLocationServiceEnabled) {
+        return;
+      }
+    }
+    permissionGranted = await location.hasPermission();
     try {
-      await Permission.location.request();
-      if (await Permission.location.request().isGranted) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted == LocationPlatformInterface.PermissionStatus.granted) {
         currentPosition = await Geolocator.getCurrentPosition(
-            desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best);
+        desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best);
       } else {
         currentPosition = null;
       }

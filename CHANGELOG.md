@@ -1,3 +1,6 @@
+## [2.0.0-mb.2] - 18/Aug/2021
+
+- Fixed runtime and deploy issues on iOS
 ## [2.0.0-mb.1] - 18/Aug/2021
 
 - Forked
