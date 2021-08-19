@@ -242,9 +242,9 @@ myLocationButtonCooldown | int | Cooldown time in seconds for the 'myLocationBut
 forceSearchOnZoomChanged | bool | Wether to allow place search even when the zoom has changed. Defaults to false.
 automaticallyImplyAppBarLeading | bool | By default, there is a back button on the top. Setting false will remove the back button.
 autocompleteOnTrailingWhitespace | bool | Whether to allow autocomplete to run even on whitespace at the end of the search. Defaults to false. Issue ref #54.
-onCameraMoveStarted* | VoidCallback? | Called when the camera starts moving. (GoogleMap widget)
+onCameraMoveStarted* | Function(PlaceProvider)? | Called when the camera starts moving. (GoogleMap widget)
 onCameraMove* | CameraPositionCallback? | Called repeatedly as the camera continues to move after an onCameraMoveStarted call. (GoogleMap widget)
-onCameraIdle* | VoidCallback? | Called when camera movement has ended, there are no pending animations and the user has stopped interacting with the map. (GoogleMap widget)
+onCameraIdle* | Function(PlaceProvider)? | Called when camera movement has ended, there are no pending animations and the user has stopped interacting with the map. (GoogleMap widget)
 
 > \* MB edition exclusive, as of now
 > 

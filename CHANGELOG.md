@@ -1,11 +1,15 @@
-## [2.0.0-mb.4] - ??/???/????
+## [2.0.0-mb.5] - 19/Aug/2021
 
-- Hot fix regarding GoogleMap event access
+- Provide additional `PlaceProvider` on some `GoogleMap` events
+
+## [2.0.0-mb.4] - 19/Aug/2021
+
+- Hot fix regarding `GoogleMap` event access
 
 ## [2.0.0-mb.3] - 19/Aug/2021
 
 - Updated colors and shapes
-- Expose essential GoogleMap events
+- Expose essential `GoogleMap` events
 
 ## [2.0.0-mb.2] - 19/Aug/2021
 

@@ -87,9 +87,9 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final bool? hidePlaceDetailsWhenDraggingPin;
 
   /// GoogleMap pass-through events:
-  final VoidCallback? onCameraMoveStarted;
+  final Function(PlaceProvider)? onCameraMoveStarted;
   final CameraPositionCallback? onCameraMove;
-  final VoidCallback? onCameraIdle;
+  final Function(PlaceProvider)? onCameraIdle;
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
@@ -201,12 +201,12 @@ class GoogleMapPlacePicker extends StatelessWidget {
               provider.pinState = PinState.Idle;
 
               if(onCameraIdle != null) {
-                onCameraIdle!();
+                onCameraIdle!(provider);
               }
             },
             onCameraMoveStarted: () {
               if(onCameraMoveStarted != null) {
-                onCameraMoveStarted!();
+                onCameraMoveStarted!(provider);
               }
 
               provider.setPrevCameraPosition(provider.cameraPosition);
