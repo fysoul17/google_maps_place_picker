@@ -1,3 +1,7 @@
+## [2.0.0-mb.6]
+
+- Add possibility to use custom back navigation event
+
 ## [2.0.0-mb.5] - 19/Aug/2021
 
 - Provide additional `PlaceProvider` on some `GoogleMap` events

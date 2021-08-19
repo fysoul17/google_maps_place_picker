@@ -64,6 +64,7 @@ class PlacePicker extends StatefulWidget {
     this.automaticallyImplyAppBarLeading = true,
     this.autocompleteOnTrailingWhitespace = false,
     this.hidePlaceDetailsWhenDraggingPin = true,
+    this.onTapBack,
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
@@ -175,6 +176,12 @@ class PlacePicker extends StatefulWidget {
   final bool autocompleteOnTrailingWhitespace;
 
   final bool hidePlaceDetailsWhenDraggingPin;
+
+  // Raised when clicking on the back arrow. 
+  // This will not listen for the system back button on Android devices. 
+  // If this is not set, but the back button is visible through automaticallyImplyLeading, 
+  // the Navigator will try to pop instead.
+  final VoidCallback? onTapBack;
 
   /// GoogleMap pass-through events:
 
@@ -307,9 +314,16 @@ class _PlacePickerState extends State<PlacePicker> {
   Widget _buildSearchBar(BuildContext context) {
     return Row(
       children: <Widget>[
-        widget.automaticallyImplyAppBarLeading
+        widget.automaticallyImplyAppBarLeading ||
+        widget.onTapBack != null
             ? IconButton(
-                onPressed: () => Navigator.maybePop(context),
+                onPressed: () {
+                  if(widget.onTapBack != null) {
+                    widget.onTapBack!();
+                    return;
+                  }
+                  Navigator.maybePop(context);
+                },
                 icon: Icon(
                   Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
                 ),
