@@ -1,5 +1,16 @@
-# Google Maps Place Picker MB
-(forked MB edition)
+# Google Maps Place Picker - MB edition
+
+> This README is only slightly changed from its original repo which this repository was forked from. Due to little maintenance by the original author, I want to provide this fork that is not just more maintained, I also add more functionality to it and pick any significant changes and PRs on the original repository, as well.
+> 
+> To install:  
+> 
+> ```
+> flutter get add google_maps_place_picker_mb
+> ```
+> 
+> ~ _martin-braun_
+
+----------------------------------------------------
 
 A Flutter plugin which provides 'Picking Place' using [Google Maps](https://developers.google.com/maps/) widget.
 
@@ -13,9 +24,13 @@ Builder using kevmoo's [tuple](https://pub.dev/packages/tuple)
 ## Preview
 ![](preview.gif)
 
+> Note: This preview shows a new feature added by me: The ability to restrict the picked selection to the circle area. This can be disabled, obviously.
+> 
+> ~ _martin-braun_
+
 ## Support
-If the package was useful or saved your time, please do not hesitate to buy the original author a cup of coffee! ;)  
-The more caffeine he gets, the more useful projects he can make in the future. 
+If the package was useful or saved your time, please do not hesitate to buy <s>me</s> _the original author_ a cup of coffee! ;)  
+The more caffeine <s>I get</s> _he gets_, the more useful projects he can make in the future. 
 
 <a href="https://www.buymeacoffee.com/Oj17EcZ" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
@@ -217,7 +232,7 @@ autocompleteComponents | List\<Components\> | A grouping of places to which you 
 autocompleteTypes | List\<String\> | The types of place results to return. See [Place Types](https://developers.google.com/places/web-service/autocomplete#place_types).
 strictbounds | bool | Returns only those places that are strictly within the region defined by location and radius.
 region | String | region — The region code, specified as a ccTLD (country code top-level domain) two-character value. Most ccTLD codes are identical to ISO 3166-1 codes, with some exceptions. This parameter will only influence, not fully restrict, search results. If more relevant results exist outside of the specified region, they may be included. **When this parameter is used, the country name is omitted from the resulting formatted_address for results in the specified region.**
-pickArea | CircleArea | Circle that defines the area in which the address can be picked. Can be colored how it's preferred.
+pickArea* | CircleArea | Circle that defines the area in which the address can be picked. Can be colored how it's preferred.
 selectInitialPosition | bool | Whether to display selected place on initial map load. Defaults to false.
 resizeToAvoidBottomInset | bool | Refer to Scaffold's resizeToAvoidBottomInset property.
 initialSearchString | String | Sets initial search string for auto complete search
@@ -227,6 +242,10 @@ myLocationButtonCooldown | int | Cooldown time in seconds for the 'myLocationBut
 forceSearchOnZoomChanged | bool | Wether to allow place search even when the zoom has changed. Defaults to false.
 automaticallyImplyAppBarLeading | bool | By default, there is a back button on the top. Setting false will remove the back button.
 autocompleteOnTrailingWhitespace | bool | Whether to allow autocomplete to run even on whitespace at the end of the search. Defaults to false. Issue ref #54.
+
+> \* MB edition exclusive, as of now
+> 
+> ~ _martin-braun_
 
 [More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
@@ -322,13 +341,9 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
 ![](screenshot2.png)
 
 ## Feature Requests and Issues
-Please file feature requests at the [MB edition issue tracker][tracker_fork] and bugs at the [original issue tracker][tracker].
+> Please file feature requests at the [original issue tracker][tracker] and bugs at the [MB edition issue tracker][tracker_fork]. I fetch any significant feature requests from the original repository, but bugs could be specific to this MB edition, so I want to take care by myself on them.
+> 
+> ~ _martin-braun_ 
 
 [tracker]: fysoul17/google_maps_place_picker
 [tracker_fork]: https://github.com/martin_braun/google_maps_place_picker_mb/issues/new
-
-### Other useful packages you might be interested
-[Firebase Auth Simplify](https://pub.dev/packages/firebase_auth_simplify)   
-[Material design Speed Dial](https://pub.dev/packages/flutter_speed_dial_material_design) 
-
-<a href="https://www.buymeacoffee.com/Oj17EcZ" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
