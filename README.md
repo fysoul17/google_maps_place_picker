@@ -5,7 +5,7 @@
 > To install:  
 > 
 > ```
-> flutter get add google_maps_place_picker_mb
+> flutter pub add google_maps_place_picker_mb
 > ```
 > 
 > ~ _martin-braun_
