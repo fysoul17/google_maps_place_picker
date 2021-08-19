@@ -14,7 +14,7 @@ Builder using kevmoo's [tuple](https://pub.dev/packages/tuple)
 ![](preview.gif)
 
 ## Support
-If the package was useful or saved your time, please do not hesitate to buy the original a cup of coffee! ;)  
+If the package was useful or saved your time, please do not hesitate to buy the original author a cup of coffee! ;)  
 The more caffeine he gets, the more useful projects he can make in the future. 
 
 <a href="https://www.buymeacoffee.com/Oj17EcZ" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
@@ -230,7 +230,7 @@ autocompleteOnTrailingWhitespace | bool | Whether to allow autocomplete to run e
 
 [More info](https://developers.google.com/places/web-service/autocomplete) about autocomplete search at Google document.
 
-### Customizing picked place visualisation
+### Customizing picked place visualization
 
 By default, when a user picks a place by using auto complete search or dragging the map, we display the information at the bottom of the screen (FloatingCard).  
 
@@ -322,9 +322,10 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
 ![](screenshot2.png)
 
 ## Feature Requests and Issues
-Please file feature requests and bugs at the [issue tracker][tracker].
+Please file feature requests at the [MB edition issue tracker][tracker_fork] and bugs at the [original issue tracker][tracker].
 
-[tracker]: https://github.com/martin_braun/google_maps_place_picker_mb/issues/new
+[tracker]: fysoul17/google_maps_place_picker
+[tracker_fork]: https://github.com/martin_braun/google_maps_place_picker_mb/issues/new
 
 ### Other useful packages you might be interested
 [Firebase Auth Simplify](https://pub.dev/packages/firebase_auth_simplify)   
