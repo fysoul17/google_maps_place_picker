@@ -1,3 +1,7 @@
+## [2.0.0-mb.4] - ??/???/????
+
+- Hot fix regarding GoogleMap event access
+
 ## [2.0.0-mb.3] - 19/Aug/2021
 
 - Updated colors and shapes
