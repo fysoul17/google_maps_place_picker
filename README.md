@@ -339,5 +339,5 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
 > 
 > ~ _martin-braun_ 
 
-[tracker]: fysoul17/google_maps_place_picker
-[tracker_fork]: https://github.com/martin_braun/google_maps_place_picker_mb/issues/new
+[tracker]: https://github.com/fysoul17/google_maps_place_picker/issues
+[tracker_fork]: https://github.com/martin-braun/google_maps_place_picker_mb/issues
