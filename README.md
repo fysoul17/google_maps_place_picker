@@ -181,8 +181,8 @@ addressComponents | List\<AddressComponent\> | An array containing the separate 
 #### PickResult (Optional)
 Parameter | Type | Description
 --------- | ---- | -----------
-adrAddress | String | A representation of the place's address in the [adr microformat](http://microformats.org/wiki/adr)
-formattedPhoneNumber | String | Contains the place's phone number in its [local format](http://en.wikipedia.org/wiki/Local_conventions_for_writing_telephone_numbers)
+adrAddress | String | A representation of the place's address in the [adr microformat](https://microformats.org/wiki/adr)
+formattedPhoneNumber | String | Contains the place's phone number in its [local format](https://en.wikipedia.org/wiki/Local_conventions_for_writing_telephone_numbers)
 id | String | ? (Not documented at Google - see more info below)
 reference | String | ? (Not documented at Google - see more info below)
 icon | String | The URL of a suggested icon which may be displayed to the user when indicating this result on a map.
