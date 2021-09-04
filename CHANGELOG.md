@@ -1,3 +1,7 @@
+## [2.0.0-mb.7]
+
+- 
+
 ## [2.0.0-mb.6] - 03/Sep/2021
 
 - Add possibility to use custom back navigation event
