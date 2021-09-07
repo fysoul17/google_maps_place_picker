@@ -376,13 +376,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
                   onTap: () {
                     if(canBePicked) {
                       onPlacePicked!(result);
-                    } else {
-                      double radiusElevated = pickArea!.radius + pickArea!.radius / 2;
-                      double scale = radiusElevated / 500;
-                      double zoom = 15 - math.log(scale) / math.log(2);
-                      PlaceProvider.of(context, listen: false).mapController!.animateCamera(
-                        CameraUpdate.newLatLngZoom(pickArea!.center, zoom), // show entire pick area
-                      );
                     }
                   },
                   child: Icon(canBePicked ? Icons.check_sharp : Icons.app_blocking_sharp, color: buttonColor)

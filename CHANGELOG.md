@@ -1,6 +1,6 @@
 ## [2.0.0-mb.7]
 
-- 
+- Remove automatic scrolling to pick area
 
 ## [2.0.0-mb.6] - 03/Sep/2021
 
