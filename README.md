@@ -211,6 +211,8 @@ useCurrentLocation | bool | Whether to use device's current location for initial
 desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Defaults to 'high'.
 hintText | String | Hint text of search bar
 searchingText | String | A text which appears when searching is performing. Default to 'Searching...'
+selectText* | String? | Text to show in the button that allows to pick the focused address. Defaults to show only an icon.
+outsideOfPickAreaText* | String? | Text to show in the disabled button when the focused address is outside of the pick area. Defaults to show only an icon.
 proxyBaseUrl | String | Used for API calling on google maps. In case of using a proxy the baseUrl can be set. The apiKey is not required in case the proxy sets it.
 httpClient | [Client](https://pub.dev/packages/google_maps_webservice) | Used for API calling on google maps. In case of using a proxy url that requires authentication or custom configuration.
 autoCompleteDebounceInMilliseconds | int | Debounce timer for auto complete input. Default to 500
@@ -257,7 +259,7 @@ onCameraIdle* | Function(PlaceProvider)? | Called when camera movement has ended
 
 By default, when a user picks a place by using auto complete search or dragging the map, we display the information at the bottom of the screen (FloatingCard).  
 
-However, if you don't like this UI/UX, simply override the builder using 'selectedPlaceWidgetBuilder'. FlocatingCard widget can be reused which is floating around the screen or build an entirely new widget as you want. It is stacked with the map, so you might want to use the [Positioned](https://api.flutter.dev/flutter/widgets/Positioned-class.html) widget.
+However, if you don't like this UI/UX, simply override the builder using 'selectedPlaceWidgetBuilder'. FloatingCard widget can be reused which is floating around the screen or build an entirely new widget as you want. It is stacked with the map, so you might want to use the [Positioned](https://api.flutter.dev/flutter/widgets/Positioned-class.html) widget.
 
 **Note that using this customization WILL NOT INVOKE [onPlacePicked] callback as it will override default 'Select here' button on floating card**
 

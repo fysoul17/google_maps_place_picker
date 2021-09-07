@@ -56,6 +56,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
+    this.selectText,
+    this.outsideOfPickAreaText,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -90,6 +92,10 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final Function(PlaceProvider)? onCameraMoveStarted;
   final CameraPositionCallback? onCameraMove;
   final Function(PlaceProvider)? onCameraIdle;
+
+  // strings
+  final String? selectText;
+  final String? outsideOfPickAreaText;
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
@@ -367,7 +373,9 @@ class GoogleMapPlacePicker extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 10),
-          SizedBox.fromSize(
+          (canBePicked && (selectText?.isEmpty ?? true)) 
+                || (!canBePicked && (outsideOfPickAreaText?.isEmpty ?? true))
+          ? SizedBox.fromSize(
             size: Size(56, 56), // button width and height
             child: ClipOval(
               child: Material(
@@ -379,6 +387,34 @@ class GoogleMapPlacePicker extends StatelessWidget {
                     }
                   },
                   child: Icon(canBePicked ? Icons.check_sharp : Icons.app_blocking_sharp, color: buttonColor)
+                ),
+              ),
+            ),
+          )
+          : SizedBox.fromSize(
+            size: Size(MediaQuery.of(context).size.width * 0.8, 56), // button width and height
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Material(
+                child: InkWell(
+                  overlayColor: buttonColor,
+                  onTap: () {
+                    if(canBePicked) {
+                      onPlacePicked!(result);
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(canBePicked ? Icons.check_sharp : Icons.app_blocking_sharp, color: buttonColor),
+                      SizedBox.fromSize(size: new Size(10, 0)),
+                      Text(canBePicked ? selectText! : outsideOfPickAreaText!, 
+                        style: TextStyle(
+                          color: buttonColor
+                        )
+                      )
+                    ],
+                  ) 
                 ),
               ),
             ),

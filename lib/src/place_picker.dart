@@ -31,8 +31,8 @@ class PlacePicker extends StatefulWidget {
     this.onMapCreated,
     this.hintText,
     this.searchingText,
-    // this.searchBarHeight,
-    // this.contentPadding,
+    this.selectText,
+    this.outsideOfPickAreaText,
     this.onAutoCompleteFailed,
     this.onGeocodingSearchFailed,
     this.proxyBaseUrl,
@@ -80,8 +80,8 @@ class PlacePicker extends StatefulWidget {
 
   final String? hintText;
   final String? searchingText;
-  // final double searchBarHeight;
-  // final EdgeInsetsGeometry contentPadding;
+  final String? selectText;
+  final String? outsideOfPickAreaText;
 
   final ValueChanged<String>? onAutoCompleteFailed;
   final ValueChanged<String>? onGeocodingSearchFailed;
@@ -455,6 +455,8 @@ class _PlacePickerState extends State<PlacePicker> {
       pickArea: widget.pickArea,
       forceSearchOnZoomChanged: widget.forceSearchOnZoomChanged,
       hidePlaceDetailsWhenDraggingPin: widget.hidePlaceDetailsWhenDraggingPin,
+      selectText: widget.selectText,
+      outsideOfPickAreaText: widget.outsideOfPickAreaText,
       onToggleMapType: () {
         provider!.switchMapType();
       },

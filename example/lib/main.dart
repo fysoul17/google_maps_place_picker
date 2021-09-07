@@ -67,6 +67,9 @@ class _HomePageState extends State<HomePage> {
                         return PlacePicker(
                           apiKey: APIKeys.apiKey,
                           hintText: "Find a place ...",
+                          searchingText: "Please wait ...",
+                          selectText: "Select place",
+                          outsideOfPickAreaText: "Place not in area",
                           initialPosition: HomePage.kInitialPosition,
                           useCurrentLocation: true,
                           selectInitialPosition: true,
