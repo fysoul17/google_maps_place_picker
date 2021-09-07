@@ -2,6 +2,7 @@
 
 - Remove automatic scrolling to pick area
 - Allow providing button texts
+- Allow providing an introduction modal
 
 ## [2.0.0-mb.6] - 03/Sep/2021
 

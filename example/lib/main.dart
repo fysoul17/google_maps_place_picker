@@ -121,6 +121,67 @@ class _HomePageState extends State<HomePage> {
                           //     return Icon(Icons.favorite);
                           //   }
                           // },
+                          // introModalWidgetBuilder: (context,  close) {
+                          //   return Positioned(
+                          //     top: MediaQuery.of(context).size.height * 0.35,
+                          //     right: MediaQuery.of(context).size.width * 0.15,
+                          //     left: MediaQuery.of(context).size.width * 0.15,
+                          //     child: Container(
+                          //       width: MediaQuery.of(context).size.width * 0.7,
+                          //       child: Material(
+                          //         type: MaterialType.canvas,
+                          //         color: Theme.of(context).cardColor,
+                          //         shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(12.0), 
+                          //         ),
+                          //         elevation: 4.0,
+                          //         child: ClipRRect(
+                          //           borderRadius: BorderRadius.circular(12.0),
+                          //           child: Container(
+                          //             padding: EdgeInsets.all(8.0),
+                          //             child: Column(
+                          //               children: [
+                          //                 SizedBox.fromSize(size: new Size(0, 10)),
+                          //                 Text("Please select your preferred address.",
+                          //                   style: TextStyle(
+                          //                     fontWeight: FontWeight.bold,
+                          //                   )
+                          //                 ),
+                          //                 SizedBox.fromSize(size: new Size(0, 10)),
+                          //                 SizedBox.fromSize(
+                          //                   size: Size(MediaQuery.of(context).size.width * 0.6, 56), // button width and height
+                          //                   child: ClipRRect(
+                          //                     borderRadius: BorderRadius.circular(10.0),
+                          //                     child: Material(
+                          //                       child: InkWell(
+                          //                         overlayColor: MaterialStateColor.resolveWith(
+                          //                           (states) => Colors.blueAccent
+                          //                         ),
+                          //                         onTap: close,
+                          //                         child: Row(
+                          //                           mainAxisAlignment: MainAxisAlignment.center,
+                          //                           children: [
+                          //                             Icon(Icons.check_sharp, color: Colors.blueAccent),
+                          //                             SizedBox.fromSize(size: new Size(10, 0)),
+                          //                             Text("OK",
+                          //                               style: TextStyle(
+                          //                                 color: Colors.blueAccent
+                          //                               )
+                          //                             )
+                          //                           ],
+                          //                         ) 
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 )
+                          //               ]
+                          //             )
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     )
+                          //   );
+                          // },
                         );
                       },
                     ),

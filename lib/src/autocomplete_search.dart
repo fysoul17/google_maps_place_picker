@@ -18,6 +18,7 @@ class AutoCompleteSearch extends StatefulWidget {
       required this.appBarKey,
       this.hintText,
       this.searchingText = "Searching...",
+      this.hidden = false,
       this.height = 40,
       this.contentPadding = EdgeInsets.zero,
       this.debounceMilliseconds,
@@ -39,6 +40,7 @@ class AutoCompleteSearch extends StatefulWidget {
   final String? sessionToken;
   final String? hintText;
   final String? searchingText;
+  final bool hidden;
   final double height;
   final EdgeInsetsGeometry contentPadding;
   final int? debounceMilliseconds;
@@ -98,7 +100,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
+    return !widget.hidden ? ChangeNotifierProvider.value(
       value: provider,
       child: RoundedFrame(
         height: widget.height,
@@ -116,7 +118,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
           ],
         ),
       ),
-    );
+    ) : Container();
   }
 
   Widget _buildSearchTextField() {

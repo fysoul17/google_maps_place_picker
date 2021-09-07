@@ -17,6 +17,11 @@ import 'dart:io' show Platform;
 
 import 'package:uuid/uuid.dart';
 
+typedef IntroModalWidgetBuilder = Widget Function(
+  BuildContext context,
+  Function? close,
+);
+
 enum PinState { Preparing, Idle, Dragging }
 enum SearchingState { Idle, Searching }
 
@@ -39,6 +44,7 @@ class PlacePicker extends StatefulWidget {
     this.httpClient,
     this.selectedPlaceWidgetBuilder,
     this.pinBuilder,
+    this.introModalWidgetBuilder,
     this.autoCompleteDebounceInMilliseconds = 500,
     this.cameraMoveDebounceInMilliseconds = 750,
     this.initialMapType = MapType.normal,
@@ -138,6 +144,11 @@ class PlacePicker extends StatefulWidget {
   /// It is provided by default if you leave it as a null.
   final PinBuilder? pinBuilder;
 
+  /// optional - builds customized introduction panel.
+  ///
+  /// None is provided / the map is instantly accessible if you leave it as a null.
+  final IntroModalWidgetBuilder? introModalWidgetBuilder;
+
   /// optional - sets 'proxy' value in google_maps_webservice
   ///
   /// In case of using a proxy the baseUrl can be set.
@@ -216,6 +227,7 @@ class _PlacePickerState extends State<PlacePicker> {
   Future<PlaceProvider>? _futureProvider;
   PlaceProvider? provider;
   SearchBarController searchBarController = SearchBarController();
+  bool showintroModal = true;
 
   @override
   void initState() {
@@ -263,21 +275,24 @@ class _PlacePickerState extends State<PlacePicker> {
               providers: [
                 ChangeNotifierProvider<PlaceProvider>.value(value: provider!),
               ],
-              child: Scaffold(
-                key: ValueKey<int>(provider.hashCode),
-                resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-                extendBodyBehindAppBar: true,
-                appBar: AppBar(
-                  key: appBarKey,
-                  automaticallyImplyLeading: false,
-                  iconTheme: Theme.of(context).iconTheme,
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  titleSpacing: 0.0,
-                  title: _buildSearchBar(context),
+              child: Stack(children: [
+                Scaffold(
+                  key: ValueKey<int>(provider.hashCode),
+                  resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+                  extendBodyBehindAppBar: true,
+                  appBar: AppBar(
+                    key: appBarKey,
+                    automaticallyImplyLeading: false,
+                    iconTheme: Theme.of(context).iconTheme,
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    titleSpacing: 0.0,
+                    title: _buildSearchBar(context),
+                  ),
+                  body: _buildMapWithLocation(),
                 ),
-                body: _buildMapWithLocation(),
-              ),
+                  _buildIntroModal(context),
+                ]),
             );
           }
 
@@ -307,7 +322,7 @@ class _PlacePickerState extends State<PlacePicker> {
             ),
           );
         },
-      ),
+      )
     );
   }
 
@@ -318,11 +333,13 @@ class _PlacePickerState extends State<PlacePicker> {
         widget.onTapBack != null
             ? IconButton(
                 onPressed: () {
-                  if(widget.onTapBack != null) {
-                    widget.onTapBack!();
-                    return;
+                  if(!showintroModal || widget.introModalWidgetBuilder == null) {
+                    if(widget.onTapBack != null) {
+                      widget.onTapBack!();
+                      return;
+                    }
+                    Navigator.maybePop(context);
                   }
-                  Navigator.maybePop(context);
                 },
                 icon: Icon(
                   Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
@@ -475,6 +492,36 @@ class _PlacePickerState extends State<PlacePicker> {
         searchBarController.reset();
       },
       onPlacePicked: widget.onPlacePicked,
+    );
+  }
+
+  Widget _buildIntroModal(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        return showintroModal && widget.introModalWidgetBuilder != null
+          ? Stack(children: [
+            Positioned(
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              child: Material(
+                type: MaterialType.canvas,
+                color: Color.fromARGB(128, 0, 0, 0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero, 
+                ),
+                child: ClipRect(),
+              ),
+            ),
+            widget.introModalWidgetBuilder!(context, () {
+              setState(() {
+                showintroModal = false;
+              });
+            })
+          ])
+        : Container();
+      }
     );
   }
 }

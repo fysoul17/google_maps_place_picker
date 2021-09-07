@@ -227,6 +227,7 @@ onGeocodingSearchFailed | Callback(String) | Invoked when searching place by dra
 onMapCreated | MapCreatedCallback | Returens google map controller when created
 selectedPlaceWidgetBuilder | WidgetBuilder | Specified on below section
 pinBuilder | WidgetBuilder | Specified on below section
+introPanelWidgetBuilder | WidgetBuilder | Specified on below section
 autocompleteOffset | num | The position, in the input term, of the last character that the service uses to match predictions
 autocompleteRadius | num | The distance (in meters) within which to return place results
 autocompleteLanguage | String | The [language code](https://developers.google.com/maps/faq#languagesupport), indicating in which language the results should be returned, if possible. 
@@ -316,6 +317,83 @@ Parameters | Type | Description
 ---------- | ---- | -----------
 context | BuildContext | Flutter's build context value
 state | PinState | State of pin. (Preparing; When map loading, Idle, Dragging)
+
+### Add customized introduction modal
+By default the map will show up, immediately. You might want to show a nice customized overlay modal with instructions, especially, when the map is turned on after first start of your app. In that case this custom widget builder makes sense, because you will obtain the most freedom in terms of branding to avoid people thinking they opened Google Maps. 
+
+```dart
+PlacePicker(apiKey: APIKeys.apiKey,
+            ...
+            introModalWidgetBuilder: (context,  close) {
+              return Positioned(
+                top: MediaQuery.of(context).size.height * 0.35,
+                right: MediaQuery.of(context).size.width * 0.15,
+                left: MediaQuery.of(context).size.width * 0.15,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: Material(
+                    type: MaterialType.canvas,
+                    color: Theme.of(context).cardColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0), 
+                    ),
+                    elevation: 4.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            SizedBox.fromSize(size: new Size(0, 10)),
+                            Text("Please select your preferred address.",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )
+                            ),
+                            SizedBox.fromSize(size: new Size(0, 10)),
+                            SizedBox.fromSize(
+                              size: Size(MediaQuery.of(context).size.width * 0.6, 56), // button width and height
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Material(
+                                  child: InkWell(
+                                    overlayColor: MaterialStateColor.resolveWith(
+                                      (states) => Colors.blueAccent
+                                    ),
+                                    onTap: close,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.check_sharp, color: Colors.blueAccent),
+                                        SizedBox.fromSize(size: new Size(10, 0)),
+                                        Text("OK",
+                                          style: TextStyle(
+                                            color: Colors.blueAccent
+                                          )
+                                        )
+                                      ],
+                                    ) 
+                                  ),
+                                ),
+                              ),
+                            )
+                          ]
+                        )
+                      ),
+                    ),
+                  ),
+                )
+              );
+            },
+            ...                        
+          ),
+...
+```
+
+Parameters | Type | Description
+---------- | ---- | -----------
+context | BuildContext | Flutter's build context value
+close | Function | Function to be called to close the modal, thus removing the widget and its overlay from the tree.
 
 ### Changing Colours of default FloatingCard
 While you can build your own prediction tile, you still can change the style of default tile using themeData as below:
