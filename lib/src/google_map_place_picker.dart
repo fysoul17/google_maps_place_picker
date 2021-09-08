@@ -166,6 +166,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
               if (provider.isAutoCompleteSearching) {
                 provider.isAutoCompleteSearching = false;
                 provider.pinState = PinState.Idle;
+                provider.placeSearchingState = SearchingState.Idle;
                 return;
               }
 
