@@ -1,6 +1,6 @@
-## [2.0.0-mb.9] - 
+## [2.0.0-mb.9] - 08/Sep/2021
 
-- 
+- Fix permanent loading indicator when using search bar on iOS
 
 ## [2.0.0-mb.8] - 08/Sep/2021
 
@@ -32,6 +32,7 @@
 ## [2.0.0-mb.2] - 19/Aug/2021
 
 - Fixed runtime and deploy issues on iOS
+
 ## [2.0.0-mb.1] - 18/Aug/2021
 
 - Forked
