@@ -155,7 +155,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.0.0-mb.9"
+    version: "2.0.0-mb.10"
   google_maps_webservice:
     dependency: transitive
     description:

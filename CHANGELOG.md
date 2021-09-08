@@ -1,3 +1,7 @@
+## [2.0.0-mb.10] - 
+
+- 
+
 ## [2.0.0-mb.9] - 08/Sep/2021
 
 - Fix permanent loading indicator when using search bar on iOS
