@@ -1,4 +1,8 @@
-## [2.0.0-mb.7]
+## [2.0.0-mb.8] - 08/Sep/2021
+
+- Fix old address showing up when moving the pin
+
+## [2.0.0-mb.7] - 08/Sep/2021
 
 - Remove automatic scrolling to pick area
 - Allow providing button texts

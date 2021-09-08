@@ -1,6 +1,6 @@
 name: google_maps_place_picker_mb
 description: A Flutter plugin which provides 'Picking Place' using Google Maps widget. (MB version)
-version: 2.0.0-mb.7
+version: 2.0.0-mb.8
 homepage: https://github.com/martin-braun/google_maps_place_picker_mb
 
 environment:
