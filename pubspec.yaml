@@ -10,14 +10,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_maps_flutter: ^2.0.1
-  geolocator: ^7.0.1
-  permission_handler: ^6.0.1+1
+  google_maps_flutter: ^2.0.11
+  geolocator: ^7.7.0
+  permission_handler: ^8.2.5
   provider: ^6.0.1
-  google_maps_webservice: ^0.0.20-nullsafety.2
-  google_api_headers: ^1.0.0
-  tuple: ^2.0.0-nullsafety.0
-  http: ^0.13.0
+  google_maps_webservice: ^0.0.20-nullsafety.5
+  google_api_headers: ^1.1.1
+  tuple: ^2.0.0
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
