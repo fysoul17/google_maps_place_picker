@@ -1,6 +1,6 @@
-## [2.0.0-mb.10] - 
+## [2.0.0-mb.10] - 25/Oct/2021
 
-- 
+- Fix passing-through GoogleMap widget callbacks
 
 ## [2.0.0-mb.9] - 08/Sep/2021
 
@@ -12,7 +12,7 @@
 
 ## [2.0.0-mb.7] - 08/Sep/2021
 
-- Remove automatic scrolling to pick area
+- Remove automatic scrolling to pick area when trying to pick an invalid location
 - Allow providing button texts
 - Allow providing an introduction modal
 

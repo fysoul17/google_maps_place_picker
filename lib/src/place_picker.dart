@@ -492,6 +492,9 @@ class _PlacePickerState extends State<PlacePicker> {
         searchBarController.reset();
       },
       onPlacePicked: widget.onPlacePicked,
+      onCameraMoveStarted: widget.onCameraMoveStarted,
+      onCameraMove: widget.onCameraMove,
+      onCameraIdle: widget.onCameraIdle,
     );
   }
 
