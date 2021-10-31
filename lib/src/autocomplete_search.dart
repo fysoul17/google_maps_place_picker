@@ -9,6 +9,7 @@ import 'package:google_maps_place_picker/src/components/rounded_frame.dart';
 import 'package:google_maps_place_picker/src/controllers/autocomplete_search_controller.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 class AutoCompleteSearch extends StatefulWidget {
   const AutoCompleteSearch(
@@ -32,7 +33,8 @@ class AutoCompleteSearch extends StatefulWidget {
       this.region,
       this.initialSearchString,
       this.searchForInitialValue,
-      this.autocompleteOnTrailingWhitespace})
+      this.autocompleteOnTrailingWhitespace,
+      this.autocompleteSortByDistance})
       : assert(searchBarController != null),
         super(key: key);
 
@@ -56,6 +58,7 @@ class AutoCompleteSearch extends StatefulWidget {
   final String? initialSearchString;
   final bool? searchForInitialValue;
   final bool? autocompleteOnTrailingWhitespace;
+  final bool? autocompleteSortByDistance;
 
   @override
   AutoCompleteSearchState createState() => AutoCompleteSearchState();
@@ -257,9 +260,39 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
     );
   }
 
-  Widget _buildPredictionOverlay(List<Prediction> predictions) {
+  Future<Widget> _buildPredictionOverlay(List<Prediction> predictions) async {
+    PlaceProvider placeProvider = PlaceProvider.of(context, listen: false);
+    var map = <Prediction, num>{};
+    var sortedPredictions = <Prediction>[];
+
+    if (placeProvider.currentPosition != null &&
+        widget.autocompleteSortByDistance == true) {
+      for (var i = 0; i < predictions.length; i++) {
+        var data = await placeProvider.places.getDetailsByPlaceId(
+          predictions[i].placeId!,
+          sessionToken: placeProvider.sessionToken,
+        );
+
+        map.addAll({
+          predictions[i]: computeDistance(
+            placeProvider.currentPosition!.latitude,
+            placeProvider.currentPosition!.longitude,
+            data.result.geometry!.location.lat,
+            data.result.geometry!.location.lng,
+          )
+        });
+      }
+
+      var sortedMapEntries = map.entries.toList()
+        ..sort((a, b) => a.value.compareTo(b.value));
+
+      sortedMapEntries.forEach((element) {
+        sortedPredictions.add(element.key);
+      });
+    }
+
     return ListBody(
-      children: predictions
+      children: (sortedPredictions.isNotEmpty ? sortedPredictions : predictions)
           .map(
             (p) => PredictionTile(
               prediction: p,
@@ -297,7 +330,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
         return;
       }
 
-      _displayOverlay(_buildPredictionOverlay(response.predictions));
+      _displayOverlay(await _buildPredictionOverlay(response.predictions));
     }
   }
 
@@ -313,5 +346,25 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
 
   clearOverlay() {
     _clearOverlay();
+  }
+
+  num computeDistance(
+    num lat1,
+    num lng1,
+    num lat2,
+    num lng2,
+  ) {
+    var x = pi / 180;
+
+    lat1 *= x;
+    lng1 *= x;
+    lat2 *= x;
+    lng2 *= x;
+
+    var distance = 2 *
+        asin(sqrt(pow(sin((lat1 - lat2) / 2), 2) +
+            cos(lat1) * cos(lat2) * pow(sin((lng1 - lng2) / 2), 2)));
+
+    return distance * 6378137;
   }
 }
