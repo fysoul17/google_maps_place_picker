@@ -1,3 +1,7 @@
+## [2.0.0-mb.11] - 16/Nov/2021
+
+- Upgrade packages and target platforms
+
 ## [2.0.0-mb.10] - 25/Oct/2021
 
 - Fix passing-through GoogleMap widget callbacks

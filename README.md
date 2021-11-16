@@ -45,7 +45,9 @@ The more caffeine <s>I get</s> _he gets_, the more useful projects <s>I</s> _he_
   * Select "APIs" under the Google Maps menu.
   * To enable Google Maps for Android, select "Maps SDK for Android" in the "Additional APIs" section, then select "ENABLE".
   * To enable Google Maps for iOS, select "Maps SDK for iOS" in the "Additional APIs" section, then select "ENABLE".
+  * Also enable "Geocoding API", "Geolocation API" and "Places API"
   * Make sure the APIs you enabled are under the "Enabled APIs" section.
+  * Generate the API key for all APIs
 
 * You can also find detailed steps to get started with Google Maps Platform [here](https://developers.google.com/maps/gmp-get-started).
 
@@ -156,7 +158,7 @@ Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PlacePicker(
-          apiKey: APIKeys.apiKey,   // Put YOUR OWN KEY here.
+          apiKey: APIKeys.apiKey,   // Put YOUR OWN KEY here. Should be the same for android and ios
           onPlacePicked: (result) { 
             print(result.address); 
             Navigator.of(context).pop();
@@ -245,7 +247,7 @@ myLocationButtonCooldown | int | Cooldown time in seconds for the 'myLocationBut
 forceSearchOnZoomChanged | bool | Wether to allow place search even when the zoom has changed. Defaults to false.
 automaticallyImplyAppBarLeading | bool | By default, there is a back button on the top. Setting false will remove the back button.
 autocompleteOnTrailingWhitespace | bool | Whether to allow autocomplete to run even on whitespace at the end of the search. Defaults to false. Issue ref #54.
-onTapBack* | Function(PlaceProvider)? | Called when camera movement has ended, there are no pending animations and the user has stopped interacting with the map. (GoogleMap widget)
+onTapBack* | Function(PlaceProvider)? | Called when leaving the Google Picker by pressing the back button.
 onCameraMoveStarted* | Function(PlaceProvider)? | Called when the camera starts moving. (GoogleMap widget)
 onCameraMove* | CameraPositionCallback? | Called repeatedly as the camera continues to move after an onCameraMoveStarted call. (GoogleMap widget)
 onCameraIdle* | Function(PlaceProvider)? | Called when camera movement has ended, there are no pending animations and the user has stopped interacting with the map. (GoogleMap widget)
