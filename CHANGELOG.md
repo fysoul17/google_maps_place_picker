@@ -1,3 +1,8 @@
+## [2.0.0-mb.12] - 07/Dec/2021
+
+- Update google_maps_webservice
+- Update geolocator
+
 ## [2.0.0-mb.11] - 16/Nov/2021
 
 - Upgrade packages and target platforms
