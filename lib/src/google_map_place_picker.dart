@@ -326,7 +326,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   Widget _buildSelectionDetails(BuildContext context, PickResult result) {
     return Container(
-      color: Colors.purple,
+      
       margin: EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
