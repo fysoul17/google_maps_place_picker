@@ -277,7 +277,7 @@ class _PlacePickerState extends State<PlacePicker> {
             ? IconButton(
                 onPressed: () => Navigator.maybePop(context),
                 icon: Icon(
-                  Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+                  Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,color: Color(0xFFF4E0076),
                 ),
                 padding: EdgeInsets.zero)
             : SizedBox(width: 15),
