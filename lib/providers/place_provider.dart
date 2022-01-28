@@ -53,7 +53,7 @@ class PlaceProvider extends ChangeNotifier {
         currentPosition = null;
       }
     } catch (e) {
-      print(e);
+      print('update current loc error: $e');
       currentPosition = null;
     }
 
