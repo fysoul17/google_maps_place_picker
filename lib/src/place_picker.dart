@@ -241,9 +241,9 @@ class _PlacePickerState extends State<PlacePicker> {
                   // elevation: 0,
                   // backgroundColor: Colors.transparent,
                   // titleSpacing: 0.0,
-                  title: Text('Choose custom location', color: widget.titleColor != null ? widget.titleColor : Colors.black),
+                  title: Text('Choose custom location', style: TextStyle(color: widget.titleColor != null ? widget.titleColor : Colors.black, fontWeight: FontWeight.w500),),
                   actions: widget.rightBarButtons != null ? widget.rightBarButtons : [],
-                  backgroundColor: widget.appBarBackgroundColor != null ? widget.appBarBackgroundColor : Colors.whte,
+                  backgroundColor: widget.appBarBackgroundColor != null ? widget.appBarBackgroundColor : Colors.white,
                 ),
                 body: Stack(children: [
                   _buildMapWithLocation(),
