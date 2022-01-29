@@ -23,6 +23,7 @@ class PlacePicker extends StatefulWidget {
     Key? key,
     required this.apiKey,
     this.onPlacePicked,
+    this.leftBarButton,
     this.rightBarButtons,
     this.titleColor,
     this.appBarBackgroundColor,
@@ -169,6 +170,7 @@ class PlacePicker extends StatefulWidget {
 
   final bool hidePlaceDetailsWhenDraggingPin;
 
+  final Widget? leftBarButton;
   final List<Widget>? rightBarButtons;
 
   final Color? titleColor;
@@ -241,9 +243,10 @@ class _PlacePickerState extends State<PlacePicker> {
                   // elevation: 0,
                   // backgroundColor: Colors.transparent,
                   // titleSpacing: 0.0,
-                  title: Text('Choose custom location', color: widget.titleColor != null ? widget.titleColor : Colors.black),
+                  leading: widget.leftBarButton != null ? widget.leftBarButton : null,
+                  title: Text('Choose custom location', style: TextStyle(color: widget.titleColor != null ? widget.titleColor : Colors.black, fontWeight: FontWeight.w500),),
                   actions: widget.rightBarButtons != null ? widget.rightBarButtons : [],
-                  backgroundColor: widget.appBarBackgroundColor != null ? widget.appBarBackgroundColor : Colors.whte,
+                  backgroundColor: widget.appBarBackgroundColor != null ? widget.appBarBackgroundColor : Colors.white,
                 ),
                 body: Stack(children: [
                   _buildMapWithLocation(),
