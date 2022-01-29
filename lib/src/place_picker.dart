@@ -24,6 +24,8 @@ class PlacePicker extends StatefulWidget {
     required this.apiKey,
     this.onPlacePicked,
     this.rightBarButtons,
+    this.titleColor,
+    this.appBarBackgroundColor,
     required this.initialPosition,
     this.useCurrentLocation,
     this.desiredLocationAccuracy = LocationAccuracy.high,
@@ -169,6 +171,9 @@ class PlacePicker extends StatefulWidget {
 
   final List<Widget>? rightBarButtons;
 
+  final Color? titleColor;
+  final Color? appBarBackgroundColor;
+
   @override
   _PlacePickerState createState() => _PlacePickerState();
 }
@@ -236,8 +241,9 @@ class _PlacePickerState extends State<PlacePicker> {
                   // elevation: 0,
                   // backgroundColor: Colors.transparent,
                   // titleSpacing: 0.0,
-                  title: Text('Choose custom location'),
+                  title: Text('Choose custom location', color: widget.titleColor != null ? widget.titleColor : Colors.black),
                   actions: widget.rightBarButtons != null ? widget.rightBarButtons : [],
+                  backgroundColor: widget.appBarBackgroundColor != null ? widget.appBarBackgroundColor : Colors.whte,
                 ),
                 body: Stack(children: [
                   _buildMapWithLocation(),
