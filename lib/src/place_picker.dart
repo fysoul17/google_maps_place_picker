@@ -23,6 +23,7 @@ class PlacePicker extends StatefulWidget {
     Key? key,
     required this.apiKey,
     this.onPlacePicked,
+    this.leftBarButton,
     this.rightBarButtons,
     this.titleColor,
     this.appBarBackgroundColor,
