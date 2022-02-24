@@ -59,7 +59,7 @@ Specify your API key in the application manifest `android/app/src/main/AndroidMa
 <manifest ...
   <application ...
     <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="YOUR KEY HERE"/>
+               android:value="YOUR ANDROID KEY HERE"/>
 ```
 
 > **NOTE:** As of version 3.0.0 the geolocator plugin switched to the AndroidX version of the Android Support Libraries. This means you need to make sure your Android project is also upgraded to support AndroidX. Detailed instructions can be found [here](https://flutter.dev/docs/development/packages-and-plugins/androidx-compatibility). 
@@ -96,7 +96,7 @@ Specify your API key in the application delegate `ios/Runner/AppDelegate.m`:
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  [GMSServices provideAPIKey:@"YOUR KEY HERE"];
+  [GMSServices provideAPIKey:@"YOUR IOS KEY HERE"];
   [GeneratedPluginRegistrant registerWithRegistry:self];
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
@@ -115,7 +115,7 @@ import GoogleMaps
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    GMSServices.provideAPIKey("YOUR KEY HERE")
+    GMSServices.provideAPIKey("YOUR IOS KEY HERE")
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
@@ -153,11 +153,20 @@ When the user picks a place on the map, it will return result to 'onPlacePicked'
 Alternatively, you can build your own way with 'selectedPlaceWidgetBuilder' and fetch result from it (See the instruction below).
 
 ```dart
+import 'package:flutter/material.dart';
+import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:io' show Platform;
+
+// ...
+
 Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PlacePicker(
-          apiKey: APIKeys.apiKey,   // Put YOUR OWN KEY here. Should be the same for android and ios
+          apiKey: Platform.isAndroid
+              ? "YOUR ANDROID API KEY"
+              : "YOUR IOS API KEY"
           onPlacePicked: (result) { 
             print(result.address); 
             Navigator.of(context).pop();
@@ -225,7 +234,7 @@ usePinPointingSearch | bool | Defaults to true. This will allow user to drag map
 usePlaceDetailSearch | bool | Defaults to false. Setting this to true will get detailed result from searching by dragging the map, but will use +1 request on Place Detail API.
 onAutoCompleteFailed | Callback(String) | Invoked when auto complete search is failed
 onGeocodingSearchFailed | Callback(String) | Invoked when searching place by dragging the map failed
-onMapCreated | MapCreatedCallback | Returens google map controller when created
+onMapCreated | MapCreatedCallback | Returns google map controller when created
 selectedPlaceWidgetBuilder | WidgetBuilder | Specified on below section
 pinBuilder | WidgetBuilder | Specified on below section
 introPanelWidgetBuilder | WidgetBuilder | Specified on below section

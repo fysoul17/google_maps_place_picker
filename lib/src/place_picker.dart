@@ -82,8 +82,6 @@ class PlacePicker extends StatefulWidget {
   final bool? useCurrentLocation;
   final LocationAccuracy desiredLocationAccuracy;
 
-  final MapCreatedCallback? onMapCreated;
-
   final String? hintText;
   final String? searchingText;
   final String? selectText;
@@ -195,6 +193,12 @@ class PlacePicker extends StatefulWidget {
   final VoidCallback? onTapBack;
 
   /// GoogleMap pass-through events:
+
+  /// Callback method for when the map is ready to be used.
+  /// 
+  /// Used to receive a [GoogleMapController] for this [GoogleMap].
+
+  final MapCreatedCallback? onMapCreated;
 
   /// Called when the camera starts moving.
   ///

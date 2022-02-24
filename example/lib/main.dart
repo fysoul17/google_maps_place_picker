@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:io' show Platform;
 
 // Your api key storage.
 import 'keys.dart';
@@ -65,7 +66,9 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                       builder: (context) {
                         return PlacePicker(
-                          apiKey: APIKeys.apiKey,
+                          apiKey: Platform.isAndroid
+                              ? APIKeys.androidApiKey
+                              : APIKeys.iosApiKey,
                           hintText: "Find a place ...",
                           searchingText: "Please wait ...",
                           selectText: "Select place",
@@ -132,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                           //         type: MaterialType.canvas,
                           //         color: Theme.of(context).cardColor,
                           //         shape: RoundedRectangleBorder(
-                          //             borderRadius: BorderRadius.circular(12.0), 
+                          //             borderRadius: BorderRadius.circular(12.0),
                           //         ),
                           //         elevation: 4.0,
                           //         child: ClipRRect(
@@ -169,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                           //                               )
                           //                             )
                           //                           ],
-                          //                         ) 
+                          //                         )
                           //                       ),
                           //                     ),
                           //                   ),
@@ -188,7 +191,9 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              selectedPlace == null ? Container() : Text(selectedPlace.formattedAddress ?? ""),
+              selectedPlace == null
+                  ? Container()
+                  : Text(selectedPlace.formattedAddress ?? ""),
             ],
           ),
         ));

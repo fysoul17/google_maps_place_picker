@@ -1,3 +1,4 @@
 class APIKeys {
-  static String apiKey = "YOUR KEY HERE";
+   static String androidApiKey = "YOUR ANDROID KEY HERE";
+   static String iosApiKey = "YOUR IOS KEY HERE";
 }

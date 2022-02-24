@@ -1,6 +1,7 @@
 ## [2.0.0-mb.14] - 24/Feb/2022
 
 - Update geolocator
+- onMapCreated event pass-through
 
 ## [2.0.0-mb.13] - 08/Dec/2021
 
