@@ -1,3 +1,7 @@
+## [2.0.0-mb.14] - 24/Feb/2022
+
+- Update geolocator
+
 ## [2.0.0-mb.13] - 08/Dec/2021
 
 - Update google_maps_webservice
