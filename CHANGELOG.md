@@ -1,3 +1,7 @@
+## [2.0.0-mb.15] - 06/Mar/2022
+
+- Fix autocomplete search vertical offset in containers
+
 ## [2.0.0-mb.14] - 24/Feb/2022
 
 - Update geolocator
