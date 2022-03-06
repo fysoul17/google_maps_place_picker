@@ -198,8 +198,6 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   _searchPlace(String searchTerm) {
     this.provider.prevSearchTerm = searchTerm;
 
-    if (context == null) return;
-
     _clearOverlay();
 
     if (searchTerm.length < 1) return;
@@ -220,11 +218,13 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
     _clearOverlay();
 
     final RenderBox? appBarRenderBox = widget.appBarKey.currentContext!.findRenderObject() as RenderBox?;
+    final translation = appBarRenderBox?.getTransformTo(null).getTranslation();
+    final Offset offset = translation != null ? Offset(translation.x, translation.y) : Offset(0.0, 0.0);
     final screenWidth = MediaQuery.of(context).size.width;
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: appBarRenderBox!.size.height,
+        top: appBarRenderBox!.paintBounds.shift(offset).top + appBarRenderBox.size.height,
         left: screenWidth * 0.025,
         right: screenWidth * 0.025,
         child: Material(
