@@ -25,6 +25,7 @@ class PlacePicker extends StatefulWidget {
     this.onPlacePicked,
     this.leftBarButton,
     this.rightBarButtons,
+    this.title,
     this.titleColor,
     this.appBarBackgroundColor,
     required this.initialPosition,
@@ -173,6 +174,7 @@ class PlacePicker extends StatefulWidget {
   final Widget? leftBarButton;
   final List<Widget>? rightBarButtons;
 
+  final String? title;
   final Color? titleColor;
   final Color? appBarBackgroundColor;
 
@@ -244,7 +246,7 @@ class _PlacePickerState extends State<PlacePicker> {
                   // backgroundColor: Colors.transparent,
                   // titleSpacing: 0.0,
                   leading: widget.leftBarButton != null ? widget.leftBarButton : null,
-                  title: Text('Choose custom location', style: TextStyle(color: widget.titleColor != null ? widget.titleColor : Colors.black, fontWeight: FontWeight.w500),),
+                  title: Text(widget.title ?? 'Choose custom location', style: TextStyle(color: widget.titleColor ?? Colors.black, fontWeight: FontWeight.w500),),
                   actions: widget.rightBarButtons != null ? widget.rightBarButtons : [],
                   backgroundColor: widget.appBarBackgroundColor != null ? widget.appBarBackgroundColor : Colors.white,
                 ),
