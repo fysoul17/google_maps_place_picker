@@ -18,6 +18,7 @@ dependencies:
   google_api_headers: ^1.0.0
   tuple: ^2.0.0-nullsafety.0
   http: ^0.13.0
+  google_fonts: 2.1.0
 
 dev_dependencies:
   flutter_test:

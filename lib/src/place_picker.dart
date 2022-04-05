@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_api_headers/google_api_headers.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_place_picker/providers/place_provider.dart';
@@ -61,6 +62,7 @@ class PlacePicker extends StatefulWidget {
     this.automaticallyImplyAppBarLeading = true,
     this.autocompleteOnTrailingWhitespace = false,
     this.hidePlaceDetailsWhenDraggingPin = true,
+    this.errorMessageGpsIsDisable = ''
   }) : super(key: key);
 
   final String apiKey;
@@ -165,6 +167,8 @@ class PlacePicker extends StatefulWidget {
   final bool autocompleteOnTrailingWhitespace;
 
   final bool hidePlaceDetailsWhenDraggingPin;
+
+  final String errorMessageGpsIsDisable;
 
   @override
   _PlacePickerState createState() => _PlacePickerState();
@@ -273,18 +277,23 @@ class _PlacePickerState extends State<PlacePicker> {
   Widget _buildSearchBar(BuildContext context) {
     return Row(
       children: <Widget>[
+        SizedBox(width: 8),
         widget.automaticallyImplyAppBarLeading
             ? CircleAvatar(
                 backgroundColor: Color(0XFF424242),
-                radius: 20,
-                child: IconButton(
-                    onPressed: () => Navigator.maybePop(context),
-                    icon: Icon(
-                      Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-                    ),
-                    padding: EdgeInsets.zero),
+                radius: 18,
+                child: Center(
+                  child: IconButton(
+                      onPressed: () => Navigator.maybePop(context),
+                      icon: Icon(
+                        Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+                        size: 16,
+                      ),
+                      padding: EdgeInsets.zero),
+                ),
               )
             : SizedBox(width: 15),
+            SizedBox(width: 8),
         Expanded(
           child: AutoCompleteSearch(
               appBarKey: appBarKey,
@@ -421,6 +430,27 @@ class _PlacePickerState extends State<PlacePicker> {
           });
           await provider!.updateCurrentLocation(widget.forceAndroidLocationManager);
           await _moveToCurrentPosition();
+        }else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            content: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  gradient: LinearGradient(colors: [Color(0xFFF6BA22), Color(0xFFF68522)])),
+              child: Text(widget.errorMessageGpsIsDisable,
+                style: GoogleFonts.roboto(
+                    textStyle: Theme.of(context).textTheme.caption!.copyWith(leadingDistribution: TextLeadingDistribution.even),
+                    fontSize: 12,
+                    color: Color(0xFF000000),
+                    fontWeight: FontWeight.bold,
+                    height: 1.5,
+                    letterSpacing: 0.4),
+              ),
+            ),
+          ));
         }
       },
       onMoveStart: () {
