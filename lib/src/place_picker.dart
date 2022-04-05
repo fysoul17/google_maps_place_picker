@@ -274,12 +274,16 @@ class _PlacePickerState extends State<PlacePicker> {
     return Row(
       children: <Widget>[
         widget.automaticallyImplyAppBarLeading
-            ? IconButton(
-                onPressed: () => Navigator.maybePop(context),
-                icon: Icon(
-                  Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-                ),
-                padding: EdgeInsets.zero)
+            ? CircleAvatar(
+                backgroundColor: Color('FF424242'),
+                radius: 20,
+                child: IconButton(
+                    onPressed: () => Navigator.maybePop(context),
+                    icon: Icon(
+                      Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+                    ),
+                    padding: EdgeInsets.zero),
+              )
             : SizedBox(width: 15),
         Expanded(
           child: AutoCompleteSearch(
