@@ -275,7 +275,7 @@ class _PlacePickerState extends State<PlacePicker> {
       children: <Widget>[
         widget.automaticallyImplyAppBarLeading
             ? CircleAvatar(
-                backgroundColor: Color('FF424242'),
+                backgroundColor: Color(0XFF424242),
                 radius: 20,
                 child: IconButton(
                     onPressed: () => Navigator.maybePop(context),
