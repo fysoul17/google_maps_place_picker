@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                                 selectText: "Select place",
                                 outsideOfPickAreaText: "Place not in area",
                                 initialPosition: HomePage.kInitialPosition,
-                                useCurrentLocation: false,
+                                useCurrentLocation: true,
                                 selectInitialPosition: true,
                                 usePinPointingSearch: true,
                                 usePlaceDetailSearch: true,
