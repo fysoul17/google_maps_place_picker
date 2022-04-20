@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                                 selectText: "Select place",
                                 outsideOfPickAreaText: "Place not in area",
                                 initialPosition: HomePage.kInitialPosition,
-                                useCurrentLocation: true,
+                                useCurrentLocation: false,
                                 selectInitialPosition: true,
                                 usePinPointingSearch: true,
                                 usePlaceDetailSearch: true,
@@ -85,6 +85,9 @@ class _HomePageState extends State<HomePage> {
                                     selectedPlace = result;
                                     Navigator.of(context).pop();
                                   });
+                                },
+                                onMapTypeChanged: (MapType mapType) {
+                                  print("Map type changed to ${mapType.toString()}");
                                 },
                                 // #region additional stuff
                                 // forceSearchOnZoomChanged: true,

@@ -9,7 +9,6 @@ import 'package:google_maps_place_picker_mb/providers/place_provider.dart';
 import 'package:google_maps_place_picker_mb/src/autocomplete_search.dart';
 import 'package:google_maps_place_picker_mb/src/controllers/autocomplete_search_controller.dart';
 import 'package:google_maps_place_picker_mb/src/google_map_place_picker.dart';
-import 'package:google_maps_place_picker_mb/src/models/circle_area.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -74,6 +73,7 @@ class PlacePicker extends StatefulWidget {
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
+    this.onMapTypeChanged,
   }) : super(key: key);
 
   final String apiKey;
@@ -197,7 +197,6 @@ class PlacePicker extends StatefulWidget {
   /// Callback method for when the map is ready to be used.
   /// 
   /// Used to receive a [GoogleMapController] for this [GoogleMap].
-
   final MapCreatedCallback? onMapCreated;
 
   /// Called when the camera starts moving.
@@ -220,6 +219,9 @@ class PlacePicker extends StatefulWidget {
   /// Called when camera movement has ended, there are no pending
   /// animations and the user has stopped interacting with the map.
   final Function(PlaceProvider)? onCameraIdle;
+
+  /// Called when the map type has been changed.
+  final Function(MapType)? onMapTypeChanged;
 
 
   @override
@@ -480,6 +482,9 @@ class _PlacePickerState extends State<PlacePicker> {
       outsideOfPickAreaText: widget.outsideOfPickAreaText,
       onToggleMapType: () {
         provider!.switchMapType();
+        if(widget.onMapTypeChanged != null) {
+          widget.onMapTypeChanged!(provider!.mapType);
+        }
       },
       onMyLocation: () async {
         // Prevent to click many times in short period.
