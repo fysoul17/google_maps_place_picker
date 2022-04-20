@@ -1,3 +1,8 @@
+## [2.0.0-mb.16] - 21/Apr/2022
+
+- Add [FVM](https://fvm.app) config
+- Add `onMapTypeChanged` callback event
+
 ## [2.0.0-mb.15] - 06/Mar/2022
 
 - Fix autocomplete search vertical offset in containers
