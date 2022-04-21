@@ -262,6 +262,10 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       children: predictions
           .map(
             (p) => PredictionTile(
+              bodyColor: Theme.of(context).primaryColor,
+              textColor: Colors.black,
+              formColor: Colors.white,
+              cardColor: Color.fromARGB(255, 175, 174, 174),
               prediction: p,
               onTap: (selectedPrediction) {
                 resetSearchBar();
