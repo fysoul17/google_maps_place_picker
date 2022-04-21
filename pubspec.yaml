@@ -25,3 +25,8 @@ dev_dependencies:
     sdk: flutter
 
 flutter: null
+
+false_secrets:
+ - /example/lib/keys.dart
+ - /example/android/app/src/main/AndroidManifest.xml
+ - /example/ios/Runner/AppDelegate.swift
