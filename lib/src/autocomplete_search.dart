@@ -103,7 +103,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       child: RoundedFrame(
         height: widget.height,
         padding: const EdgeInsets.only(right: 10),
-        color: Colors.blueAccent,
+        color: Color.fromARGB(69, 255, 255, 255),
         borderRadius: BorderRadius.circular(20),
         elevation: 8.0,
         child: Row(
@@ -142,7 +142,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
               child: GestureDetector(
                 child: Icon(
                   Icons.clear,
-                  color: Colors.blueAccent,
+                  color: Color.fromARGB(144, 160, 160, 160),
                 ),
                 onTap: () {
                   clearText();
