@@ -1,3 +1,7 @@
+## [2.0.0-mb.17] - 28/Apr/2022
+
+- Add custom zoom buttons
+
 ## [2.0.0-mb.16] - 21/Apr/2022
 
 - Add [FVM](https://fvm.app) config

@@ -258,6 +258,7 @@ autocompleteOnTrailingWhitespace | bool | Whether to allow autocomplete to run e
 onTapBack* | Function(PlaceProvider)? | Called when leaving the Google Picker by pressing the back button.
 zoomGesturesEnabled\* | bool | Disable pinch zoom gestures, this does not control the appearance of the zoom in/out buttons.  
 zoomControlsEnabled\* | bool | Show the zoom in/out buttons on the bottom right of the screen, this does not control the pinch zoom gestures.
+compassEnabled\* | bool | Show the compass to allow the user re-orient the map towards North.
 onCameraMoveStarted\* | Function(PlaceProvider)? | Called when the camera starts moving. (GoogleMap widget)
 onCameraMove\* | CameraPositionCallback? | Called repeatedly as the camera continues to move after an onCameraMoveStarted call. (GoogleMap widget)
 onCameraIdle\* | Function(PlaceProvider)? | Called when camera movement has ended, there are no pending animations and the user has stopped interacting with the map. (GoogleMap widget)
