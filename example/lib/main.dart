@@ -89,7 +89,8 @@ class _HomePageState extends State<HomePage> {
                                   });
                                 },
                                 onMapTypeChanged: (MapType mapType) {
-                                  print("Map type changed to ${mapType.toString()}");
+                                  print(
+                                      "Map type changed to ${mapType.toString()}");
                                 },
                                 // #region additional stuff
                                 // forceSearchOnZoomChanged: true,
@@ -213,7 +214,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   : Container(
                       width: MediaQuery.of(context).size.width * 0.75,
-                      height: MediaQuery.of(context).size.height * 0.35,
+                      height: MediaQuery.of(context).size.height * 0.4,
                       child: PlacePicker(
                           apiKey: Platform.isAndroid
                               ? APIKeys.androidApiKey
@@ -227,9 +228,16 @@ class _HomePageState extends State<HomePage> {
                           selectInitialPosition: true,
                           usePinPointingSearch: true,
                           usePlaceDetailSearch: true,
+                          zoomGesturesEnabled: true,
+                          zoomControlsEnabled: true,
                           onPlacePicked: (PickResult result) {
                             setState(() {
                               selectedPlace = result;
+                              showGoogleMapInContainer = false;
+                            });
+                          },
+                          onTapBack: () {
+                            setState(() {
                               showGoogleMapInContainer = false;
                             });
                           })),

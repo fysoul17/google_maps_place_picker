@@ -10,8 +10,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 import 'package:google_maps_place_picker_mb/providers/place_provider.dart';
 import 'package:google_maps_place_picker_mb/src/components/animated_pin.dart';
-import 'package:google_maps_place_picker_mb/src/components/floating_card.dart';
-import 'package:google_maps_place_picker_mb/src/place_picker.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
@@ -171,7 +169,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
           return GoogleMap(
             zoomGesturesEnabled: this.zoomGesturesEnabled,
-            zoomControlsEnabled: false,
+            zoomControlsEnabled: false, // we use our own implementation that supports iOS as well, see _buildZoomButtons()
             myLocationButtonEnabled: false,
             compassEnabled: false,
             mapToolbarEnabled: false,
