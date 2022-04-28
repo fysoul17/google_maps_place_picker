@@ -58,6 +58,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.onCameraIdle,
     this.selectText,
     this.outsideOfPickAreaText,
+    this.zoomGesturesEnabled = true,
+    this.zoomControlsEnabled = false,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -96,6 +98,10 @@ class GoogleMapPlacePicker extends StatelessWidget {
   // strings
   final String? selectText;
   final String? outsideOfPickAreaText;
+
+  /// Zoom feature toggle
+  final bool zoomGesturesEnabled;
+  final bool zoomControlsEnabled;
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
@@ -151,6 +157,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
         _buildPin(),
         _buildFloatingCard(),
         _buildMapIcons(context),
+        _buildZoomButtons(),
       ],
     );
   }
@@ -163,6 +170,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
           CameraPosition initialCameraPosition = CameraPosition(target: initialTarget, zoom: 15);
 
           return GoogleMap(
+            zoomGesturesEnabled: this.zoomGesturesEnabled,
+            zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
             compassEnabled: false,
             mapToolbarEnabled: false,
@@ -329,6 +338,66 @@ class GoogleMapPlacePicker extends StatelessWidget {
           } else {
             return Builder(builder: (builderContext) => selectedPlaceWidgetBuilder!(builderContext, data.item1, data.item2, data.item3));
           }
+        }
+      },
+    );
+  }
+
+  Widget _buildZoomButtons() {
+    return Selector<PlaceProvider, Tuple2<GoogleMapController?, LatLng?>>(
+      selector: (_, provider) => new Tuple2<GoogleMapController?, LatLng?>(
+          provider.mapController, provider.cameraPosition?.target),
+      builder: (context, data, __) {
+        if (!this.zoomControlsEnabled || data.item1 == null || data.item2 == null) {
+          return Container();
+        } else {
+          return Positioned(
+            bottom: 50,
+            right: 10,
+            child: Card(
+              elevation: 2,
+              child: Container(
+                width: 40,
+                height: 100,
+                child: Column(
+                  children: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () async {
+                          double currentZoomLevel =
+                              await data.item1!.getZoomLevel();
+                          currentZoomLevel = currentZoomLevel + 2;
+                          data.item1!.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: data.item2!,
+                                zoom: currentZoomLevel,
+                              ),
+                            ),
+                          );
+                        }),
+                    SizedBox(height: 2),
+                    IconButton(
+                        icon: Icon(Icons.remove),
+                        onPressed: () async {
+                          double currentZoomLevel =
+                              await data.item1!.getZoomLevel();
+                          currentZoomLevel = currentZoomLevel - 2;
+                          if (currentZoomLevel < 0) currentZoomLevel = 0;
+                          data.item1!.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                target: data.item2!,
+                                zoom: currentZoomLevel,
+                              ),
+                            ),
+                          );
+                        }),
+                  ],
+                ),
+              ),
+            ),
+          );
         }
       },
     );

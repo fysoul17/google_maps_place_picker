@@ -80,6 +80,8 @@ class _HomePageState extends State<HomePage> {
                                 selectInitialPosition: true,
                                 usePinPointingSearch: true,
                                 usePlaceDetailSearch: true,
+                                zoomGesturesEnabled: true,
+                                zoomControlsEnabled: true,
                                 onPlacePicked: (PickResult result) {
                                   setState(() {
                                     selectedPlace = result;
