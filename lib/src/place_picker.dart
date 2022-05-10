@@ -368,6 +368,8 @@ class _PlacePickerState extends State<PlacePicker> {
         ),
       ),
     );
+    await Future.delayed(const Duration(milliseconds: 100));
+    provider!.placeSearchingState = SearchingState.Idle;
   }
 
   _moveToCurrentPosition() async {
