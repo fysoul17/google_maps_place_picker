@@ -1,3 +1,7 @@
+## [2.0.0-mb.18] - 14/May/2022
+
+- Update packages for Flutter 3.0.0
+
 ## [2.0.0-mb.17] - 28/Apr/2022
 
 - Add custom zoom buttons
