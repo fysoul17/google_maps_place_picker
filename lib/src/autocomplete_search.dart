@@ -5,7 +5,6 @@ import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 import 'package:google_maps_place_picker_mb/providers/place_provider.dart';
 import 'package:google_maps_place_picker_mb/providers/search_provider.dart';
 import 'package:google_maps_place_picker_mb/src/components/prediction_tile.dart';
-import 'package:google_maps_place_picker_mb/src/components/rounded_frame.dart';
 import 'package:google_maps_place_picker_mb/src/controllers/autocomplete_search_controller.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +33,7 @@ class AutoCompleteSearch extends StatefulWidget {
       this.initialSearchString,
       this.searchForInitialValue,
       this.autocompleteOnTrailingWhitespace})
-      : assert(searchBarController != null),
-        super(key: key);
+      : super(key: key);
 
   final String? sessionToken;
   final String? hintText;
@@ -73,7 +71,7 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
   void initState() {
     super.initState();
     if (widget.initialSearchString != null) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.text = widget.initialSearchString!;
         if (widget.searchForInitialValue!) {
           _onSearchInputChange();

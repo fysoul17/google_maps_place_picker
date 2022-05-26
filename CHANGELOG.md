@@ -1,3 +1,7 @@
+## [2.0.0-mb.19] - 26/May/2022
+
+- Remove unnecessary null-aware operation `!` that throws a compiler warning since Flutter 3.0.1
+
 ## [2.0.0-mb.18] - 14/May/2022
 
 - Update packages for Flutter 3.0.0
