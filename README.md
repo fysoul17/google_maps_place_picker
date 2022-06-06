@@ -144,6 +144,11 @@ with the key `io.flutter.embedded_views_preview` and the value `YES`.
 <key>io.flutter.embedded_views_preview</key>
 <true/>
 ```
+
+If you want to run your app on the Simulator, please make sure to set a location on the Simulator's menu:
+
+<img src="simulator_location.png" />
+
 ## Usage
 
 ### Basic usage
