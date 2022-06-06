@@ -1,3 +1,7 @@
+## [2.0.0-mb.20] - 06/Jun/2022
+
+- Revert previous changes and solve null-aware operation warning in a way that the package is warn-free for Flutter 2 and 3.
+
 ## [2.0.0-mb.19] - 26/May/2022
 
 - Remove unnecessary null-aware operation `!` that throws a compiler warning since Flutter 3.0.1
