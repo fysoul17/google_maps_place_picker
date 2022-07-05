@@ -12,7 +12,7 @@ dependencies:
 
   google_maps_flutter: ^2.0.1
   geolocator: ^7.0.1
-  permission_handler: ^6.0.1+1
+  permission_handler: ^9.2.0
   provider: 6.0.2
   google_maps_webservice: ^0.0.20-nullsafety.2
   google_api_headers: ^1.0.0
