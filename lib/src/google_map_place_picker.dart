@@ -498,7 +498,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   Widget _buildMapIcons(BuildContext context) {
     final RenderBox appBarRenderBox = appBarKey.currentContext!.findRenderObject() as RenderBox;
-
     return Positioned(
       top: appBarRenderBox.size.height,
       right: 15,

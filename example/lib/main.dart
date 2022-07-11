@@ -82,7 +82,11 @@ class _HomePageState extends State<HomePage> {
                                 usePlaceDetailSearch: true,
                                 zoomGesturesEnabled: true,
                                 zoomControlsEnabled: true,
+                                onMapCreated: (GoogleMapController controller) {
+                                  print("Map created");
+                                },
                                 onPlacePicked: (PickResult result) {
+                                  print("Place picked: ${result.formattedAddress}");
                                   setState(() {
                                     selectedPlace = result;
                                     Navigator.of(context).pop();
