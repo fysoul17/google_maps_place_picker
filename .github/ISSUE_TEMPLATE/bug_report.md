@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+<!-- CAUTION: Use this template to help people to reproduce the issue. I cannot spend time on issues that fail to provide the necessary steps to reproduce. This is free and open-source, please choose to provide the information that is requested below to become part of the solution to the problem. Thank you. -->
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
@@ -23,7 +25,13 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Flutter Doctor -v**
+**Output of `flutter doctor -v`**
+```
+[✓] Flutter (...
+```
+
+**Device/Emulator/Simulator (and architecture)**
+I.e. Pixel 5 x86_64 Emulator, iPhone 10 Simulator, Galaxy S10 Device, etc.
 
 **Additional context**
 Add any other context about the problem here.
