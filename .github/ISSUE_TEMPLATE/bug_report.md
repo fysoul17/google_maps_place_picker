@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-<!-- CAUTION: Use this template to help people to reproduce the issue. I cannot spend time on issues that fail to provide the necessary steps to reproduce. This is free and open-source, please choose to provide the information that is requested below to become part of the solution to the problem. Thank you. -->
+<!-- CAUTION: Use this template to help people to reproduce the issue. I cannot spend time on issues that fail to provide the necessary steps to reproduce. This is free and open-source, in return please provide the information that is requested below to help. Thank you. -->
 
 **Describe the bug**
 A clear and concise description of what the bug is.
