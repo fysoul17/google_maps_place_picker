@@ -14,7 +14,6 @@ import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-import 'dart:math' as math;
 
 typedef SelectedPlaceWidgetBuilder = Widget Function(
   BuildContext context,

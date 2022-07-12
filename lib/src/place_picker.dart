@@ -22,6 +22,7 @@ typedef IntroModalWidgetBuilder = Widget Function(
 );
 
 enum PinState { Preparing, Idle, Dragging }
+
 enum SearchingState { Idle, Searching }
 
 class PlacePicker extends StatefulWidget {
@@ -229,7 +230,6 @@ class PlacePicker extends StatefulWidget {
   final bool zoomGesturesEnabled;
   final bool zoomControlsEnabled;
 
-
   @override
   _PlacePickerState createState() => _PlacePickerState();
 }
@@ -239,7 +239,7 @@ class _PlacePickerState extends State<PlacePicker> {
   Future<PlaceProvider>? _futureProvider;
   PlaceProvider? provider;
   SearchBarController searchBarController = SearchBarController();
-  bool showintroModal = true;
+  bool showIntroModal = true;
 
   @override
   void initState() {
@@ -345,8 +345,9 @@ class _PlacePickerState extends State<PlacePicker> {
         widget.onTapBack != null
             ? IconButton(
                 onPressed: () {
-                  if(!showintroModal || widget.introModalWidgetBuilder == null) {
-                    if(widget.onTapBack != null) {
+                  if (!showIntroModal ||
+                      widget.introModalWidgetBuilder == null) {
+                    if (widget.onTapBack != null) {
                       widget.onTapBack!();
                       return;
                     }
@@ -517,8 +518,8 @@ class _PlacePickerState extends State<PlacePicker> {
 
   Widget _buildIntroModal(BuildContext context) {
     return StatefulBuilder(
-      builder: (BuildContext context, StateSetter setState) {
-        return showintroModal && widget.introModalWidgetBuilder != null
+        builder: (BuildContext context, StateSetter setState) {
+      return showIntroModal && widget.introModalWidgetBuilder != null
           ? Stack(children: [
             Positioned(
               top: 0,
@@ -536,7 +537,7 @@ class _PlacePickerState extends State<PlacePicker> {
             ),
             widget.introModalWidgetBuilder!(context, () {
               setState(() {
-                showintroModal = false;
+                showIntroModal = false;
               });
             })
           ])
