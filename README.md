@@ -135,7 +135,7 @@ Simply open your Info.plist file and add the following:
 <string>This app needs access to location when open and in the background.</string>
 ```
 
-In addition, you need to add the `Background Modes` capability to your XCode project (Project > Signing and Capabilties > "+ Capability" button) and select `Location Updates`.g>This app needs access to location when open and in the background.</string>
+In addition, you can add the `Background Modes` capability to your XCode project (Project > Targets > Runner > Signing and Capabilties > "+" Button > "Background Modes") and check `Location Updates` after adding it.
 
 Opt-in to the embedded views preview by adding a boolean property to the app's `Info.plist` file
 with the key `io.flutter.embedded_views_preview` and the value `YES`.
