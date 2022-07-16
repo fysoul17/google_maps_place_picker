@@ -86,7 +86,8 @@ class _HomePageState extends State<HomePage> {
                                   print("Map created");
                                 },
                                 onPlacePicked: (PickResult result) {
-                                  print("Place picked: ${result.formattedAddress}");
+                                  print(
+                                      "Place picked: ${result.formattedAddress}");
                                   setState(() {
                                     selectedPlace = result;
                                     Navigator.of(context).pop();
@@ -247,7 +248,14 @@ class _HomePageState extends State<HomePage> {
                           })),
               selectedPlace == null
                   ? Container()
-                  : Text(selectedPlace.formattedAddress ?? ""),
+                  : Text(selectedPlace.formattedAddress),
+              selectedPlace == null
+                  ? Container()
+                  : Text("(lat: " +
+                      selectedPlace.geometry.location.lat.toString() +
+                      ", lng: " +
+                      selectedPlace.geometry.location.lng.toString() +
+                      ")"),
             ],
           ),
         ));
