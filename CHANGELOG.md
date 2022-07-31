@@ -1,4 +1,4 @@
-## [NEXT] - XX/XXX/20XX
+## [2.0.0-mb.21] - 31/Jul/2022
 
 - Upgrade geolocator
 
