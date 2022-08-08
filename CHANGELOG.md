@@ -1,8 +1,9 @@
-## [2.0.0-mb.22] - XX/Xxx/20XX
+## [2.0.0-mb.22] - 08/Aug/2022
 
 - Upgrade packages
 - Fix shadow clipping on AutoCompleteSearch
 - Streamline shadows
+- Prevent re-render of map when toggling the keyboard
 
 ## [2.0.0-mb.21] - 31/Jul/2022
 

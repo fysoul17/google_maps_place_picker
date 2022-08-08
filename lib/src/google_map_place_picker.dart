@@ -150,8 +150,20 @@ class GoogleMapPlacePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        _buildGoogleMap(context),
-        _buildPin(),
+        SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  _buildGoogleMap(context),
+                  _buildPin(),
+                ],
+              )
+            )
+        ),
         _buildFloatingCard(),
         _buildMapIcons(context),
         _buildZoomButtons(),
