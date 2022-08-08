@@ -39,13 +39,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info_plus/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_maps_flutter: c59fc576c0d0c7f4dc4bd63832c862d22d5a7c6d
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
 COCOAPODS: 1.11.3
