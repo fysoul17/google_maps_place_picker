@@ -34,7 +34,7 @@ class PlacePicker extends StatefulWidget {
     this.useCurrentLocation,
     this.desiredLocationAccuracy = LocationAccuracy.high,
     this.onMapCreated,
-    this.hintText = 'Search here',
+    this.hintText,
     this.searchingText,
     this.selectText,
     this.outsideOfPickAreaText,
