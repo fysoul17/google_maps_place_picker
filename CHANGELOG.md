@@ -1,4 +1,4 @@
-## [NEXT] - XX/Xxx/20XX
+## [2.0.0-mb.22] - XX/Xxx/20XX
 
 - Upgrade packages
 - Fix shadow clipping on AutoCompleteSearch
