@@ -224,8 +224,8 @@ onPlacePicked | Callback(PickResult) | Invoked when user picks the place and sel
 initialPosition | LatLng | (Required) Initial center position of google map when it is created. If useCurrentLocation is set to true, it will try to get device's current location first using GeoLocator. 
 useCurrentLocation | bool | Whether to use device's current location for initial center position. This will be used instead of initial position when it is set to true AND user ALLOW to collect their location. If DENIED, initialPosition will be used.
 desiredLocationAccuracy | [LocationAccuracy](https://pub.dev/packages/geolocator) | Accuracy of fetching current location. Defaults to 'high'.
-hintText | String | Hint text of search bar
-searchingText | String | A text which appears when searching is performing. Default to 'Searching...'
+hintText | String? | Hint text of search bar. Defaults to 'Search here'
+searchingText | String? | A text which appears when searching is performing. Default to 'Searching...'
 selectText* | String? | Text to show in the button that allows to pick the focused address. Defaults to show only an icon.
 outsideOfPickAreaText* | String? | Text to show in the disabled button when the focused address is outside of the pick area. Defaults to show only an icon.
 proxyBaseUrl | String | Used for API calling on google maps. In case of using a proxy the baseUrl can be set. The apiKey is not required in case the proxy sets it.
