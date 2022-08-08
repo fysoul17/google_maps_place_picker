@@ -1,6 +1,7 @@
 ## [NEXT] - XX/Xxx/20XX
 
--	Upgrade packages
+- Upgrade packages
+- Fix shadow clipping on AutoCompleteSearch
 
 ## [2.0.0-mb.21] - 31/Jul/2022
 
