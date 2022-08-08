@@ -352,7 +352,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
             bottom: 50,
             right: 10,
             child: Card(
-              elevation: 2,
+              elevation: 4.0,
               child: Container(
                 width: 40,
                 height: 100,
@@ -509,7 +509,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
                   child: RawMaterialButton(
                     shape: CircleBorder(),
                     fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
-                    elevation: 8.0,
+                    elevation: 4.0,
                     onPressed: onToggleMapType,
                     child: Icon(Icons.layers),
                   ),
@@ -523,7 +523,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
                   child: RawMaterialButton(
                     shape: CircleBorder(),
                     fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.black54 : Colors.white,
-                    elevation: 8.0,
+                    elevation: 4.0,
                     onPressed: onMyLocation,
                     child: Icon(Icons.my_location),
                   ),
