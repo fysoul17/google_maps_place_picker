@@ -73,10 +73,10 @@ class PlaceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Position? _currentPoisition;
-  Position? get currentPosition => _currentPoisition;
+  Position? _currentPosition;
+  Position? get currentPosition => _currentPosition;
   set currentPosition(Position? newPosition) {
-    _currentPoisition = newPosition;
+    _currentPosition = newPosition;
     notifyListeners();
   }
 
