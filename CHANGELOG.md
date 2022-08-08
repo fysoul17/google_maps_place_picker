@@ -3,7 +3,6 @@
 - Upgrade packages
 - Fix shadow clipping on AutoCompleteSearch
 - Streamline shadows
-- Make GoogleMapsPlacePicker stateful to avoid re-rendering on keyboard events
 
 ## [2.0.0-mb.21] - 31/Jul/2022
 
