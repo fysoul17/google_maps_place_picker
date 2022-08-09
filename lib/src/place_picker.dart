@@ -236,7 +236,7 @@ class PlacePicker extends StatefulWidget {
 
 class _PlacePickerState extends State<PlacePicker> {
   GlobalKey appBarKey = GlobalKey();
-  Future<PlaceProvider>? _futureProvider;
+  late final Future<PlaceProvider> _futureProvider;
   PlaceProvider? provider;
   SearchBarController searchBarController = SearchBarController();
   bool showIntroModal = true;
@@ -266,7 +266,9 @@ class _PlacePickerState extends State<PlacePicker> {
     provider.sessionToken = Uuid().v4();
     provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setMapType(widget.initialMapType);
-
+    if (widget.useCurrentLocation != null && widget.useCurrentLocation!) {
+      await provider.updateCurrentLocation(widget.forceAndroidLocationManager);
+    }
     return provider;
   }
 
@@ -280,7 +282,9 @@ class _PlacePickerState extends State<PlacePicker> {
       child: FutureBuilder<PlaceProvider>(
         future: _futureProvider,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
             provider = snapshot.data;
 
             return MultiProvider(
@@ -439,36 +443,15 @@ class _PlacePickerState extends State<PlacePicker> {
   }
 
   Widget _buildMapWithLocation() {
-    if (widget.useCurrentLocation != null && widget.useCurrentLocation!) {
-      return FutureBuilder(
-          future: provider!.updateCurrentLocation(widget.forceAndroidLocationManager),
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              if (provider!.currentPosition == null) {
-                return _buildMap(widget.initialPosition);
-              } else {
-                return _buildMap(LatLng(provider!.currentPosition!.latitude, provider!.currentPosition!.longitude));
-              }
-            }
-          });
-    } else {
-      return FutureBuilder(
-        future: Future.delayed(Duration(milliseconds: 1)),
-        builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return _buildMap(widget.initialPosition);
-          }
-        },
-      );
+    if (provider!.currentPosition == null) {
+      return _buildMap(widget.initialPosition);
     }
+    return _buildMap(LatLng(provider!.currentPosition!.latitude, provider!.currentPosition!.longitude));
   }
 
   Widget _buildMap(LatLng initialTarget) {
     return GoogleMapPlacePicker(
+      fullMotion: !widget.resizeToAvoidBottomInset,
       initialTarget: initialTarget,
       appBarKey: appBarKey,
       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,

@@ -178,6 +178,7 @@ Navigator.push(
           },
           initialPosition: HomePage.kInitialPosition,
           useCurrentLocation: true,
+          resizeToAvoidBottomInset: false, // remove this line, if map offsets are wrong
         ),
       ),
     );
@@ -252,14 +253,14 @@ strictbounds | bool | Returns only those places that are strictly within the reg
 region | String | region — The region code, specified as a ccTLD (country code top-level domain) two-character value. Most ccTLD codes are identical to ISO 3166-1 codes, with some exceptions. This parameter will only influence, not fully restrict, search results. If more relevant results exist outside of the specified region, they may be included. **When this parameter is used, the country name is omitted from the resulting formatted_address for results in the specified region.**
 pickArea* | CircleArea | Circle that defines the area in which the address can be picked. Can be colored how it's preferred.
 selectInitialPosition | bool | Whether to display selected place on initial map load. Defaults to false.
-resizeToAvoidBottomInset | bool | Refer to Scaffold's resizeToAvoidBottomInset property.
+resizeToAvoidBottomInset | bool | Resize map when keyboard is shown and can only be disabled when using a full screen map. Defaults to true.
 initialSearchString | String | Sets initial search string for auto complete search
 searchForInitialValue | bool | Wether to automatically search for initial value on start
 forceAndroidLocationManager | bool | On Android devices you can set this to true to force the geolocator plugin to use the 'LocationManager' to determine the position instead of the 'FusedLocationProviderClient'. On iOS this is ignored.
 myLocationButtonCooldown | int | Cooldown time in seconds for the 'myLocationButton'. Defaults to 10 seconds. 
 forceSearchOnZoomChanged | bool | Wether to allow place search even when the zoom has changed. Defaults to false.
 automaticallyImplyAppBarLeading | bool | By default, there is a back button on the top. Setting false will remove the back button.
-autocompleteOnTrailingWhitespace | bool | Whether to allow autocomplete to run even on whitespace at the end of the search. Defaults to false. Issue ref #54.
+autocompleteOnTrailingWhitespace | bool | Whether to allow autocomplete to run even on whitespace at the end of the search. Defaults to false.
 onTapBack* | Function(PlaceProvider)? | Called when leaving the Google Picker by pressing the back button.
 zoomGesturesEnabled\* | bool | Disable pinch zoom gestures, this does not control the appearance of the zoom in/out buttons.  
 zoomControlsEnabled\* | bool | Show the zoom in/out buttons on the bottom right of the screen, this does not control the pinch zoom gestures.
