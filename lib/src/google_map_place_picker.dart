@@ -58,7 +58,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.zoomGesturesEnabled = true,
     this.zoomControlsEnabled = false,
     this.fullMotion = false,
-    this.noProvider = false,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -104,9 +103,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   /// Use never scrollable scroll-view with maximum dimensions to prevent unnecessary re-rendering.
   final bool fullMotion;
-
-  /// For debug purposes only
-  final bool noProvider;
 
   _searchByCameraLocation(PlaceProvider provider) async {
     // We don't want to search location again if camera location is changed by zooming in/out.
@@ -275,9 +271,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildGoogleMap(BuildContext context) {
-    if(this.noProvider) {
-      return _buildGoogleMapInner(null, MapType.normal);
-    }
     return Selector<PlaceProvider, MapType>(
         selector: (_, provider) => provider.mapType,
         builder: (_, data, __) => this._buildGoogleMapInner(PlaceProvider.of(context, listen: false), data)
@@ -285,9 +278,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildPin() {
-    if(this.noProvider) {
-      return Container();
-    }
     return Center(
       child: Selector<PlaceProvider, PinState>(
         selector: (_, provider) => provider.pinState,
@@ -357,9 +347,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildFloatingCard() { 
-    if(this.noProvider) {
-      return Container();
-    }
     return Selector<PlaceProvider, Tuple4<PickResult?, SearchingState, bool, PinState>>(
       selector: (_, provider) => Tuple4(provider.selectedPlace, provider.placeSearchingState, provider.isSearchBarFocused, provider.pinState),
       builder: (context, data, __) {
@@ -377,9 +364,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
   }
 
   Widget _buildZoomButtons() {
-    if(this.noProvider) {
-      return Container();
-    }
     return Selector<PlaceProvider, Tuple2<GoogleMapController?, LatLng?>>(
       selector: (_, provider) => new Tuple2<GoogleMapController?, LatLng?>(
           provider.mapController, provider.cameraPosition?.target),
