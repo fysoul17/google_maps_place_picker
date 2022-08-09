@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                           MaterialPageRoute(
                             builder: (context) {
                               return PlacePicker(
-                                resizeToAvoidBottomInset: false, // only works on fullscreen, less flickery
+                                resizeToAvoidBottomInset: false, // only works in page mode, less flickery
                                 apiKey: Platform.isAndroid
                                     ? APIKeys.androidApiKey
                                     : APIKeys.iosApiKey,
