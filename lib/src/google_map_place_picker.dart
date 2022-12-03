@@ -33,6 +33,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
     Key? key,
     required this.initialTarget,
     required this.appBarKey,
+    this.selectHereTitle = "Select here",
+    this.backgroundButtonColor,
     this.selectedPlaceWidgetBuilder,
     this.pinBuilder,
     this.onSearchFailed,
@@ -54,6 +56,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   final LatLng initialTarget;
   final GlobalKey appBarKey;
+  final String selectHereTitle;
+  final Color? backgroundButtonColor;
 
   final SelectedPlaceWidgetBuilder? selectedPlaceWidgetBuilder;
   final PinBuilder? pinBuilder;
@@ -335,14 +339,17 @@ class GoogleMapPlacePicker extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 10),
-          RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Text(
-              "Select here",
-              style: TextStyle(fontSize: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: backgroundButtonColor,
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4.0),
+            child: Text(
+              selectHereTitle,
+              style: TextStyle(fontSize: 16),
             ),
             onPressed: () {
               onPlacePicked!(result);
