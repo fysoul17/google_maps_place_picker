@@ -50,6 +50,7 @@ class PlacePicker extends StatefulWidget {
     this.autocompleteLanguage,
     this.autocompleteComponents,
     this.autocompleteTypes,
+    this.autocompleteSortByDistance = false,
     this.strictbounds,
     this.region,
     this.selectInitialPosition = false,
@@ -93,6 +94,16 @@ class PlacePicker extends StatefulWidget {
   final num? autocompleteRadius;
   final String? autocompleteLanguage;
   final List<String>? autocompleteTypes;
+
+  /// If true, the autocomplete will fetch the geolocation details.
+  ///
+  /// Be careful in using this because on every autocomplete result, it will query one request to the Google Maps server.
+  ///
+  /// If you see no changes with the results, it is possible that it is already sorted.
+  ///
+  /// If you have any problems, for example expecting other results or any inquiries: please contact https://github.com/kirkcharlesniv/
+  final bool autocompleteSortByDistance;
+
   final List<Component>? autocompleteComponents;
   final bool? strictbounds;
   final String? region;
@@ -306,7 +317,9 @@ class _PlacePickerState extends State<PlacePicker> {
               region: widget.region,
               initialSearchString: widget.initialSearchString,
               searchForInitialValue: widget.searchForInitialValue,
-              autocompleteOnTrailingWhitespace: widget.autocompleteOnTrailingWhitespace),
+              autocompleteOnTrailingWhitespace:
+                  widget.autocompleteOnTrailingWhitespace,
+              autocompleteSortByDistance: widget.autocompleteSortByDistance),
         ),
         SizedBox(width: 5),
       ],
