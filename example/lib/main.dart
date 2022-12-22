@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   static final kInitialPosition = LatLng(-33.8567844, 151.213108);
 
@@ -55,7 +55,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PickResult selectedPlace;
+  PickResult? selectedPlace;
   bool _showPlacePickerInContainer = false;
   bool _showGoogleMapInContainer = false;
 
@@ -64,7 +64,8 @@ class _HomePageState extends State<HomePage> {
 
   void initRenderer() {
     if (_mapsInitialized) return;
-    if (widget.mapsImplementation is GoogleMapsFlutterAndroid) {
+    if (!Platform.version.startsWith("2.16.") &&
+        widget.mapsImplementation is GoogleMapsFlutterAndroid) {
       switch (_mapsRenderer) {
         case "legacy":
           (widget.mapsImplementation as GoogleMapsFlutterAndroid)
@@ -96,6 +97,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (!_mapsInitialized &&
+                      !Platform.version.startsWith("2.16.") &&
                       widget.mapsImplementation
                           is GoogleMapsFlutterAndroid) ...[
                     Switch(
@@ -117,6 +119,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (!_mapsInitialized &&
+                      !Platform.version.startsWith("2.16.") &&
                       widget.mapsImplementation
                           is GoogleMapsFlutterAndroid) ...[
                     Text("Renderer: "),
@@ -196,13 +199,13 @@ class _HomePageState extends State<HomePage> {
                                 // automaticallyImplyAppBarLeading: false,
                                 // autocompleteLanguage: "ko",
                                 // region: 'au',
-                                // pickArea: CircleArea(
-                                //   center: HomePage.kInitialPosition,
-                                //   radius: 300,
-                                //   fillColor: Colors.lightGreen.withGreen(255).withAlpha(32),
-                                //   strokeColor: Colors.lightGreen.withGreen(255).withAlpha(192),
-                                //   strokeWidth: 2,
-                                // ),
+                                pickArea: CircleArea(
+                                  center: HomePage.kInitialPosition,
+                                  radius: 300,
+                                  fillColor: Colors.lightGreen.withGreen(255).withAlpha(32),
+                                  strokeColor: Colors.lightGreen.withGreen(255).withAlpha(192),
+                                  strokeWidth: 2,
+                                ),
                                 // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
                                 //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
                                 //   return isSearchBarFocused
@@ -341,16 +344,14 @@ class _HomePageState extends State<HomePage> {
                               _showPlacePickerInContainer = false;
                             });
                           })),
-              selectedPlace == null
-                  ? Container()
-                  : Text(selectedPlace.formattedAddress),
-              selectedPlace == null
-                  ? Container()
-                  : Text("(lat: " +
-                      selectedPlace.geometry.location.lat.toString() +
-                      ", lng: " +
-                      selectedPlace.geometry.location.lng.toString() +
-                      ")"),
+              if (selectedPlace != null) ...[
+                Text(selectedPlace!.formattedAddress!),
+                Text("(lat: " +
+                    selectedPlace!.geometry!.location.lat.toString() +
+                    ", lng: " +
+                    selectedPlace!.geometry!.location.lng.toString() +
+                    ")"),
+              ],
               // #region Google Map Example without provider
               _showPlacePickerInContainer
                   ? Container()
