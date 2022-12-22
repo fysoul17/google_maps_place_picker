@@ -64,8 +64,7 @@ class _HomePageState extends State<HomePage> {
 
   void initRenderer() {
     if (_mapsInitialized) return;
-    if (!Platform.version.startsWith("2.16.") &&
-        widget.mapsImplementation is GoogleMapsFlutterAndroid) {
+    if (widget.mapsImplementation is GoogleMapsFlutterAndroid) {
       switch (_mapsRenderer) {
         case "legacy":
           (widget.mapsImplementation as GoogleMapsFlutterAndroid)
@@ -97,7 +96,6 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (!_mapsInitialized &&
-                      !Platform.version.startsWith("2.16.") &&
                       widget.mapsImplementation
                           is GoogleMapsFlutterAndroid) ...[
                     Switch(
@@ -119,7 +117,6 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (!_mapsInitialized &&
-                      !Platform.version.startsWith("2.16.") &&
                       widget.mapsImplementation
                           is GoogleMapsFlutterAndroid) ...[
                     Text("Renderer: "),
@@ -202,8 +199,12 @@ class _HomePageState extends State<HomePage> {
                                 pickArea: CircleArea(
                                   center: HomePage.kInitialPosition,
                                   radius: 300,
-                                  fillColor: Colors.lightGreen.withGreen(255).withAlpha(32),
-                                  strokeColor: Colors.lightGreen.withGreen(255).withAlpha(192),
+                                  fillColor: Colors.lightGreen
+                                      .withGreen(255)
+                                      .withAlpha(32),
+                                  strokeColor: Colors.lightGreen
+                                      .withGreen(255)
+                                      .withAlpha(192),
                                   strokeWidth: 2,
                                 ),
                                 // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
