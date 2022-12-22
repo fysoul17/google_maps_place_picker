@@ -1,5 +1,5 @@
 {
-  "flutterSdkVersion": "3.0.0",
+  "flutterSdkVersion": "beta",
   "flavors": {
     "lts": "3.0.0",
     "edge": "beta"
