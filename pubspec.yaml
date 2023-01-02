@@ -15,7 +15,7 @@ dependencies:
   permission_handler: ^9.2.0
   provider: 6.0.2
   google_maps_webservice: ^0.0.20-nullsafety.2
-  google_api_headers: ^1.0.0
+  google_api_headers: 1.5.0
   tuple: ^2.0.0-nullsafety.0
   http: ^0.13.0
   google_fonts: 2.1.0
