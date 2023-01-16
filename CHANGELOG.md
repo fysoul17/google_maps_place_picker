@@ -1,3 +1,7 @@
+## [NEXT] - XX/Xxx/2023
+
+- Search TextBox border themable for all states
+
 ## [3.0.0] - 22/Dec/2022
 
 - Upgrade packages
