@@ -126,6 +126,11 @@ class AutoCompleteSearchState extends State<AutoCompleteSearch> {
       decoration: InputDecoration(
         hintText: widget.hintText,
         border: InputBorder.none,
+        errorBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+        focusedErrorBorder: InputBorder.none,
         isDense: true,
         contentPadding: widget.contentPadding,
       ),
