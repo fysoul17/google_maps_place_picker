@@ -256,7 +256,7 @@ selectedPlaceWidgetBuilder | WidgetBuilder | Specified on below section
 pinBuilder | WidgetBuilder | Specified on below section
 introPanelWidgetBuilder | WidgetBuilder | Specified on below section
 autocompleteOffset | num | The position, in the input term, of the last character that the service uses to match predictions
-autocompleteRadius | num | The distance (in meters) within which to return place results
+autocompleteRadius | num | The distance (in meters) within which to return place results. When set, autocomplete's results will be ordered by best results in the radius and by closest outside of the radius. Set to 1 to order all results by proximity.
 autocompleteLanguage | String | The [language code](https://developers.google.com/maps/faq#languagesupport), indicating in which language the results should be returned, if possible. 
 autocompleteComponents | List\<Components\> | A grouping of places to which you would like to restrict your results. Currently, you can use components to filter by up to 5 countries.
 autocompleteTypes | List\<String\> | The types of place results to return. See [Place Types](https://developers.google.com/places/web-service/autocomplete#place_types).
