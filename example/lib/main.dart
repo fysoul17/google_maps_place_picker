@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
   bool _showGoogleMapInContainer = false;
 
   bool _mapsInitialized = false;
-  String _mapsRenderer = "auto";
+  String _mapsRenderer = "latest";
 
   void initRenderer() {
     if (_mapsInitialized) return;
@@ -196,17 +196,17 @@ class _HomePageState extends State<HomePage> {
                                 // automaticallyImplyAppBarLeading: false,
                                 // autocompleteLanguage: "ko",
                                 // region: 'au',
-                                pickArea: CircleArea(
-                                  center: HomePage.kInitialPosition,
-                                  radius: 300,
-                                  fillColor: Colors.lightGreen
-                                      .withGreen(255)
-                                      .withAlpha(32),
-                                  strokeColor: Colors.lightGreen
-                                      .withGreen(255)
-                                      .withAlpha(192),
-                                  strokeWidth: 2,
-                                ),
+                                // pickArea: CircleArea(
+                                //   center: HomePage.kInitialPosition,
+                                //   radius: 300,
+                                //   fillColor: Colors.lightGreen
+                                //       .withGreen(255)
+                                //       .withAlpha(32),
+                                //   strokeColor: Colors.lightGreen
+                                //       .withGreen(255)
+                                //       .withAlpha(192),
+                                //   strokeWidth: 2,
+                                // ),
                                 // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
                                 //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
                                 //   return isSearchBarFocused
