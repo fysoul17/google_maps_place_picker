@@ -70,76 +70,96 @@ class PlaceProvider extends ChangeNotifier {
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     }
 
+    _currentPosition = await Geolocator.getCurrentPosition();
     notifyListeners();
   }
 
   Position? _currentPosition;
+
   Position? get currentPosition => _currentPosition;
+
   set currentPosition(Position? newPosition) {
     _currentPosition = newPosition;
     notifyListeners();
   }
 
   Timer? _debounceTimer;
+
   Timer? get debounceTimer => _debounceTimer;
+
   set debounceTimer(Timer? timer) {
     _debounceTimer = timer;
     notifyListeners();
   }
 
   CameraPosition? _previousCameraPosition;
+
   CameraPosition? get prevCameraPosition => _previousCameraPosition;
+
   setPrevCameraPosition(CameraPosition? prePosition) {
     _previousCameraPosition = prePosition;
   }
 
   CameraPosition? _currentCameraPosition;
+
   CameraPosition? get cameraPosition => _currentCameraPosition;
+
   setCameraPosition(CameraPosition? newPosition) {
     _currentCameraPosition = newPosition;
   }
 
   PickResult? _selectedPlace;
+
   PickResult? get selectedPlace => _selectedPlace;
+
   set selectedPlace(PickResult? result) {
     _selectedPlace = result;
     notifyListeners();
   }
 
   SearchingState _placeSearchingState = SearchingState.Idle;
+
   SearchingState get placeSearchingState => _placeSearchingState;
+
   set placeSearchingState(SearchingState newState) {
     _placeSearchingState = newState;
     notifyListeners();
   }
 
   GoogleMapController? _mapController;
+
   GoogleMapController? get mapController => _mapController;
+
   set mapController(GoogleMapController? controller) {
     _mapController = controller;
     notifyListeners();
   }
 
   PinState _pinState = PinState.Preparing;
+
   PinState get pinState => _pinState;
+
   set pinState(PinState newState) {
     _pinState = newState;
     notifyListeners();
   }
 
   bool _isSeachBarFocused = false;
+
   bool get isSearchBarFocused => _isSeachBarFocused;
+
   set isSearchBarFocused(bool focused) {
     _isSeachBarFocused = focused;
     notifyListeners();
   }
 
   MapType _mapType = MapType.normal;
+
   MapType get mapType => _mapType;
+
   setMapType(MapType mapType, {bool notify = false}) {
     _mapType = mapType;
     if (notify) notifyListeners();
