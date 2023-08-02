@@ -52,7 +52,7 @@
 
 ## [2.0.0-mb.13] - 08/Dec/2021
 
-- Update google_maps_webservice
+- Update google_maps_webservice_ex
 - Update geolocator
 
 ## [2.0.0-mb.11] - 16/Nov/2021
@@ -106,7 +106,7 @@
 
 ## [2.0.0-nullsafety.3] - 18/Mar/2021
 
-- Updated google_maps_webservice to 0.0.20-nullsafety.2
+- Updated google_maps_webservice_ex to 0.0.20-nullsafety.2
 
 ## [2.0.0-nullsafety.2] - 17/Mar/2021
 

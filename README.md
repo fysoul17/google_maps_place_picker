@@ -18,7 +18,7 @@ The project relies on below packages.
 
 Map using Flutter's official [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)   
 Fetching current location using Baseflow's [geolocator](https://pub.dev/packages/geolocator)   
-Place and Geocoding API using hadrienlejard's [google_maps_webservice](https://pub.dev/packages/google_maps_webservice)   
+Place and Geocoding API using hadrienlejard's [google_maps_webservice_ex](https://pub.dev/packages/google_maps_webservice_ex)   
 Builder using kevmoo's [tuple](https://pub.dev/packages/tuple)   
 
 ## Preview
@@ -241,7 +241,7 @@ searchingText | String? | A text which appears when searching is performing. Def
 selectText* | String? | Text to show in the button that allows to pick the focused address. Defaults to show only an icon.
 outsideOfPickAreaText* | String? | Text to show in the disabled button when the focused address is outside of the pick area. Defaults to show only an icon.
 proxyBaseUrl | String | Used for API calling on google maps. In case of using a proxy the baseUrl can be set. The apiKey is not required in case the proxy sets it.
-httpClient | [Client](https://pub.dev/packages/google_maps_webservice) | Used for API calling on google maps. In case of using a proxy url that requires authentication or custom configuration.
+httpClient | [Client](https://pub.dev/packages/google_maps_webservice_ex) | Used for API calling on google maps. In case of using a proxy url that requires authentication or custom configuration.
 autoCompleteDebounceInMilliseconds | int | Debounce timer for auto complete input. Default to 500
 cameraMoveDebounceInMilliseconds | int | Debounce timer for searching place with camera(map) dragging. Defaults to 750
 intialMapType | MapType | MapTypes of google map. Defaults to normal.

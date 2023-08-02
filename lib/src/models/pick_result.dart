@@ -1,5 +1,5 @@
-import 'package:google_maps_webservice/geocoding.dart';
-import 'package:google_maps_webservice/places.dart';
+import 'package:google_maps_webservice_ex/geocoding.dart';
+import 'package:google_maps_webservice_ex/places.dart';
 
 class PickResult {
   PickResult({

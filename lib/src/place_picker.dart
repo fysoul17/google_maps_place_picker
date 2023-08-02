@@ -9,7 +9,7 @@ import 'package:google_maps_place_picker_mb/providers/place_provider.dart';
 import 'package:google_maps_place_picker_mb/src/autocomplete_search.dart';
 import 'package:google_maps_place_picker_mb/src/controllers/autocomplete_search_controller.dart';
 import 'package:google_maps_place_picker_mb/src/google_map_place_picker.dart';
-import 'package:google_maps_webservice/places.dart';
+import 'package:google_maps_webservice_ex/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
@@ -150,14 +150,14 @@ class PlacePicker extends StatefulWidget {
   /// None is provided / the map is instantly accessible if you leave it as a null.
   final IntroModalWidgetBuilder? introModalWidgetBuilder;
 
-  /// optional - sets 'proxy' value in google_maps_webservice
+  /// optional - sets 'proxy' value in google_maps_webservice_ex
   ///
   /// In case of using a proxy the baseUrl can be set.
   /// The apiKey is not required in case the proxy sets it.
   /// (Not storing the apiKey in the app is good practice)
   final String? proxyBaseUrl;
 
-  /// optional - set 'client' value in google_maps_webservice
+  /// optional - set 'client' value in google_maps_webservice_ex
   ///
   /// In case of using a proxy url that requires authentication
   /// or custom configuration
@@ -413,7 +413,7 @@ class _PlacePickerState extends State<PlacePicker> {
       return;
     }
 
-    provider!.selectedPlace = PickResult.fromPlaceDetailResult(response.result);
+    provider!.selectedPlace = PickResult.fromPlaceDetailResult(response.result!);
 
     // Prevents searching again by camera movement.
     provider!.isAutoCompleteSearching = true;
