@@ -12,12 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
   geolocator: ^9.0.2
-  google_api_headers: ^1.5.0+1
-  google_maps_flutter: ^2.2.3
+  google_api_headers: ^2.0.0
+  google_maps_flutter: ^2.4.0
   google_maps_webservice_ex: ^0.0.1+2
   http: ^0.13.5
   provider: ^6.0.5
-  tuple: ^2.0.1
+  tuple: ^2.0.2
   uuid: ^3.0.7
 
 dev_dependencies:
